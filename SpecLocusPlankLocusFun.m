@@ -3,7 +3,7 @@ function [spectrumLocus,PlankLocus,isoTempLines] = SpecLocusPlankLocusFun()
 %**** Put Temperature of Isotemperature Lines Here (K) ***********
 Tiso = [2000 2500 3000 3500 4000 5000 6000 7000 8000];
 % How long do you want the isotemperature lines?
-CCTlimit = 0.01; % Distance in u,v (CIE 1960) space
+CCTlimit = 1; % Distance in u,v (CIE 1960) space
 
 %data rounded to 4 decimal places 380 to 750 nm
 %load('CIE31', 'wavelength','xbar','ybar','zbar');
@@ -24,18 +24,18 @@ zbar = Table(:,4);
 n = length(xbar);
 % Generate spectrum locus for u,v space   
 for i = 1:n
-   spd = zeros(n,1);
-   spd(i) = 1;
-   X = sum(spd .* xbar);
-	Y = sum(spd .* ybar);
-	Z = sum(spd .* zbar);
-   
-   x(i) = X/(X+Y+Z);
-   y(i) = Y/(X+Y+Z);
-	u(i) = 4*X/(X+15*Y+3*Z);
-   v(i) = 6*Y/(X+15*Y+3*Z);
-   uprime(i) = u(i);
-   vprime(i) = 1.5*v(i);
+    spd = zeros(n,1);
+    spd(i) = 1;
+    X = sum(spd .* xbar);
+    Y = sum(spd .* ybar);
+    Z = sum(spd .* zbar);
+    
+    x(i) = X/(X+Y+Z);
+    y(i) = Y/(X+Y+Z);
+    u(i) = 4*X/(X+15*Y+3*Z);
+    v(i) = 6*Y/(X+15*Y+3*Z);
+    uprime(i) = u(i);
+    vprime(i) = 1.5*v(i);
 end
 x(length(xbar)+1) = x(1);
 y(length(xbar)+1) = y(1);

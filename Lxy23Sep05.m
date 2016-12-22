@@ -54,6 +54,6 @@ X = trapz(wavelength_spd,spd .* xbar);
 Y = trapz(wavelength_spd,spd .* ybar);
 Z = trapz(wavelength_spd,spd .* zbar);
 
-L = 683*trapz(wavelength_spd',spd.*ybar);
+L = 683 * trapz(wavelength_spd', spd .* ybar);
 x = X/(X+Y+Z);
 y = Y/(X+Y+Z);
