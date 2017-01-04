@@ -151,7 +151,7 @@ classdef report < matlab.mixin.SetGet
             obj.Header                  = uipanel;
             obj.Header.Tag              = 'header';
             obj.Header.BorderType       = 'none';
-            obj.Header.BackgroundColor	= 'white';
+            obj.Header.BackgroundColor	= 'White';
             
             obj.TitleBox = annotation(obj.Header,'textbox');
             obj.TitleBox.Interpreter = 'none';

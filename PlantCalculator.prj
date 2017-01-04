@@ -1,9 +1,9 @@
 <deployment-project plugin="plugin.ezdeploy" plugin-version="1.0">
-  <configuration file="C:\Users\plummt\Documents\MATLAB\Plant_Calculator\PlantCalculator.prj" location="C:\Users\plummt\Documents\MATLAB\Plant_Calculator" name="PlantCalculator" target="target.ezdeploy.standalone" target-name="Application Compiler">
+  <configuration build-checksum="3395144550" file="C:\Users\plummt\Documents\MATLAB\Plant_Calculator\PlantCalculator.prj" location="C:\Users\plummt\Documents\MATLAB\Plant_Calculator" name="PlantCalculator" preferred-package-location="C:\Users\plummt\Documents\MATLAB\Plant_Calculator\PlantCalculator\for_redistribution" preferred-package-type="package.type.exe" target="target.ezdeploy.standalone" target-name="Application Compiler">
     <param.appname>PlantCalculator</param.appname>
     <param.icon />
     <param.icons />
-    <param.version>0.3</param.version>
+    <param.version>0.4</param.version>
     <param.authnamewatermark>Tim Plummer</param.authnamewatermark>
     <param.email>plummt@rpi.edu</param.email>
     <param.company>LRC</param.company>
