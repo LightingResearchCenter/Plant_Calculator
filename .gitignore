@@ -60,4 +60,7 @@ slprj/
 
 Distrobution Files
 PlantCalculator/*
+output/*
+*.xlsx
+
 

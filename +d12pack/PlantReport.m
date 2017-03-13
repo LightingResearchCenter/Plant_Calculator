@@ -22,15 +22,15 @@ classdef PlantReport < d12pack.report
             obj.background = [1,1,1];
             if nargin == 0
                 obj.FixtureData = struct(   'Lamp','Incandecent',...
-                                            'Wattage',60,...
-                                            'Voltage',120,...
+                                            'Wattage',0.1895,...
+                                            'Voltage',2.88,...
                                             'PPF',12,...
                                             'YPF',16,...
                                             'PPFofTotal',.9,...
                                             'RSS',22,...
                                             'RCR',23,...
                                             'ImagePath','incandescent.png',...
-                                            'Product','GE A-Lamp',...
+                                            'Product','Nichia White LED',...
                                             'Catalog','#GC1-40C-MV-CW-2M-GY',...
                                             'Spectrum',load('\\ROOT\projects\IPH_PlantPathology\Testing\Nichia\Cool LED average.txt'));
             elseif nargin == 1
@@ -61,14 +61,14 @@ classdef PlantReport < d12pack.report
             obj.FixtureInfo.Title.BackgroundColor   = obj.background;
             obj.FixtureInfo.Title.BorderType        = 'none';
             obj.FixtureInfo.Title.Units             = 'pixels';
-            obj.FixtureInfo.Title.Position          = [x,y,w+30,h];
+            obj.FixtureInfo.Title.Position          = [x,y,w,h];
             
             FontSize = 16;
             hTitle = uicontrol(obj.FixtureInfo.Title,'style','text');
             hTitle.HorizontalAlignment  = 'Left';
             hTitle.BackgroundColor      = 'White';
             hTitle.Units                = 'pixels';
-            hTitle.Position             = [0,(h/4)*3,w,h/4];
+            hTitle.Position             = [0,(h/4)*3,w,h/5];
             hTitle.FontName             = 'Arial';
             hTitle.FontUnits            = 'pixels';
             hTitle.FontSize             = FontSize;
@@ -97,7 +97,7 @@ classdef PlantReport < d12pack.report
             obj.FixtureInfo.LeftCenter.BackgroundColor	= obj.background;
             obj.FixtureInfo.LeftCenter.BorderType       = 'none';
             obj.FixtureInfo.LeftCenter.Units            = 'pixels';
-            obj.FixtureInfo.LeftCenter.Position         = [x, y, w+30, h];
+            obj.FixtureInfo.LeftCenter.Position         = [x, y, w, h];
             
             hProduct2 = uicontrol(obj.FixtureInfo.LeftCenter,'style','text');
             hProduct2.HorizontalAlignment    = 'Left';
@@ -120,7 +120,7 @@ classdef PlantReport < d12pack.report
             obj.FixtureInfo.Center.BackgroundColor	= obj.background;
             obj.FixtureInfo.Center.BorderType       = 'none';
             obj.FixtureInfo.Center.Units            = 'pixels';
-            obj.FixtureInfo.Center.Position         = [x, y, w+30, h];
+            obj.FixtureInfo.Center.Position         = [x, y, w, h];
             
             hMetric = uicontrol(obj.FixtureInfo.Center,'style','text');
             hMetric.HorizontalAlignment    = 'Left';
@@ -143,7 +143,7 @@ classdef PlantReport < d12pack.report
             obj.FixtureInfo.RightCenter.BackgroundColor	= obj.background;
             obj.FixtureInfo.RightCenter.BorderType       = 'none';
             obj.FixtureInfo.RightCenter.Units            = 'pixels';
-            obj.FixtureInfo.RightCenter.Position         = [x, y, w+30, h];
+            obj.FixtureInfo.RightCenter.Position         = [x, y, w, h];
             
             hMetric2 = uicontrol(obj.FixtureInfo.RightCenter,'style','text');
             hMetric2.HorizontalAlignment    = 'Left';
@@ -153,7 +153,8 @@ classdef PlantReport < d12pack.report
             hMetric2.FontName               = 'Arial';
             hMetric2.FontUnits              = 'pixels';
             hMetric2.FontSize               = FontSize;
-            hMetric2.String                 = {  ['PPF%=',num2str(obj.FixtureData.PPFofTotal*100,'%5.2f'),'%'];...
+            hMetric2.String                 = {
+                ['PPF%=',num2str(obj.FixtureData.PPFofTotal*100,'%5.2f'),'%'];...
                                                 ['RSS=',num2str(obj.FixtureData.RSS,'%5.2f')];...
                                                 ['RCR=',num2str(obj.FixtureData.RCR,'%5.2f')]};
             x = w*4;
@@ -205,7 +206,7 @@ classdef PlantReport < d12pack.report
             obj.FixtureInfo.SPDaxes = axes(obj.FixtureInfo.SPD);
             plot(obj.FixtureInfo.SPDaxes,obj.FixtureData.Spectrum(:,1),...
                 obj.FixtureData.Spectrum(:,2)/max(obj.FixtureData.Spectrum(:,2)),...
-                'LineWidth',2);
+                'LineWidth',1);
             
             
         end

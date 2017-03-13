@@ -1,19 +1,19 @@
 <deployment-project plugin="plugin.ezdeploy" plugin-version="1.0">
   <configuration build-checksum="3395144550" file="C:\Users\plummt\Documents\MATLAB\Plant_Calculator\PlantCalculator.prj" location="C:\Users\plummt\Documents\MATLAB\Plant_Calculator" name="PlantCalculator" preferred-package-location="C:\Users\plummt\Documents\MATLAB\Plant_Calculator\PlantCalculator\for_redistribution" preferred-package-type="package.type.exe" target="target.ezdeploy.standalone" target-name="Application Compiler">
-    <param.appname>PlantCalculator</param.appname>
+    <param.appname>IPHPlantCalculator</param.appname>
     <param.icon />
     <param.icons />
-    <param.version>0.4</param.version>
+    <param.version>0.7</param.version>
     <param.authnamewatermark>Tim Plummer</param.authnamewatermark>
     <param.email>plummt@rpi.edu</param.email>
     <param.company>LRC</param.company>
     <param.summary />
     <param.description />
-    <param.screenshot />
+    <param.screenshot>\\root\projects\IPH_PlantPathology\logo\ver 2\IPH_logo_small_v2.png</param.screenshot>
     <param.guid />
-    <param.installpath.string>\LRC\PlantCalculator\</param.installpath.string>
+    <param.installpath.string>\LRC\IPHPlantCalculator\</param.installpath.string>
     <param.installpath.combo>option.installpath.programfiles</param.installpath.combo>
-    <param.logo />
+    <param.logo>\\root\projects\IPH_PlantPathology\logo\ver 2\IPH_logo_small_v2.png</param.logo>
     <param.install.notes />
     <param.target.install.notes />
     <param.intermediate>${PROJECT_ROOT}\PlantCalculator\for_testing</param.intermediate>
@@ -37,13 +37,14 @@
     <unset>
       <param.icon />
       <param.icons />
+      <param.authnamewatermark />
+      <param.email />
+      <param.company />
       <param.summary />
       <param.description />
-      <param.screenshot />
       <param.guid />
       <param.installpath.string />
       <param.installpath.combo />
-      <param.logo />
       <param.target.install.notes />
       <param.intermediate />
       <param.files.only />
@@ -67,8 +68,12 @@
     <fileset.main>
       <file>${PROJECT_ROOT}\PlantCalculator.mlapp</file>
     </fileset.main>
-    <fileset.resources />
-    <fileset.package />
+    <fileset.resources>
+      <file>${PROJECT_ROOT}\PSS_RCR.txt</file>
+    </fileset.resources>
+    <fileset.package>
+      <file>\\root\projects\IPH_PlantPathology\logo\ver 2\IPH_logo_small_v2.png</file>
+    </fileset.package>
     <fileset.depfun>
       <file>${PROJECT_ROOT}\CCT23Sep05.m</file>
       <file>${PROJECT_ROOT}\CIE31by1.txt</file>
@@ -77,9 +82,9 @@
       <file>${PROJECT_ROOT}\McCree1972.txt</file>
     </fileset.depfun>
     <build-deliverables>
-      <file location="${PROJECT_ROOT}\PlantCalculator\for_testing" name="PlantCalculator.exe" optional="false">C:\Users\plummt\Documents\MATLAB\Plant_Calculator\PlantCalculator\for_testing\PlantCalculator.exe</file>
       <file location="${PROJECT_ROOT}\PlantCalculator\for_testing" name="readme.txt" optional="true">C:\Users\plummt\Documents\MATLAB\Plant_Calculator\PlantCalculator\for_testing\readme.txt</file>
       <file location="${PROJECT_ROOT}\PlantCalculator\for_testing" name="splash.png" optional="false">C:\Users\plummt\Documents\MATLAB\Plant_Calculator\PlantCalculator\for_testing\splash.png</file>
+      <file location="${PROJECT_ROOT}\PlantCalculator\for_testing" name="IPHPlantCalculator.exe" optional="false">C:\Users\plummt\Documents\MATLAB\Plant_Calculator\PlantCalculator\for_testing\IPHPlantCalculator.exe</file>
     </build-deliverables>
     <workflow />
     <matlab>
