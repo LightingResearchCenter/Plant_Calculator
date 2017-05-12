@@ -1,4 +1,4 @@
-function [Irr,Avg,Max,Min,avgToMin,maxToMin,LRcount, TBcount, itteration,historyTable] = LSAEReport(SPD, IES,targetPPFD, targetUniform)
+function [Irr,historyTable] = LSAEReport(SPD, IES,targetPPFD, targetUniform,mountHeight, roomLength,roomWidth)
 % LSAEREPORT generates a LSAE output table for given IES and Spectrum Files
 
 %%  Test Files Exist
@@ -27,16 +27,12 @@ switch hei
 end
 %% Lumen Method to get close
 ConversionFactor = PPF_Conversion_Factor_05Apr2016(SPD);
-mountHeight=1.5;%meters
-roomLength=30; %meters
-roomWidth = 30;%meters
 [CU, fluxTotal]= calcCU(IESdata,mountHeight, roomLength, roomWidth);
 targetLux = (targetPPFD/ConversionFactor)*1000;
 numLuminaire = ceil((targetLux*roomLength*roomWidth)/(fluxTotal*CU));
 if (sqrt(numLuminaire)-floor(sqrt(numLuminaire))) == 0
     LRcount = sqrt(numLuminaire);
     TBcount = sqrt(numLuminaire);
-    
 elseif (sqrt(numLuminaire)-floor(sqrt(numLuminaire))) >= 0.5
     LRcount = ceil(sqrt(numLuminaire));
     TBcount = ceil(sqrt(numLuminaire));
@@ -47,13 +43,12 @@ else
     error('how did this happen');
 end
 %% Initial Calculation
-
+disp([LRcount,TBcount]);
 [Irr,Avg,Max,Min] = PPFCalculator(wave,specFlux,IESdata,'LRcount',LRcount,'TBcount',TBcount,'Multiplier',round(ConversionFactor,1));
 avgToMin = Avg/Min;
 maxToMin = Max/Min;
 perDif = ((Avg-targetPPFD)/targetPPFD);
 historyTable = table(mountHeight,LRcount,TBcount,Avg,Max,Min,avgToMin,maxToMin,perDif);
-
 %% Find fixtures for Target Average
 itteration = 0;
 while~((perDif<=.20) && (perDif> 0))
@@ -63,6 +58,10 @@ while~((perDif<=.20) && (perDif> 0))
     end
     if (perDif>=.20) % There is too much light
         % determine how to change the count of fixtures
+        if (TBcount == 1) && (LRcount == 1)
+            % there is no way to get less light by reducing the fixture count
+            break;
+        end
         if TBcount == LRcount
             if mod(itteration,2)==1
                 TBcount = ceil(TBcount*(1-perDif));
@@ -88,6 +87,7 @@ while~((perDif<=.20) && (perDif> 0))
             TBcount = historyTable.TBcount(end);
             break
         else
+            disp([LRcount,TBcount]);
             [Irr,Avg,Max,Min] = PPFCalculator(wave,specFlux,IESdata,'LRcount',LRcount,'TBcount',TBcount,'Multiplier',round(ConversionFactor,1));
             avgToMin = Avg/Min;
             maxToMin = Max/Min;
@@ -121,6 +121,7 @@ while~((perDif<=.20) && (perDif> 0))
         if found == true
             break
         else
+            disp([LRcount,TBcount]);
             [Irr,Avg,Max,Min] = PPFCalculator(wave,specFlux,IESdata,'LRcount',LRcount,'TBcount',TBcount,'Multiplier',round(ConversionFactor,1));
             avgToMin = Avg/Min;
             maxToMin = Max/Min;
@@ -144,16 +145,15 @@ while avgToMin > targetUniform
         for I = 1:height(historyTable)
             if (historyTable.LRcount(I) == LRcount) && (historyTable.TBcount(I) == TBcount)
                 found = true;
-                LRcount = LRcount-1;
-                TBcount = TBcount-1;
+                avgToMin = historyTable.avgToMin(I);
                 break
             else
                 found = false;
             end
         end
-        if found == true
-            break
+        if found == true;continue
         else
+            disp([LRcount,TBcount]);
             [Irr,Avg,Max,Min] = PPFCalculator(wave,specFlux,IESdata,'LRcount',LRcount,'TBcount',TBcount,'Multiplier',round(ConversionFactor,1));
             avgToMin = Avg/Min;
             maxToMin = Max/Min;
@@ -171,19 +171,15 @@ while avgToMin > targetUniform
             for I = 1:height(historyTable)
                 if (historyTable.LRcount(I) == LRcount) && (historyTable.TBcount(I) == TBcount)
                     found = true;
-                    if mod(itteration,2) == 1
-                        LRcount = LRcount+1;
-                    else
-                        TBcount = TBcount +1;
-                    end
+                   avgToMin = historyTable.avgToMin(I);
                     break
                 else
                     found = false;
                 end
             end
-            if found == true
-                break
+            if found == true;continue
             else
+                disp([LRcount,TBcount]);
                 [Irr,Avg,Max,Min] = PPFCalculator(wave,specFlux,IESdata,'LRcount',LRcount,'TBcount',TBcount,'Multiplier',round(ConversionFactor,1));
                 avgToMin = Avg/Min;
                 maxToMin = Max/Min;
@@ -191,42 +187,40 @@ while avgToMin > targetUniform
                 historyTable =[historyTable; table(mountHeight,LRcount,TBcount,Avg,Max,Min,avgToMin,maxToMin,perDif)];
             end
         end
-        
     elseif TBcount > LRcount
         LRcount = LRcount+1;
         for I = 1:height(historyTable)
             if (historyTable.LRcount(I) == LRcount) && (historyTable.TBcount(I) == TBcount)
                 found = true;
-                 LRcount = LRcount-1;
+                avgToMin = historyTable.avgToMin(I);
                 break
             else
                 found = false;
             end
         end
-        if found == true
-            break
+        if found == true;continue
         else
+            disp([LRcount,TBcount]);
             [Irr,Avg,Max,Min] = PPFCalculator(wave,specFlux,IESdata,'LRcount',LRcount,'TBcount',TBcount,'Multiplier',round(ConversionFactor,1));
             avgToMin = Avg/Min;
             maxToMin = Max/Min;
             perDif = ((Avg-targetPPFD)/targetPPFD);
             historyTable =[historyTable; table(mountHeight,LRcount,TBcount,Avg,Max,Min,avgToMin,maxToMin,perDif)];
         end
-        while(perDif>=.20)
+        while(perDif>=.25)
             TBcount = TBcount-1;
             for I = 1:height(historyTable)
                 if (historyTable.LRcount(I) == LRcount) && (historyTable.TBcount(I) == TBcount)
                     found = true;
-                    TBcount = TBcount+1;
+                    avgToMin = historyTable.avgToMin(I);
                     break
                 else
                     found = false;
                 end
             end
-            if found == true
-                
-                break
+            if found == true;continue
             else
+                disp([LRcount,TBcount]);
                 [Irr,Avg,Max,Min] = PPFCalculator(wave,specFlux,IESdata,'LRcount',LRcount,'TBcount',TBcount,'Multiplier',round(ConversionFactor,1));
                 avgToMin = Avg/Min;
                 maxToMin = Max/Min;
@@ -239,35 +233,35 @@ while avgToMin > targetUniform
         for I = 1:height(historyTable)
             if (historyTable.LRcount(I) == LRcount) && (historyTable.TBcount(I) == TBcount)
                 found = true;
-                TBcount = TBcount -1;
+                avgToMin = historyTable.avgToMin(I);
                 break
             else
                 found = false;
             end
         end
-        if found == true
-            break
+        if found == true;continue
         else
+            disp([LRcount,TBcount]);
             [Irr,Avg,Max,Min] = PPFCalculator(wave,specFlux,IESdata,'LRcount',LRcount,'TBcount',TBcount,'Multiplier',round(ConversionFactor,1));
             avgToMin = Avg/Min;
             maxToMin = Max/Min;
             perDif = ((Avg-targetPPFD)/targetPPFD);
             historyTable =[historyTable; table(mountHeight,LRcount,TBcount,Avg,Max,Min,avgToMin,maxToMin,perDif)];
         end
-        while (perDif>=.20)
+        while (perDif>=.25)
             LRcount = LRcount-1;
             for I = 1:height(historyTable)
                 if (historyTable.LRcount(I) == LRcount) && (historyTable.TBcount(I) == TBcount)
                     found = true;
-                    LRcount = LRcount+1;
+                   avgToMin = historyTable.avgToMin(I);
                     break
                 else
                     found = false;
                 end
             end
-            if found == true
-                break
+            if found == true;continue
             else
+                disp([LRcount,TBcount]);
                 [Irr,Avg,Max,Min] = PPFCalculator(wave,specFlux,IESdata,'LRcount',LRcount,'TBcount',TBcount,'Multiplier',round(ConversionFactor,1));
                 avgToMin = Avg/Min;
                 maxToMin = Max/Min;

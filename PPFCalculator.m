@@ -4,8 +4,8 @@ function [Irr,Avg,Max,Min] = PPFCalculator(wave,specFlux,IESdata, varargin)
 %% Input Checking
 p = inputParser;
 p.FunctionName = 'PPFCalculator';
-defaultLength =30;  %in Meters
-defaultWidth = 30;  %in Meters
+defaultLength =10;  %in Meters
+defaultWidth = 10;  %in Meters
 defaultMountHeight = 1.5;   %in Meters
 defaultCount = 3; % how many fixtures inboth rows and collums (specifiable sepratly)
 defaultSpacing = .5; %in Meters
