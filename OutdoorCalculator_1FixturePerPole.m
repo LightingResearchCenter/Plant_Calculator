@@ -21,6 +21,7 @@ else
         tline = fgetl(fid);
         match = strmatch('TILT',tline);
         geometry = strmatch('TILT=NONE',tline);
+        
         if geometry == 1
             A = [];
             while length(A)< 13
@@ -64,7 +65,7 @@ end
 if (HorizAngles(1)~=0 || HorizAngles(NoHorizAngles)~=180)
     msgbox('Horizontal angles are not from 0 to 180!', 'Horizontal Angle Warning', 'warn');
 end
-
+%% finished importing IES file
 prompt   = {'Enter fixture Lateral distribution type (1, 2, 3, 4, or 5):',...
     'Enter fixture vertical distribution type, "v" for very short, "s" for short, "m" for medium, or "l" for long:',...
     'Enter light loss factor (from 0 to 1, 1 means no loss):'};
@@ -72,7 +73,7 @@ title    = 'Parameters for calculation';
 lines = 1;
 def     = {'3','m','1'};
 matchwer1   = inputdlg(prompt,title,lines,def);
-if isempty(matchwer1);
+if isempty(matchwer1)
    return
 else
    TypeLateral = matchwer1{1};
@@ -80,9 +81,9 @@ else
    LossFactor = str2double(matchwer1{3});
 end
 M=M*LossFactor;
-
-AE_all=zeros(7,1);
-for n=1:7
+%% Calculate illuminances for a square area
+AE_all=zeros(8,1);
+for n=1:8
 PoleHeight=15+(n-1)*5;
 
 AreaSize=PoleHeight*(GridSpacing*10); % square area side length in foot
@@ -92,7 +93,7 @@ if (rem(S,2)~=0 )
     S=(int32(S/2))*2;
 end
 
-%Calculate illuminances for a square area
+
 P=zeros(S, (S/2), 4); %assuming symetric distribution along the road
 for i=1:S
     for j=1:(S/2)
@@ -195,10 +196,10 @@ Ratio_LumensInTask=L_Task/L_Ground;
 AE_all(n)=AE;
 
 end
-
+%% end of for loop
 scrsz = get(0,'ScreenSize');
 h1=figure('Name','Application Efficacy at different pole heights','Position',[scrsz(3)/6 scrsz(4)/2 scrsz(3)/3 scrsz(4)/3]);
-X=15:5:45;
+X=15:5:50;
 Y=AE_all';
 plot(X,Y,'-r','LineWidth',3);
 xlabel('Pole Height (feet)')

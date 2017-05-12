@@ -1,6 +1,5 @@
-% Load spd
-fileName = 'F:\Warm LED average.txt';
-spd = load(fileName);
+function ConversionFactor = PPF_Conversion_Factor_05Apr2016(filePath)
+spd = load(filePath);
 wave = spd(:,1);
 specFlux = spd(:,2);
 
@@ -15,5 +14,5 @@ PPF_mole = 1e6*trapz(wave(q1:q2),specFlux(q1:q2).*(wave(q1:q2)*1e-9))/(h*c*Avo);
 
 kiloLumens = Lxy23Sep05([wave,specFlux])/1000;
 
-ConversionFactor = PPF_mole/kiloLumens
-
+ConversionFactor = PPF_mole/kiloLumens;
+end

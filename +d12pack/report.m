@@ -221,7 +221,7 @@ classdef report < matlab.mixin.SetGet
         
         % LRC logo
         function initLrcLogo(obj)
-            [A,map,alpha] = imread('lrcLogo.png'); % Read in our image.
+            [A,map,alpha] = imread('+d12pack\lrcLogo.png'); % Read in our image.
             
             obj.LRClogo = axes(obj.Footer); % Make a new axes for logo
             
@@ -234,7 +234,7 @@ classdef report < matlab.mixin.SetGet
         
         % RPI Logo
         function initRpiLogo(obj)
-            [A,map,alpha] = imread('rpiLogo.png'); % Read in our image.
+            [A,map,alpha] = imread('+d12pack\rpiLogo.png'); % Read in our image.
             
             obj.RPIlogo = axes(obj.Footer); % Make a new axes for logo
             

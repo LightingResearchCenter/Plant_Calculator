@@ -49,6 +49,7 @@ classdef PlantReport < d12pack.report
     
     methods (Access = protected)
         function initFixtureInfo(obj)
+            %Plots the header portion of the document
             oldUnits = obj.Body.Units;
             obj.Body.Units = 'pixels';
             
@@ -172,6 +173,7 @@ classdef PlantReport < d12pack.report
             imshow(imread(obj.FixtureData.ImagePath));
         end
         function initIntensityDist(obj)
+            %plots in the top left quarter of the body
             oldUnits = obj.Body.Units;
             obj.Body.Units = 'pixels';
             
@@ -186,9 +188,9 @@ classdef PlantReport < d12pack.report
             obj.FixtureInfo.Title.Units             = 'pixels';
             obj.FixtureInfo.Title.Position          = [x,y,w,h];
             
-            
         end
         function initSPDPlot(obj)
+            %plots in the top right quarter of the body
             oldUnits = obj.Body.Units;
             obj.Body.Units = 'pixels';
             
@@ -211,6 +213,7 @@ classdef PlantReport < d12pack.report
             
         end
         function initISOPPFPlot(obj)
+            %plots in the bottom left quarter of the body
             oldUnits = obj.Body.Units;
             obj.Body.Units = 'pixels';
             
@@ -228,6 +231,7 @@ classdef PlantReport < d12pack.report
             
         end
         function initLASEPlot(obj)
+            %plots in the bottom right quarter of the body
             x = obj.Body.Position(3)/2;
             w = obj.Body.Position(3)/2;
             h = (obj.Body.Position(4) - floor(obj.Body.Position(4)/6))/2;

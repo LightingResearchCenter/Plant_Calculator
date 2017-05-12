@@ -1,8 +1,6 @@
 function [Intensity,thetas,phis] = readIES_FileFunction(filePathName)
 %fileName = 'UVBFixture2Trace.ies'; %'UVBFixture2Trace.ies'; %'UVBFixtureNoReflTrace.ies'; % 'UVB1b.ies';
-nadirLux = 61.0; % Illuminance in lux at nadir, 22.2, 61.0
-Distance = 2.946; % Distance in meters
-thetaLimit = 90; % 180
+
 
 fid = fopen(filePathName,'r');
 tiltLine = 0;
@@ -15,8 +13,8 @@ while ~tiltLine
 end
 fileLine = fgetl(fid);
 A = sscanf(fileLine,'%f%f%f%f%f');
-numTheta = A(4)
-numPhi = A(5)
+numTheta = A(4);
+numPhi = A(5);
 for loop = 1:2
     fileLine = fgetl(fid);
 end
@@ -43,10 +41,10 @@ for i1 = 1:numPhi
     end
     I(1:length(a),i1) = a;
 end
-fclose(fid)
+fclose(fid);
 Intensity = I;
-I = I/I(1,1)*nadirLux*Distance^2; % calibrate intensity in cd 
-
+%I = I/I(1,1)*nadirLux*Distance^2; % calibrate intensity in cd 
+%{
 % Plot
 %thetaRad = thetas*pi/180;
 %polar(thetaRad,I(:,1))
@@ -141,8 +139,11 @@ plot([0 cos(30*pi/180)],[0 -sin(30*pi/180)],'k:') % gridline
 axis off
 ht1 = text(0.05,-1.1,[num2str(max(max(I)),'%.1f') ' cd']);
 set(ht1,'FontSize',14);
+
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%{
+
 % Plotting horizontal cross sections(rho,theta 0 to 360) at different elevation angles(phi)
 figure(2)
 matrixRow = 10/2+1;%matrix has data every 2 degrees starting at 0 degrees
