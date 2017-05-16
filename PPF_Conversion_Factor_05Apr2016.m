@@ -1,7 +1,4 @@
-function ConversionFactor = PPF_Conversion_Factor_05Apr2016(filePath)
-spd = load(filePath);
-wave = spd(:,1);
-specFlux = spd(:,2);
+function ConversionFactor = PPF_Conversion_Factor_05Apr2016(wave,specFlux)
 
 h = 6.63e-34; % Joule seconds, Planck's constant
 c = 3.00e8; % meter/second

@@ -1,32 +1,9 @@
-function [Irr,historyTable] = LSAEReport(SPD, IES,targetPPFD, targetUniform,mountHeight, roomLength,roomWidth)
+function [Irr,outTable] = LSAEReport(wave, specFlux, IESdata,targetPPFD, targetUniform,mountHeight, roomLength,roomWidth)
 % LSAEREPORT generates a LSAE output table for given IES and Spectrum Files
 
-%%  Test Files Exist
-file=java.io.File(SPD);
-assert(file.exists(),'SPD File does not exist');
-[hei,wid] = size(IES);
-switch hei
-    case 1
-        file=java.io.File(IES);
-        assert(file.exists(),'IES File does not exist');
-        %     case 3
-        %         file=java.io.File(IES);
-        %         assert(file.exists(),'IES File does not exist');
-    otherwise
-        error('Wrong number of IES files');
-end
-%% Load files
-SPDdata = load(SPD);
-wave = SPDdata(:,1);
-specFlux = SPDdata(:,2);
-switch hei
-    case 1
-        IESdata = IESFile(IES(1,:));
-    otherwise
-        error('Wrong number of IES files');
-end
+
 %% Lumen Method to get close
-ConversionFactor = PPF_Conversion_Factor_05Apr2016(SPD);
+ConversionFactor = PPF_Conversion_Factor_05Apr2016(wave,specFlux);
 [CU, fluxTotal]= calcCU(IESdata,mountHeight, roomLength, roomWidth);
 targetLux = (targetPPFD/ConversionFactor)*1000;
 numLuminaire = ceil((targetLux*roomLength*roomWidth)/(fluxTotal*CU));
@@ -43,8 +20,8 @@ else
     error('how did this happen');
 end
 %% Initial Calculation
-disp([LRcount,TBcount]);
-[Irr,Avg,Max,Min] = PPFCalculator(wave,specFlux,IESdata,'LRcount',LRcount,'TBcount',TBcount,'Multiplier',round(ConversionFactor,1));
+
+[Irr,Avg,Max,Min] = PPFCalculator(wave,specFlux,IESdata,'LRcount',LRcount,'TBcount',TBcount,'MountHeight',mountHeight,'Multiplier',round(ConversionFactor,1));
 avgToMin = Avg/Min;
 maxToMin = Max/Min;
 perDif = ((Avg-targetPPFD)/targetPPFD);
@@ -87,8 +64,8 @@ while~((perDif<=.20) && (perDif> 0))
             TBcount = historyTable.TBcount(end);
             break
         else
-            disp([LRcount,TBcount]);
-            [Irr,Avg,Max,Min] = PPFCalculator(wave,specFlux,IESdata,'LRcount',LRcount,'TBcount',TBcount,'Multiplier',round(ConversionFactor,1));
+            
+            [Irr,Avg,Max,Min] = PPFCalculator(wave,specFlux,IESdata,'LRcount',LRcount,'TBcount',TBcount,'MountHeight',mountHeight,'Multiplier',round(ConversionFactor,1));
             avgToMin = Avg/Min;
             maxToMin = Max/Min;
             perDif = ((Avg-targetPPFD)/targetPPFD);
@@ -121,8 +98,8 @@ while~((perDif<=.20) && (perDif> 0))
         if found == true
             break
         else
-            disp([LRcount,TBcount]);
-            [Irr,Avg,Max,Min] = PPFCalculator(wave,specFlux,IESdata,'LRcount',LRcount,'TBcount',TBcount,'Multiplier',round(ConversionFactor,1));
+            
+            [Irr,Avg,Max,Min] = PPFCalculator(wave,specFlux,IESdata,'LRcount',LRcount,'TBcount',TBcount,'MountHeight',mountHeight,'Multiplier',round(ConversionFactor,1));
             avgToMin = Avg/Min;
             maxToMin = Max/Min;
             perDif = ((Avg-targetPPFD)/targetPPFD);
@@ -153,8 +130,8 @@ while avgToMin > targetUniform
         end
         if found == true;continue
         else
-            disp([LRcount,TBcount]);
-            [Irr,Avg,Max,Min] = PPFCalculator(wave,specFlux,IESdata,'LRcount',LRcount,'TBcount',TBcount,'Multiplier',round(ConversionFactor,1));
+            
+            [Irr,Avg,Max,Min] = PPFCalculator(wave,specFlux,IESdata,'LRcount',LRcount,'TBcount',TBcount,'MountHeight',mountHeight,'Multiplier',round(ConversionFactor,1));
             avgToMin = Avg/Min;
             maxToMin = Max/Min;
             perDif = ((Avg-targetPPFD)/targetPPFD);
@@ -179,8 +156,8 @@ while avgToMin > targetUniform
             end
             if found == true;continue
             else
-                disp([LRcount,TBcount]);
-                [Irr,Avg,Max,Min] = PPFCalculator(wave,specFlux,IESdata,'LRcount',LRcount,'TBcount',TBcount,'Multiplier',round(ConversionFactor,1));
+                
+                [Irr,Avg,Max,Min] = PPFCalculator(wave,specFlux,IESdata,'LRcount',LRcount,'TBcount',TBcount,'MountHeight',mountHeight,'Multiplier',round(ConversionFactor,1));
                 avgToMin = Avg/Min;
                 maxToMin = Max/Min;
                 perDif = ((Avg-targetPPFD)/targetPPFD);
@@ -200,8 +177,8 @@ while avgToMin > targetUniform
         end
         if found == true;continue
         else
-            disp([LRcount,TBcount]);
-            [Irr,Avg,Max,Min] = PPFCalculator(wave,specFlux,IESdata,'LRcount',LRcount,'TBcount',TBcount,'Multiplier',round(ConversionFactor,1));
+            
+            [Irr,Avg,Max,Min] = PPFCalculator(wave,specFlux,IESdata,'LRcount',LRcount,'TBcount',TBcount,'MountHeight',mountHeight,'Multiplier',round(ConversionFactor,1));
             avgToMin = Avg/Min;
             maxToMin = Max/Min;
             perDif = ((Avg-targetPPFD)/targetPPFD);
@@ -220,8 +197,8 @@ while avgToMin > targetUniform
             end
             if found == true;continue
             else
-                disp([LRcount,TBcount]);
-                [Irr,Avg,Max,Min] = PPFCalculator(wave,specFlux,IESdata,'LRcount',LRcount,'TBcount',TBcount,'Multiplier',round(ConversionFactor,1));
+                
+                [Irr,Avg,Max,Min] = PPFCalculator(wave,specFlux,IESdata,'LRcount',LRcount,'TBcount',TBcount,'MountHeight',mountHeight,'Multiplier',round(ConversionFactor,1));
                 avgToMin = Avg/Min;
                 maxToMin = Max/Min;
                 perDif = ((Avg-targetPPFD)/targetPPFD);
@@ -241,8 +218,8 @@ while avgToMin > targetUniform
         end
         if found == true;continue
         else
-            disp([LRcount,TBcount]);
-            [Irr,Avg,Max,Min] = PPFCalculator(wave,specFlux,IESdata,'LRcount',LRcount,'TBcount',TBcount,'Multiplier',round(ConversionFactor,1));
+            
+            [Irr,Avg,Max,Min] = PPFCalculator(wave,specFlux,IESdata,'LRcount',LRcount,'TBcount',TBcount,'MountHeight',mountHeight,'Multiplier',round(ConversionFactor,1));
             avgToMin = Avg/Min;
             maxToMin = Max/Min;
             perDif = ((Avg-targetPPFD)/targetPPFD);
@@ -261,8 +238,8 @@ while avgToMin > targetUniform
             end
             if found == true;continue
             else
-                disp([LRcount,TBcount]);
-                [Irr,Avg,Max,Min] = PPFCalculator(wave,specFlux,IESdata,'LRcount',LRcount,'TBcount',TBcount,'Multiplier',round(ConversionFactor,1));
+                
+                [Irr,Avg,Max,Min] = PPFCalculator(wave,specFlux,IESdata,'LRcount',LRcount,'TBcount',TBcount,'MountHeight',mountHeight,'Multiplier',round(ConversionFactor,1));
                 avgToMin = Avg/Min;
                 maxToMin = Max/Min;
                 perDif = ((Avg-targetPPFD)/targetPPFD);
@@ -270,4 +247,6 @@ while avgToMin > targetUniform
             end
         end
     end
+end
+outTable = table(mountHeight,LRcount,TBcount,Avg,targetPPFD,Max,Min,avgToMin,maxToMin,targetUniform,perDif);
 end
