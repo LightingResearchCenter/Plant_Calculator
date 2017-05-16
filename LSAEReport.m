@@ -28,12 +28,12 @@ perDif = ((Avg-targetPPFD)/targetPPFD);
 historyTable = table(mountHeight,LRcount,TBcount,Avg,Max,Min,avgToMin,maxToMin,perDif);
 %% Find fixtures for Target Average
 itteration = 0;
-while~((perDif<=.20) && (perDif> 0))
+while~((perDif<=.10) && (perDif> 0))
     itteration = itteration +1; %count how many loops it took to find optimum
     if itteration >20
         break
     end
-    if (perDif>=.20) % There is too much light
+    if (perDif>=.10) % There is too much light
         % determine how to change the count of fixtures
         if (TBcount == 1) && (LRcount == 1)
             % there is no way to get less light by reducing the fixture count
@@ -138,7 +138,7 @@ while avgToMin > targetUniform
             historyTable =[historyTable; table(mountHeight,LRcount,TBcount,Avg,Max,Min,avgToMin,maxToMin,perDif)];
         end
         % Make sure your still close to targetPPFD
-        while (perDif>=.25)
+        while (perDif>=.15)
             %determine how to change the count
             if mod(itteration,2) == 1
                 LRcount = LRcount-1;
@@ -184,7 +184,7 @@ while avgToMin > targetUniform
             perDif = ((Avg-targetPPFD)/targetPPFD);
             historyTable =[historyTable; table(mountHeight,LRcount,TBcount,Avg,Max,Min,avgToMin,maxToMin,perDif)];
         end
-        while(perDif>=.25)
+        while(perDif>=.15)
             TBcount = TBcount-1;
             for I = 1:height(historyTable)
                 if (historyTable.LRcount(I) == LRcount) && (historyTable.TBcount(I) == TBcount)
@@ -225,7 +225,7 @@ while avgToMin > targetUniform
             perDif = ((Avg-targetPPFD)/targetPPFD);
             historyTable =[historyTable; table(mountHeight,LRcount,TBcount,Avg,Max,Min,avgToMin,maxToMin,perDif)];
         end
-        while (perDif>=.25)
+        while (perDif>=.15)
             LRcount = LRcount-1;
             for I = 1:height(historyTable)
                 if (historyTable.LRcount(I) == LRcount) && (historyTable.TBcount(I) == TBcount)

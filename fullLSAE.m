@@ -28,8 +28,11 @@ end
 %% Calculate LSAE
 IrrOut =cell(length(mountHeight),length(range));
 outTable = [];
+itt = 0;
 for i1= 1:length(mountHeight)
     for i2 = 1:length(range)
+        itt = itt+1;
+        disp(itt)
         [Irr,historyTable] = LSAEReport(wave, specFlux, IESdata, range(i2), Uniformity ,mountHeight(i1),RoomLength, RoomWidth);
         IrrOut{i1,i2} = sort(Irr(:));
         outTable = [outTable;historyTable];

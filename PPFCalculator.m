@@ -40,9 +40,14 @@ end
 orientation = p.Results.fixtureOrientation*pi/180*ones(size(xFixtureLocations));
 
 Irr = zeros(length(rows),length(columns),length(xFixtureLocations));
+itt = 0;
+total = length(rows)*length(columns)*length(xFixtureLocations);
+h = waitbar(itt/total,'Calculating PPFD');
 for i1 = 1:length(rows)
     for i2 = 1:length(columns)
-        parfor i3 = 1:length(xFixtureLocations)
+        for i3 = 1:length(xFixtureLocations)
+            itt = itt+1;
+            waitbar(itt/total,h);
             x = rows(i1)-xFixtureLocations(i3);
             y = columns(i2)-yFixtureLocations(i3);
             r = sqrt(x^2 + y^2);
@@ -60,6 +65,7 @@ for i1 = 1:length(rows)
         end
     end
 end
+close(h);
 Irr = sum(Irr,3);
 Avg = mean2(Irr);
 Max = max(max(Irr));
