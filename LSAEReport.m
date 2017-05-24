@@ -248,5 +248,5 @@ while avgToMin > targetUniform
         end
     end
 end
-outTable = table(mountHeight,LRcount,TBcount,Avg,targetPPFD,Max,Min,avgToMin,maxToMin,targetUniform,perDif);
+outTable = table(mountHeight,numLuminaire,LRcount,TBcount,Avg,targetPPFD,Max,Min,avgToMin,maxToMin,targetUniform,perDif);
 end
