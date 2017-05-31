@@ -12,7 +12,7 @@ classdef PlantReport < d12pack.report
         LRCBlue   = [ 30,  63, 134]/255;
         LightBlue = [180, 211, 227]/255;
     end
-
+    
     methods
         
         function obj = PlantReport(varargin)
@@ -22,17 +22,18 @@ classdef PlantReport < d12pack.report
             obj.background = [1,1,1];
             if nargin == 0
                 obj.FixtureData = struct(   'Lamp','Incandecent',...
-                                            'Wattage',0.1895,...
-                                            'Voltage',2.88,...
-                                            'PPF',12,...
-                                            'YPF',16,...
-                                            'PPFofTotal',.9,...
-                                            'RSS',22,...
-                                            'RCR',23,...
-                                            'ImagePath','incandescent.png',...
-                                            'Product','Nichia White LED',...
-                                            'Catalog','#GC1-40C-MV-CW-2M-GY',...
-                                            'Spectrum',load('\\ROOT\projects\IPH_PlantPathology\Testing\Nichia\Cool LED average.txt'));
+                    'Voltage',120,...
+                    'PPF',380.7,...
+                    'YPF',337.8,...
+                    'PPFofTotal',.9,...
+                    'RSS',0.868,...
+                    'RCR',32537.8,...
+                    'ImagePath','incandescent.png',...
+                    'Product','LED109053',...
+                    'Catalog','Unknown',...
+                    'Spectrum',load('\\root\projects\NRCAn\2013 Horticultural Lighting\SphereTesting\LED109053\Trial2\SPD\LED109053109053SPD.txt'),...
+                    'IESdata',IESFile('\\root\projects\NRCAn\2013 Horticultural Lighting\SphereTesting\LED109053\LED109053Trial1-repaired.ies'));
+                obj.FixtureData.Wattage =   obj.FixtureData.IESdata.InputWatts;
             elseif nargin == 1
                 obj.FixtureData = varargin{1};
             else
@@ -86,8 +87,8 @@ classdef PlantReport < d12pack.report
             hProduct.FontUnits              = 'pixels';
             hProduct.FontSize               = FontSize;
             hProduct.String                 = { obj.FixtureData.Product;...
-                                                obj.FixtureData.Lamp;...
-                                                obj.FixtureData.Catalog};
+                obj.FixtureData.Lamp;...
+                obj.FixtureData.Catalog};
             
             x = w+20;
             w = floor(obj.Body.Position(3)/5);
@@ -109,9 +110,9 @@ classdef PlantReport < d12pack.report
             hProduct2.FontUnits              = 'pixels';
             hProduct2.FontSize               = FontSize;
             hProduct2.String                 = {['Power = ',num2str(obj.FixtureData.Wattage,'%5.2f'),' ','W'];...
-                                                ['Voltage = ',num2str(obj.FixtureData.Voltage,'%5.2f'),' ','V'];...
-                                                ['PF = ',num2str(obj.FixtureData.Wattage/obj.FixtureData.Voltage,'%5.2f')]};
-                                            
+                ['Voltage = ',num2str(obj.FixtureData.Voltage,'%5.2f'),' ','V'];...
+                ['PF = ',num2str(obj.FixtureData.Wattage/obj.FixtureData.Voltage,'%5.2f')]};
+            
             x = w*2+20;
             w = floor(obj.Body.Position(3)/5);
             h = floor(obj.Body.Position(4)/6);
@@ -132,9 +133,9 @@ classdef PlantReport < d12pack.report
             hMetric.FontUnits              = 'pixels';
             hMetric.FontSize               = FontSize;
             hMetric.String                 = {  ['PPF=',num2str(obj.FixtureData.PPF,'%5.2f'),' ',char(956),'Mol/sec'];...
-                                                ['PPF/W=',num2str(obj.FixtureData.PPF/obj.FixtureData.Wattage,'%5.2f'),' ',char(956),'Mol/J'];...
-                                                ['YPF=',num2str(obj.FixtureData.YPF,'%5.2f'),' ',char(956),'Mol/sec'];...
-                                                ['YPF/W=',num2str(obj.FixtureData.YPF/obj.FixtureData.Wattage,'%5.2f'),' ',char(956),'Mol/J']};
+                ['PPF/W=',num2str(obj.FixtureData.PPF/obj.FixtureData.Wattage,'%5.2f'),' ',char(956),'Mol/J'];...
+                ['YPF=',num2str(obj.FixtureData.YPF,'%5.2f'),' ',char(956),'Mol/sec'];...
+                ['YPF/W=',num2str(obj.FixtureData.YPF/obj.FixtureData.Wattage,'%5.2f'),' ',char(956),'Mol/J']};
             x = w*3+20;
             w = floor(obj.Body.Position(3)/5);
             h = floor(obj.Body.Position(4)/6);
@@ -156,8 +157,8 @@ classdef PlantReport < d12pack.report
             hMetric2.FontSize               = FontSize;
             hMetric2.String                 = {
                 ['PPF%=',num2str(obj.FixtureData.PPFofTotal*100,'%5.2f'),'%'];...
-                                                ['RSS=',num2str(obj.FixtureData.RSS,'%5.2f')];...
-                                                ['RCR=',num2str(obj.FixtureData.RCR,'%5.2f')]};
+                ['RSS=',num2str(obj.FixtureData.RSS,'%5.2f')];...
+                ['RCR=',num2str(obj.FixtureData.RCR,'%5.2f')]};
             x = w*4;
             w = floor(obj.Body.Position(3)/5);
             h = floor(obj.Body.Position(4)/6);
@@ -187,7 +188,6 @@ classdef PlantReport < d12pack.report
             obj.FixtureInfo.Title.BorderType        = 'none';
             obj.FixtureInfo.Title.Units             = 'pixels';
             obj.FixtureInfo.Title.Position          = [x,y,w,h];
-            
         end
         function initSPDPlot(obj)
             %plots in the top right quarter of the body
@@ -206,9 +206,11 @@ classdef PlantReport < d12pack.report
             obj.FixtureInfo.SPD.Position          = [x,y,w,h];
             
             obj.FixtureInfo.SPDaxes = axes(obj.FixtureInfo.SPD);
+            axis(obj.FixtureInfo.SPDaxes,[380,830,0,inf]);
             plot(obj.FixtureInfo.SPDaxes,obj.FixtureData.Spectrum(:,1),...
                 obj.FixtureData.Spectrum(:,2)/max(obj.FixtureData.Spectrum(:,2)),...
                 'LineWidth',1);
+            axis(obj.FixtureInfo.SPDaxes,[380,830,0,inf]);
             
             
         end
@@ -222,13 +224,18 @@ classdef PlantReport < d12pack.report
             h = (obj.Body.Position(4) - floor(obj.Body.Position(4)/6))/2;
             y = 0;
             
-            obj.FixtureInfo.Title = uipanel(obj.Body);
-            obj.FixtureInfo.Title.BackgroundColor   = obj.background;
-            obj.FixtureInfo.Title.BorderType        = 'none';
-            obj.FixtureInfo.Title.Units             = 'pixels';
-            obj.FixtureInfo.Title.Position          = [x,y,w,h];
-            
-            
+            obj.FixtureInfo.ISOPlot = uipanel(obj.Body);
+            obj.FixtureInfo.ISOPlot.BackgroundColor   = obj.background;
+            obj.FixtureInfo.ISOPlot.BorderType        = 'none';
+            obj.FixtureInfo.ISOPlot.Units             = 'pixels';
+            obj.FixtureInfo.ISOPlot.Position          = [x,y,w,h];
+            ConversionFactor = PPF_Conversion_Factor_05Apr2016(obj.FixtureData.Spectrum(:,1),obj.FixtureData.Spectrum(:,2));
+            [Irr,Avg,Max,Min] = PPFCalculator(obj.FixtureData.Spectrum(:,1),obj.FixtureData.Spectrum(:,2),obj.FixtureData.IESdata,'LRcount',1,'TBcount',1,'Multiplier',round(ConversionFactor,1));
+            X = 0.25:.5:4.75;
+            Y = 0.25:.5:4.75;
+            obj.FixtureInfo.SPDaxes = axes(obj.FixtureInfo.ISOPlot);
+            [C,h] = contour(obj.FixtureInfo.SPDaxes,X,Y,Irr);
+            clabel(C,h,'FontSize',8);
         end
         function initLASEPlot(obj)
             %plots in the bottom right quarter of the body
@@ -243,12 +250,10 @@ classdef PlantReport < d12pack.report
             obj.FixtureInfo.Title.Units             = 'pixels';
             obj.FixtureInfo.Title.Position          = [x,y,w,h];
             
-            
         end
     end
     
     methods (Static, Access = protected)
-        
         
     end
     
