@@ -2,7 +2,7 @@ function [CU,fluxTotal] = calcCU(IES,mountHeight, roomLength, roomWidth)
 % CALCCU Calculates the Coefficients of Utilization for a given IESFile
 %% Define Constants
 % All formulas Taken from IES handbook page 10.41-10.42
-zoneMultiplier = [0,0;0.041,0.98;0.070,1.05;0.100,1.12;0.136,0.16;0.190,1.25;0.315,1.25;0.640,1.25;2.10,0.80];
+zoneMultiplier = [0,0;0.041,0.98;0.070,1.05;0.100,1.12;0.136,1.16;0.190,1.25;0.315,1.25;0.640,1.25;2.10,0.80];
 RCRfactor = [1.000,0.827,0.689,0.579,0.489,0.415,0.355,0.306,0.265,0.231,0.202];
 RCR = (5*distdim(mountHeight,'m','ft')*(distdim(roomLength,'m','ft')+distdim(roomWidth,'m','ft')))/(distdim(roomLength,'m','ft')*distdim(roomWidth,'m','ft'));
 Fcc2fc = interp1(0:10,RCRfactor,RCR);
