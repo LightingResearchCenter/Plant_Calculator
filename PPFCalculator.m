@@ -17,7 +17,7 @@ addRequired(p,'IESdata',@(x) validateattributes(x,{'IESFile'},{'nonempty'}));
 addParameter(p,'Length', defaultLength,@isnumeric)
 addParameter(p,'Multiplier', defaultMultiplier,@isnumeric)
 addParameter(p,'LRcount', defaultCount,@(x)validateattributes(x,{'numeric'},{'nonempty','integer','positive'}))
-addParameter(p,'TBcount', defaultCount,@isnumeric)
+addParameter(p,'TBcount', defaultCount,@(x)validateattributes(x,{'numeric'},{'nonempty','integer','positive'}))
 addParameter(p,'calcSpacing', defaultSpacing,@isnumeric);
 addParameter(p,'Width', defaultWidth,@isnumeric)
 addParameter(p,'MountHeight',defaultMountHeight,@isnumeric);
@@ -39,15 +39,32 @@ for i1 = 1:p.Results.LRcount
 end
 orientation = p.Results.fixtureOrientation*pi/180*ones(size(xFixtureLocations));
 
-Irr = zeros(length(rows),length(columns),length(xFixtureLocations));
-itt = 0;
-total = length(rows)*length(columns)*length(xFixtureLocations);
-h = waitbar(itt/total,'Calculating PPFD');
+% Irr = zeros(length(rows),length(columns));
+% for i1 = 1:length(rows)
+%     for i2 = 1:length(columns)
+%         for i3 = 1:length(xFixtureLocations)
+%             x = rows(i1)-xFixtureLocations(i3);
+%             y = columns(i2)-yFixtureLocations(i3);
+%             r = sqrt(x^2 + y^2);
+%             thetaPt = atan(r/p.Results.MountHeight);
+%             if x==0
+%                 phiPt = 0;
+%             else
+%                 phiPt = atan2(y,x);
+%             end
+%             phiPt = phiPt+pi + orientation(i3);
+%             phiPt = mod(phiPt,2*pi)-pi;
+%             dsq = r^2+(p.Results.MountHeight)^2;
+%             Ipt = interp2(p.Results.IESdata.HorizAngles-180,p.Results.IESdata.VertAngles,...
+%                   p.Results.IESdata.photoTable,phiPt*180/pi,thetaPt*180/pi,'*nearest',0.); 
+%             Irr(i1,i2) =Irr(i1,i2)+ round((Ipt*cos(thetaPt)/dsq)*(p.Results.Multiplier/1000),3);
+%         end
+%     end
+% end
+[phiPtall, thetaPtall,dsqall] = deal(zeros(length(rows), length(columns), length(xFixtureLocations)));
 for i1 = 1:length(rows)
     for i2 = 1:length(columns)
         for i3 = 1:length(xFixtureLocations)
-            itt = itt+1;
-            waitbar(itt/total,h);
             x = rows(i1)-xFixtureLocations(i3);
             y = columns(i2)-yFixtureLocations(i3);
             r = sqrt(x^2 + y^2);
@@ -57,15 +74,23 @@ for i1 = 1:length(rows)
             else
                 phiPt = atan2(y,x);
             end
-            phiPt = phiPt+pi + orientation(i3);
+            phiPt = phiPt+pi + p.Results.fixtureOrientation;
             phiPt = mod(phiPt,2*pi)-pi;
-            dsq = r^2+(p.Results.MountHeight)^2;
-            Ipt = interp2(p.Results.IESdata.HorizAngles-180,p.Results.IESdata.VertAngles,p.Results.IESdata.photoTable,phiPt*180/pi,thetaPt*180/pi,'*nearest',0.); 
-            Irr(i1,i2,i3) = round((Ipt*cos(thetaPt)/dsq)*(p.Results.Multiplier/1000),3);
+            dsqall(i1,i2,i3) = r^2+(p.Results.MountHeight)^2;
+            phiPtall(i1,i2,i3) = phiPt*180/pi;
+            thetaPtall(i1,i2,i3) = thetaPt*180/pi;
         end
     end
 end
-close(h);
+% Irr = zeros(length(rows), length(columns));
+% for i3 = 1:length(xFixtureLocations)
+% Ipt(:,:,i3) = interp2(p.Results.IESdata.HorizAngles-180, p.Results.IESdata.VertAngles, p.Results.IESdata.photoTable,  ...
+%     phiPtall(:,:,i3), thetaPtall(:,:,i3),'*nearest', 0.);
+% Irr = Irr + round((Ipt(:,:,i3).*cos(deg2rad(thetaPtall(:,:,i3)))./dsqall(:,:,i3)).*(p.Results.Multiplier./1000),3);
+% end
+Ipt = interp2(p.Results.IESdata.HorizAngles-180, p.Results.IESdata.VertAngles,p.Results.IESdata.photoTable,  ...
+            phiPtall, thetaPtall,'*nearest', 0.); 
+Irr = round((Ipt.*cos(deg2rad(thetaPtall))./dsqall).*(p.Results.Multiplier./1000),3);
 Irr = sum(Irr,3);
 Avg = mean2(Irr);
 Max = max(max(Irr));

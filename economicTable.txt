@@ -1,0 +1,67 @@
+<style type="text/css">
+.tg  {text-align:center;width:100%%;border-collapse:collapse;border-spacing:0;}
+.tg td{text-align:center;font-family:Arial, sans-serif;font-size:13px;padding:0px 0px;border-style:solid;border-width:0px;overflow:hidden;word-break:normal;}
+.tg th{text-align:center;font-family:Arial, sans-serif;font-size:13px;font-weight:normal;padding:0px 0px;border-style:solid;border-width:0px;overflow:hidden;word-break:normal;}
+.tg .tg-wxgh{text-align:center;border-width:1px;vertical-align:top}
+.tg .tg-yw4l{text-align:center;border-bottom:solid 2px;border-left:solid 1px;border-right:solid 1px;vertical-align:top}
+.tg .tg-pari{color:red;text-align:center;border-bottom:solid 2px #000000 ;border-left:solid 1px #000000;border-right:solid 1px #000000;vertical-align:top}
+</style>
+<h1 style ="text-align:center;margin-top: 28px;margin-left:11px;">Simple Payback Calculations</h1>
+<table class="tg">
+  <tr>
+    <th class="tg-wxgh">Summary (assuming target 300&#181;mol/sec)</th>
+    <th class="tg-wxgh">1000 W HPS</th>
+    <th class="tg-wxgh">600 W HPS</th>
+    <th class="tg-wxgh">%s</th>
+  </tr>
+  <tr>
+    <td class="tg-wxgh">Quantity</td>
+    <td class="tg-wxgh">%d</td>
+    <td class="tg-wxgh">%d</td>
+    <td class="tg-wxgh">%d</td>
+  </tr>
+  <tr>
+    <td class="tg-wxgh">Initial cost</td>
+    <td class="tg-wxgh">-</td>
+    <td class="tg-wxgh">-</td>
+    <td class="tg-wxgh">$%0.0f</td>
+  </tr>
+  <tr>
+    <td class="tg-wxgh">Power demand (W/m <sup>2</sup>)</td>
+    <td class="tg-wxgh">%0.1f</td>
+    <td class="tg-wxgh">%0.1f</td>
+    <td class="tg-wxgh">%0.1f</td>
+  </tr>
+  <tr>
+    <td class="tg-wxgh">Total energy use per year (kWh/m <sup>2</sup> year)</td>
+    <td class="tg-wxgh">%0.0f</td>
+    <td class="tg-wxgh">%0.0f</td>
+    <td class="tg-wxgh">%0.0f</td>
+  </tr>
+  <tr>
+    <td class="tg-wxgh">Total energy cost per year ($/m <sup>2</sup> year)</td>
+    <td class="tg-wxgh">$%0.0f</td>
+    <td class="tg-wxgh">$%0.0f</td>
+    <td class="tg-wxgh">$%0.0f</td>
+  </tr>
+  <tr>
+    <td class="tg-yw4l" colspan="3">Annual energy savings for %s compared to 1000 W HPS</td>
+    <td class="tg-%s">$%0.0f.</td>
+  </tr>
+  <tr>
+    <td class="tg-yw4l" colspan="3">Annual energy savings for %s compared to 600 W HPS</td>
+    <td class="tg-%s">$%0.0f.</td>
+  </tr>
+  <tr>
+    <td class="tg-yw4l" colspan="3">Simple payback compared to 1000 W HPS (years)</td>
+    <td class="tg-yw4l">%s</td>
+  </tr>
+  <tr>
+    <td class="tg-yw4l" colspan="3">Simple payback compared to 600 W HPS (years)</td>
+    <td class="tg-yw4l">%s</td>
+  </tr>
+</table>
+<p>Note: Assuming a $%0.4f per kWh. Lamps are used for 12 hours per day.</p>
+<p>Note: All calculations were done with a 10mX10m growing area.</p>
+<h2>%s</h2>
+<h2>%s</h2>

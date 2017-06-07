@@ -20,19 +20,24 @@ classdef PlantReport < d12pack.report
             obj.Type = 'Plant Metrics Report';
             obj.PageNumBox.Visible = 'off';
             obj.background = [1,1,1];
+            obj.HeaderHeight = 75;
             if nargin == 0
-                obj.FixtureData = struct(   'Lamp','Incandecent',...
+                obj.FixtureData = struct(   'Lamp','LED',...
                     'Voltage',120,...
                     'PPF',380.7,...
                     'YPF',337.8,...
                     'PPFofTotal',.9,...
                     'RSS',0.868,...
-                    'RCR',32537.8,...
-                    'ImagePath','incandescent.png',...
-                    'Product','LED109053',...
+                    'RCR',325537.8,...
+                    'ImagePath','E:\Users\plummt\Documents\MATLAB\Plant_Calculator\incandescent.png',...
+                    'Product','LED109056',...
                     'Catalog','Unknown',...
-                    'Spectrum',load('\\root\projects\NRCAn\2013 Horticultural Lighting\SphereTesting\LED109053\Trial2\SPD\LED109053109053SPD.txt'),...
-                    'IESdata',IESFile('\\root\projects\NRCAn\2013 Horticultural Lighting\SphereTesting\LED109053\LED109053Trial1-repaired.ies'));
+                    'Cost',100.00,...
+                    'THD',0.15,...
+                    'spd','\\root\projects\NRCAn\2013 Horticultural Lighting\SphereTesting\HPS109056\Trial2\SPD\HPS109056109056SPD.txt',...
+                    'Spectrum',load('\\root\projects\NRCAn\2013 Horticultural Lighting\SphereTesting\HPS109056\Trial2\SPD\HPS109056109056SPD.txt'),...
+                    'ies','\\root\projects\NRCAn\2013 Horticultural Lighting\SphereTesting\HPS109056\HPS109056_LT_10mil_IntSlic_repaired.ies',...
+                    'IESdata',IESFile('\\root\projects\NRCAn\2013 Horticultural Lighting\SphereTesting\HPS109056\HPS109056_LT_10mil_IntSlic_repaired.ies'));
                 obj.FixtureData.Wattage =   obj.FixtureData.IESdata.InputWatts;
             elseif nargin == 1
                 obj.FixtureData = varargin{1};
@@ -40,10 +45,10 @@ classdef PlantReport < d12pack.report
                 error('Too many inputs');
             end
             obj.initFixtureInfo();
-            obj.initIntensityDist();
+            obj.initLASEPlot();
+            obj.initEconomic();
             obj.initSPDPlot();
             obj.initISOPPFPlot();
-            obj.initLASEPlot();
             
         end % End of class constructor
     end
@@ -51,143 +56,177 @@ classdef PlantReport < d12pack.report
     methods (Access = protected)
         function initFixtureInfo(obj)
             %Plots the header portion of the document
-            oldUnits = obj.Body.Units;
-            obj.Body.Units = 'pixels';
+            oldUnits = obj.Header.Units;
+            obj.Header.Units = 'pixels';
             
             x = 0;
-            w = obj.Body.Position(3)/5;
-            h = floor(obj.Body.Position(4)/6);
-            y = obj.Body.Position(4) - h;
+            w = 4*floor(obj.Header.Position(3)/5)+10;
+            h = floor(obj.Header.Position(4));
+            y = obj.Header.Position(4) - h;
             
-            obj.FixtureInfo.Title = uipanel(obj.Body);
+            obj.FixtureInfo.Title = uipanel(obj.Header);
             obj.FixtureInfo.Title.BackgroundColor   = obj.background;
             obj.FixtureInfo.Title.BorderType        = 'none';
             obj.FixtureInfo.Title.Units             = 'pixels';
             obj.FixtureInfo.Title.Position          = [x,y,w,h];
+            headerTableFile = fopen('headerTable.txt');
+            headercell = textscan(headerTableFile,'%s');
+            html = char(headercell{:});
+            htmltext = reshape(html',1,[]);
+            data = {obj.FixtureData.Product;...
+                obj.FixtureData.Voltage;obj.FixtureData.PPF;obj.FixtureData.YPF;obj.FixtureData.RSS;...
+                obj.FixtureData.Lamp;obj.FixtureData.Wattage;(obj.FixtureData.PPF/obj.FixtureData.Wattage);...
+                (obj.FixtureData.YPF/obj.FixtureData.Wattage);obj.FixtureData.RCR;obj.FixtureData.Catalog;...
+                (obj.FixtureData.Wattage/obj.FixtureData.Voltage);obj.FixtureData.PPFofTotal;...
+                obj.FixtureData.Cost;obj.FixtureData.THD};
+            [str,~] = sprintf(htmltext,data{:});
+            je = javax.swing.JEditorPane('text/html', str);
+            jp = javax.swing.JScrollPane(je);
+            [hcomponent, hcontainer] = javacomponent(jp, [],obj.FixtureInfo.Title);
+            set(hcontainer, 'units', 'normalized', 'position', [-.005,0,1.01,1.01],'backgroundcolor',[1,1,1]);
             
-            FontSize = 16;
-            hTitle = uicontrol(obj.FixtureInfo.Title,'style','text');
-            hTitle.HorizontalAlignment  = 'Left';
-            hTitle.BackgroundColor      = 'White';
-            hTitle.Units                = 'pixels';
-            hTitle.Position             = [0,(h/4)*3,w,h/5];
-            hTitle.FontName             = 'Arial';
-            hTitle.FontUnits            = 'pixels';
-            hTitle.FontSize             = FontSize;
-            hTitle.FontWeight           = 'bold';
-            hTitle.String               = {'Data Sheet'};
+            java.lang.System.setProperty('awt.useSystemAAFontSettings', 'on');
+            je.setFont(java.awt.Font('Arial', java.awt.Font.PLAIN, 13));
+            je.putClientProperty(javax.swing.JEditorPane.HONOR_DISPLAY_PROPERTIES, true);
             
-            FontSize = 14;
-            hProduct = uicontrol(obj.FixtureInfo.Title,'style','text');
-            hProduct.HorizontalAlignment    = 'Left';
-            hProduct.BackgroundColor        = 'White';
-            hProduct.Units                  = 'pixels';
-            hProduct.Position               = [0,0,w,(h/4)*3];
-            hProduct.FontName               = 'Arial';
-            hProduct.FontUnits              = 'pixels';
-            hProduct.FontSize               = FontSize;
-            hProduct.String                 = { obj.FixtureData.Product;...
-                obj.FixtureData.Lamp;...
-                obj.FixtureData.Catalog};
+            x = w-5;
+            w = floor(obj.Header.Position(3)/5)+10;
+            h = floor(obj.Header.Position(4));
+            y = obj.Header.Position(4)-h;
             
-            x = w+20;
-            w = floor(obj.Body.Position(3)/5);
-            h = floor(obj.Body.Position(4)/6);
-            y = obj.Body.Position(4) - h;
-            
-            obj.FixtureInfo.LeftCenter = uipanel(obj.Body);
-            obj.FixtureInfo.LeftCenter.BackgroundColor	= obj.background;
-            obj.FixtureInfo.LeftCenter.BorderType       = 'none';
-            obj.FixtureInfo.LeftCenter.Units            = 'pixels';
-            obj.FixtureInfo.LeftCenter.Position         = [x, y, w, h];
-            
-            hProduct2 = uicontrol(obj.FixtureInfo.LeftCenter,'style','text');
-            hProduct2.HorizontalAlignment    = 'Left';
-            hProduct2.BackgroundColor        = 'White';
-            hProduct2.Units                  = 'pixels';
-            hProduct2.Position               = [0,0, w,(h/5)*4];
-            hProduct2.FontName               = 'Arial';
-            hProduct2.FontUnits              = 'pixels';
-            hProduct2.FontSize               = FontSize;
-            hProduct2.String                 = {['Power = ',num2str(obj.FixtureData.Wattage,'%5.2f'),' ','W'];...
-                ['Voltage = ',num2str(obj.FixtureData.Voltage,'%5.2f'),' ','V'];...
-                ['PF = ',num2str(obj.FixtureData.Wattage/obj.FixtureData.Voltage,'%5.2f')]};
-            
-            x = w*2+20;
-            w = floor(obj.Body.Position(3)/5);
-            h = floor(obj.Body.Position(4)/6);
-            y = obj.Body.Position(4) - h;
-            
-            obj.FixtureInfo.Center = uipanel(obj.Body);
-            obj.FixtureInfo.Center.BackgroundColor	= obj.background;
-            obj.FixtureInfo.Center.BorderType       = 'none';
-            obj.FixtureInfo.Center.Units            = 'pixels';
-            obj.FixtureInfo.Center.Position         = [x, y, w, h];
-            
-            hMetric = uicontrol(obj.FixtureInfo.Center,'style','text');
-            hMetric.HorizontalAlignment    = 'Left';
-            hMetric.BackgroundColor        = 'White';
-            hMetric.Units                  = 'pixels';
-            hMetric.Position               = [0, 0, w,(h/5)*4];
-            hMetric.FontName               = 'Arial';
-            hMetric.FontUnits              = 'pixels';
-            hMetric.FontSize               = FontSize;
-            hMetric.String                 = {  ['PPF=',num2str(obj.FixtureData.PPF,'%5.2f'),' ',char(956),'Mol/sec'];...
-                ['PPF/W=',num2str(obj.FixtureData.PPF/obj.FixtureData.Wattage,'%5.2f'),' ',char(956),'Mol/J'];...
-                ['YPF=',num2str(obj.FixtureData.YPF,'%5.2f'),' ',char(956),'Mol/sec'];...
-                ['YPF/W=',num2str(obj.FixtureData.YPF/obj.FixtureData.Wattage,'%5.2f'),' ',char(956),'Mol/J']};
-            x = w*3+20;
-            w = floor(obj.Body.Position(3)/5);
-            h = floor(obj.Body.Position(4)/6);
-            y = obj.Body.Position(4) - h;
-            
-            obj.FixtureInfo.RightCenter = uipanel(obj.Body);
-            obj.FixtureInfo.RightCenter.BackgroundColor	= obj.background;
-            obj.FixtureInfo.RightCenter.BorderType       = 'none';
-            obj.FixtureInfo.RightCenter.Units            = 'pixels';
-            obj.FixtureInfo.RightCenter.Position         = [x, y, w, h];
-            
-            hMetric2 = uicontrol(obj.FixtureInfo.RightCenter,'style','text');
-            hMetric2.HorizontalAlignment    = 'Left';
-            hMetric2.BackgroundColor        = 'White';
-            hMetric2.Units                  = 'pixels';
-            hMetric2.Position               = [0, 0, w,(h/5)*4];
-            hMetric2.FontName               = 'Arial';
-            hMetric2.FontUnits              = 'pixels';
-            hMetric2.FontSize               = FontSize;
-            hMetric2.String                 = {
-                ['PPF%=',num2str(obj.FixtureData.PPFofTotal*100,'%5.2f'),'%'];...
-                ['RSS=',num2str(obj.FixtureData.RSS,'%5.2f')];...
-                ['RCR=',num2str(obj.FixtureData.RCR,'%5.2f')]};
-            x = w*4;
-            w = floor(obj.Body.Position(3)/5);
-            h = floor(obj.Body.Position(4)/6);
-            y = obj.Body.Position(4) - h;
-            
-            obj.FixtureInfo.Right = uipanel(obj.Body);
+            obj.FixtureInfo.Right = uipanel(obj.Header);
             obj.FixtureInfo.Right.BackgroundColor  = 'white';
             obj.FixtureInfo.Right.BorderType       = 'none';
             obj.FixtureInfo.Right.Units            = 'pixels';
             obj.FixtureInfo.Right.Position         = [x, y, w, h];
             
             obj.FixtureInfo.imgAxes = axes(obj.FixtureInfo.Right);
+            
             imshow(imread(obj.FixtureData.ImagePath));
+            obj.FixtureInfo.imgAxes.Position = [0 0 1 1];
         end
-        function initIntensityDist(obj)
+        function initEconomic(obj)
             %plots in the top left quarter of the body
             oldUnits = obj.Body.Units;
             obj.Body.Units = 'pixels';
             
             x = 0;
-            w = obj.Body.Position(3)/2;
-            h = (obj.Body.Position(4) - floor(obj.Body.Position(4)/6))/2;
+            w = (obj.Body.Position(3)/2)-2;
+            h = (obj.Body.Position(4) - ceil(obj.Body.Position(4))/2);
             y = h;
             
-            obj.FixtureInfo.Title = uipanel(obj.Body);
-            obj.FixtureInfo.Title.BackgroundColor   = obj.background;
-            obj.FixtureInfo.Title.BorderType        = 'none';
-            obj.FixtureInfo.Title.Units             = 'pixels';
-            obj.FixtureInfo.Title.Position          = [x,y,w,h];
+            obj.FixtureInfo.Economic = uipanel(obj.Body);
+            obj.FixtureInfo.Economic.BackgroundColor   = obj.background;
+            obj.FixtureInfo.Economic.BorderType        = 'none';
+            obj.FixtureInfo.Economic.Units             = 'pixels';
+            obj.FixtureInfo.Economic.Position          = [x,y,w,h];
+            LSAEcol = reshape(obj.FixtureData.LSAE',[],1);
+            fixcount = obj.FixtureData.outTable.LRcount.*obj.FixtureData.outTable.TBcount;
+            [~,ind]= max(LSAEcol);
+            % TODO load in the true data            
+            HPS1000qty = 1000;
+            HPS600qty = 800;
+            HPS1000watt=998;
+            HPS600watt=600;
+            energyCost=0.1048;
+            fixtureCost =  obj.FixtureData.Cost;
+            HPS1000WpM = (HPS1000watt*HPS1000qty)/10;
+            HPS600WpM = (HPS600watt*HPS600qty)/10;
+            FixtureWpM = (obj.FixtureData.Wattage*fixcount(ind))/10;
+            HPS1000kWpY = (HPS1000WpM*365*12)/1000;
+            HPS600kWpY = (HPS600WpM*365*12)/1000;
+            FixturekWpY = (FixtureWpM*365*12)/1000;
+            HPS1000EnCost = HPS1000kWpY*energyCost;
+            HPS600EnCost = HPS600kWpY*energyCost;
+            FixtureEnCost = (fixtureCost*fixcount(ind))+FixturekWpY*energyCost;
+            EconomicTableFile = fopen('economicTable.txt');
+            HPS1000Save = HPS1000EnCost-FixtureEnCost;
+            HPS600Save = HPS600EnCost-FixtureEnCost;
+            HPS1000Paynum = HPS1000Save/(FixtureEnCost);
+            HPS600Paynum = HPS600Save/(FixtureEnCost);
+            if HPS1000Save < 0
+                HPS1000pari = 'pari';
+                HPS1000Pay = 'NaN';
+                incentive1000  = 0;
+                newHPS1000Paynum = HPS1000Paynum;
+                while (newHPS1000Paynum<0)
+                    incentive1000 = incentive1000+10;
+                    incentiveCost = (fixtureCost-incentive1000)*fixcount(ind);
+                    newFixtureEnCost = incentiveCost + (FixturekWpY*energyCost);
+                    newHPS1000Save = HPS1000EnCost-newFixtureEnCost;
+                    newHPS1000Paynum = newHPS1000Save/(newFixtureEnCost);
+                    incentive1000str = sprintf('An incentive of %0.0f would allow the grower to maintian thier expenditure compaired to the 1000W HPS.',incentive1000);
+                end
+            else
+                HPS1000pari = 'yw4l';
+                HPS1000Pay =sprintf('%0.0f',HPS1000Paynum);
+                incentive1000  = 0;
+                newHPS1000Paynum = HPS1000Paynum;
+                if newHPS1000Paynum>3
+                while (newHPS1000Paynum>3)
+                    incentive1000 = incentive1000+10;
+                    incentiveCost = (fixtureCost-incentive1000)*fixcount(ind);
+                    newFixtureEnCost = incentiveCost + (FixturekWpY*energyCost);
+                    newHPS1000Save = HPS1000EnCost-newFixtureEnCost;
+                    newHPS1000Paynum = newHPS1000Save/(newFixtureEnCost);
+                    incentive1000str = sprintf('An incentive of %0.0f would reduce the payback period to less than 3 years compaired to the 1000W HPS.',incentive1000);
+                end
+                else
+                    incentive1000str = 'No additional incentive is needed when compaired to the 1000W HPS.';
+                end
+            end
+            if HPS600Save < 0
+                HPS600pari = 'pari';
+                HPS600Pay = 'NaN';
+                incentive600 = 0;
+                newHPS600Paynum = HPS600Paynum;
+                while (newHPS600Paynum<0)
+                    incentive600 = incentive600+10;
+                    incentiveCost = (fixtureCost-incentive600)*fixcount(ind);
+                    newFixtureEnCost = incentiveCost + (FixturekWpY*energyCost);
+                    newHPS600Save = HPS600EnCost-newFixtureEnCost;
+                    newHPS600Paynum = newHPS600Save/(newFixtureEnCost);
+                    incentive600str = sprintf('An incentive of %0.0f would allow the grower to maintian thier expenditure compaired to the 600W HPS.',incentive600);
+                end
+            else
+                HPS600pari = 'yw4l';
+                HPS600Pay = sprintf('%0.0f',HPS600Paynum);
+                incentive600 = 0;
+                newHPS600Paynum = HPS600Paynum;
+                if newHPS600Paynum>3
+                while (newHPS600Paynum>3)
+                    incentive600 = incentive600+10;
+                    incentiveCost = (fixtureCost-incentive600)*fixcount(ind);
+                    newFixtureEnCost = incentiveCost + (FixturekWpY*energyCost);
+                    newHPS600Save = HPS600EnCost-newFixtureEnCost;
+                    newHPS600Paynum = newHPS600Save/(newFixtureEnCost);
+                    incentive600str = sprintf('An incentive of %0.0f would reduce the payback period to less han 3 years compaired to the 600W HPS.',incentive600);
+                end
+                else
+                    incentive600str = 'No additional incentive is needed when compaired to the 600W HPS.';
+                end
+            end
+            EcoCell = textscan(EconomicTableFile,'%s');
+            html = char(EcoCell{:});
+            htmltext = reshape(html',1,[]);
+            data = {obj.FixtureData.Lamp,HPS1000qty,HPS600qty,fixcount(ind),...
+                obj.FixtureData.Cost*fixcount(ind),...
+                HPS1000WpM,HPS600WpM,FixtureWpM,...
+                HPS1000kWpY,HPS600kWpY,FixturekWpY,...
+                HPS1000EnCost,HPS600EnCost,FixtureEnCost,...
+                obj.FixtureData.Lamp,HPS1000pari,HPS1000Save,obj.FixtureData.Lamp,HPS600pari,HPS600Save,...
+                HPS1000Pay,HPS600Pay,...
+                energyCost, incentive1000str, incentive600str};
+            [str,~] = sprintf(htmltext,data{:});
+            je = javax.swing.JEditorPane('text/html', str);
+            jp = javax.swing.JScrollPane(je);
+            [hcomponent, hcontainer] = javacomponent(jp, [],obj.FixtureInfo.Economic);
+            set(hcontainer, 'units', 'normalized', 'position', [-.005,0,1.01,1.01],'backgroundcolor',[1,1,1]);
+            
+            java.lang.System.setProperty('awt.useSystemAAFontSettings', 'on');
+            je.setFont(java.awt.Font('Arial', java.awt.Font.PLAIN, 13));
+            je.putClientProperty(javax.swing.JEditorPane.HONOR_DISPLAY_PROPERTIES, true);
+            
         end
         function initSPDPlot(obj)
             %plots in the top right quarter of the body
@@ -196,7 +235,7 @@ classdef PlantReport < d12pack.report
             
             x = obj.Body.Position(3)/2;
             w = obj.Body.Position(3)/2;
-            h = (obj.Body.Position(4) - floor(obj.Body.Position(4)/6))/2;
+            h = (obj.Body.Position(4) - floor(obj.Body.Position(4))/2);
             y = h;
             
             obj.FixtureInfo.SPD = uipanel(obj.Body);
@@ -206,13 +245,16 @@ classdef PlantReport < d12pack.report
             obj.FixtureInfo.SPD.Position          = [x,y,w,h];
             
             obj.FixtureInfo.SPDaxes = axes(obj.FixtureInfo.SPD);
-            axis(obj.FixtureInfo.SPDaxes,[380,830,0,inf]);
             plot(obj.FixtureInfo.SPDaxes,obj.FixtureData.Spectrum(:,1),...
                 obj.FixtureData.Spectrum(:,2)/max(obj.FixtureData.Spectrum(:,2)),...
                 'LineWidth',1);
             axis(obj.FixtureInfo.SPDaxes,[380,830,0,inf]);
+            title(obj.FixtureInfo.SPDaxes,'Spectral Power Distribution');
             
-            
+            xlabel(obj.FixtureInfo.SPDaxes,'Wavelength (nm)')
+            ylabel(obj.FixtureInfo.SPDaxes,'Relative Spectrum (Arb. Units)')
+            obj.FixtureInfo.SPDaxes.YGrid = 'On';
+            text(obj.FixtureInfo.SPDaxes,475,.95,sprintf('(Absolute mult=%0.2f W/nm)',max(obj.FixtureData.Spectrum(:,2))));
         end
         function initISOPPFPlot(obj)
             %plots in the bottom left quarter of the body
@@ -221,35 +263,101 @@ classdef PlantReport < d12pack.report
             
             x = 0;
             w = obj.Body.Position(3)/2;
-            h = (obj.Body.Position(4) - floor(obj.Body.Position(4)/6))/2;
+            h = (obj.Body.Position(4) - floor(obj.Body.Position(4))/2);
             y = 0;
-            
             obj.FixtureInfo.ISOPlot = uipanel(obj.Body);
             obj.FixtureInfo.ISOPlot.BackgroundColor   = obj.background;
             obj.FixtureInfo.ISOPlot.BorderType        = 'none';
             obj.FixtureInfo.ISOPlot.Units             = 'pixels';
             obj.FixtureInfo.ISOPlot.Position          = [x,y,w,h];
+            
+            LSAEcol = reshape(obj.FixtureData.LSAE,[],1);
+            [~,ind] = max(LSAEcol);
+            if mod(ind,8) == 0
+                mount = 4;
+            else
+                mount = mod(ind,8)*0.5;
+            end
             ConversionFactor = PPF_Conversion_Factor_05Apr2016(obj.FixtureData.Spectrum(:,1),obj.FixtureData.Spectrum(:,2));
-            [Irr,Avg,Max,Min] = PPFCalculator(obj.FixtureData.Spectrum(:,1),obj.FixtureData.Spectrum(:,2),obj.FixtureData.IESdata,'LRcount',1,'TBcount',1,'Multiplier',round(ConversionFactor,1));
-            X = 0.25:.5:4.75;
-            Y = 0.25:.5:4.75;
-            obj.FixtureInfo.SPDaxes = axes(obj.FixtureInfo.ISOPlot);
-            [C,h] = contour(obj.FixtureInfo.SPDaxes,X,Y,Irr);
+            [Irr,Avg,Max,Min] = PPFCalculator(obj.FixtureData.Spectrum(:,1),obj.FixtureData.Spectrum(:,2),obj.FixtureData.IESdata,'MountHeight',mount,'Length',4,'Width',4,'LRcount',1,'TBcount',1,'Multiplier',round(ConversionFactor,1));
+            
+            X = -0.25:.5:3.25;
+            Y = -0.25:.5:3.25;
+            x = 0;
+            w = obj.Body.Position(3)/2;
+            h = (obj.Body.Position(4) - floor(obj.Body.Position(4))/2);
+            y = 0;
+            obj.FixtureInfo.ISOaxes = axes(obj.FixtureInfo.ISOPlot);
+            
+            [C,h] = contour(obj.FixtureInfo.ISOaxes,X,Y,Irr,[100:100:500]);
+            
+            obj.FixtureInfo.ISOaxes.YTick =[0,(3)/6:(3)/6:3-((3)/6),3];
+            obj.FixtureInfo.ISOaxes.YTickLabel = {'-1.5';'-1';'-0.5';'0';'0.5';'1';'1.5'};
+            obj.FixtureInfo.ISOaxes.XTick = [0,(3)/6:(3)/6:3-((3)/6),3];
+            obj.FixtureInfo.ISOaxes.XTickLabel = {'-1.5';'-1';'-0.5';'0';'0.5';'1';'1.5'};
+            obj.FixtureInfo.ISOaxes.YLim = [0,3];
+            obj.FixtureInfo.ISOaxes.XLim = [0,3];
+            title(obj.FixtureInfo.ISOaxes,sprintf('Iso-PPFD Countours (MH= %0.1fm)',mount));
             clabel(C,h,'FontSize',8);
+            axis(obj.FixtureInfo.ISOaxes,'square');
+            obj.FixtureInfo.ISOaxes.XGrid = 'on';
+            obj.FixtureInfo.ISOaxes.YGrid = 'on';
+            ylabel(obj.FixtureInfo.ISOaxes,'Meters')
+            xlabel(obj.FixtureInfo.ISOaxes,'Meters')
+            colormap(obj.FixtureInfo.ISOaxes,jet)
+            fixX = 1.5-(.5*obj.FixtureData.IESdata.Length);
+            fixY = 1.5-(.5*obj.FixtureData.IESdata.Width);
+            fixW = obj.FixtureData.IESdata.Length;
+            fixH = obj.FixtureData.IESdata.Width;
+            
+            rectangle('Position',[fixX,fixY,fixW,fixH],'LineWidth',2)
+%             points = bbox2points([fixX,fixY,fixW,fixH]);
+            %             line(points([1;3;2;4],1),points([1;3;2;4],2),'Color','Black')
         end
         function initLASEPlot(obj)
             %plots in the bottom right quarter of the body
             x = obj.Body.Position(3)/2;
             w = obj.Body.Position(3)/2;
-            h = (obj.Body.Position(4) - floor(obj.Body.Position(4)/6))/2;
+            h = (obj.Body.Position(4) - floor(obj.Body.Position(4))/2);
             y = 0;
             
-            obj.FixtureInfo.Title = uipanel(obj.Body);
-            obj.FixtureInfo.Title.BackgroundColor   = obj.background;
-            obj.FixtureInfo.Title.BorderType        = 'none';
-            obj.FixtureInfo.Title.Units             = 'pixels';
-            obj.FixtureInfo.Title.Position          = [x,y,w,h];
+            obj.FixtureInfo.LSAEPlot = uipanel(obj.Body);
+            obj.FixtureInfo.LSAEPlot.BackgroundColor   = obj.background;
+            obj.FixtureInfo.LSAEPlot.BorderType        = 'none';
+            obj.FixtureInfo.LSAEPlot.Units             = 'pixels';
+            obj.FixtureInfo.LSAEPlot.Position          = [x,y,w,h];
+            %TODO restore LSAE calculation 
+            %  [IrrOut,outTable,LSAE] = fullLSAE(obj.FixtureData.spd,obj.FixtureData.ies,0.5:.5:4,100:100:500,3,10,10);
+            load('LSAEin.mat');
+            obj.FixtureData.LSAE = LSAE;
+            obj.FixtureData.outTable = outTable;
+            LSAETableFile = fopen('LSAETable.txt');
+            LSAEcell = textscan(LSAETableFile,'%s');
+            fclose(LSAETableFile);
+            html = char(LSAEcell{:});
+            htmltext = reshape(html',1,[]);
+            LSAEcol = reshape(obj.FixtureData.LSAE',[],1);
+            fixcount = obj.FixtureData.outTable.LRcount.*obj.FixtureData.outTable.TBcount;
+            textarray = cell(length(LSAEcol*2),1);
+            for i = 1:length(LSAEcol)
+                if LSAEcol(i)==max(LSAEcol)
+                    textarray{3*i-2} = 'bold';
+                elseif sum(LSAEcol(i)==max(LSAE))
+                    textarray{3*i-2} = 'shade';
+                else
+                    textarray{3*i-2} = 'normal';
+                end
+                textarray{3*i-1} = LSAEcol(i);
+                textarray{3*i} = fixcount(i);
+            end
+            je = javax.swing.JEditorPane('text/html', sprintf(htmltext,textarray{:}));
+            jp = javax.swing.JScrollPane(je);
+            [hcomponent, hcontainer] = javacomponent(jp, [], obj.FixtureInfo.LSAEPlot);
+            set(hcontainer, 'units', 'normalized', 'position', [0,0,1.01,1],'backgroundcolor',[1,1,1]);
             
+            java.lang.System.setProperty('awt.useSystemAAFontSettings', 'on');
+            je.setFont(java.awt.Font('Arial', java.awt.Font.PLAIN, 13));
+            je.putClientProperty(javax.swing.JEditorPane.HONOR_DISPLAY_PROPERTIES, true);
         end
     end
     

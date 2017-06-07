@@ -1,0 +1,138 @@
+<style type="text/css">
+.tg  {border-collapse:collapse;border-spacing:0;}
+.tg td{font-family:Arial, sans-serif;font-size:10px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;}
+.tg th{font-family:Arial, sans-serif;font-size:10px;font-weight:normal;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;}
+.tg .tg-normal{text-align:center;vertical-align:top}
+.tg .tg-bold{text-align:center;vertical-align:top;font-weight:bold;background:#D3D3D3}
+.tg .tg-shade{text-align:center;vertical-align:top;background:#D3D3D3}
+.tg .tg-head{text-align:center;vertical-align:top;font-weight:bold}
+</style>
+<h1 style ="margin-top: 28px;margin-left:11px;">Luminaire System Application Efficiency (LSAE)</h1>
+<table class="tg">
+  <tr>
+    <th class="tg-head">Mounting Height</th>
+    <th class="tg-normal" colspan="2">100 PPFD</th>
+    <th class="tg-normal" colspan="2">200 PPFD</th>
+    <th class="tg-normal" colspan="2">300 PPFD</th>
+    <th class="tg-normal" colspan="2">400 PPFD</th>
+    <th class="tg-normal" colspan="2">500 PPFD</th>
+  </tr>
+  <tr>
+    <td class="tg-normal">(m)</td>
+    <td class="tg-normal">&#181;mol/J</td>
+    <td class="tg-normal">Qty</td>
+    <td class="tg-normal">&#181;mol/J</td>
+    <td class="tg-normal">Qty</td>
+    <td class="tg-normal">&#181;mol/J</td>
+    <td class="tg-normal">Qty</td>
+    <td class="tg-normal">&#181;mol/J</td>
+    <td class="tg-normal">Qty</td>
+    <td class="tg-normal">&#181;mol/J</td>
+    <td class="tg-normal">Qty</td>
+  </tr>
+  <tr>
+    <td class="tg-normal">0.5</td>
+    <td class="tg-%s" >%0.2f</td>
+    <td class="tg-normal">%d</td>
+    <td class="tg-%s" >%0.2f</td>
+    <td class="tg-normal">%d</td>
+    <td class="tg-%s" >%0.2f</td>
+    <td class="tg-normal">%d</td>
+    <td class="tg-%s" >%0.2f</td>
+    <td class="tg-normal">%d</td>
+    <td class="tg-%s" >%0.2f</td>
+    <td class="tg-normal">%d</td>
+  </tr>
+  <tr>
+    <td class="tg-normal">1</td>
+    <td class="tg-%s" >%0.2f</td>
+    <td class="tg-normal">%d</td>
+    <td class="tg-%s" >%0.2f</td>
+    <td class="tg-normal">%d</td>
+    <td class="tg-%s" >%0.2f</td>
+    <td class="tg-normal">%d</td>
+    <td class="tg-%s" >%0.2f</td>
+    <td class="tg-normal">%d</td>
+    <td class="tg-%s" >%0.2f</td>
+    <td class="tg-normal">%d</td>
+  </tr>
+  <tr>
+    <td class="tg-normal">1.5</td>
+    <td class="tg-%s" >%0.2f</td>
+    <td class="tg-normal">%d</td>
+    <td class="tg-%s" >%0.2f</td>
+    <td class="tg-normal">%d</td>
+    <td class="tg-%s" >%0.2f</td>
+    <td class="tg-normal">%d</td>
+    <td class="tg-%s" >%0.2f</td>
+    <td class="tg-normal">%d</td>
+    <td class="tg-%s" >%0.2f</td>
+    <td class="tg-normal">%d</td>
+  </tr>
+  <tr>
+    <td class="tg-normal">2</td>
+    <td class="tg-%s" >%0.2f</td>
+    <td class="tg-normal">%d</td>
+    <td class="tg-%s" >%0.2f</td>
+    <td class="tg-normal">%d</td>
+    <td class="tg-%s" >%0.2f</td>
+    <td class="tg-normal">%d</td>
+    <td class="tg-%s" >%0.2f</td>
+    <td class="tg-normal">%d</td>
+    <td class="tg-%s" >%0.2f</td>
+    <td class="tg-normal">%d</td>
+  </tr>
+  <tr>
+    <td class="tg-normal">2.5</td>
+    <td class="tg-%s" >%0.2f</td>
+    <td class="tg-normal">%d</td>
+    <td class="tg-%s" >%0.2f</td>
+    <td class="tg-normal">%d</td>
+    <td class="tg-%s" >%0.2f</td>
+    <td class="tg-normal">%d</td>
+    <td class="tg-%s" >%0.2f</td>
+    <td class="tg-normal">%d</td>
+    <td class="tg-%s" >%0.2f</td>
+    <td class="tg-normal">%d</td>
+  </tr>
+  <tr>
+    <td class="tg-normal">3</td>
+    <td class="tg-%s" >%0.2f</td>
+    <td class="tg-normal">%d</td>
+    <td class="tg-%s" >%0.2f</td>
+    <td class="tg-normal">%d</td>
+    <td class="tg-%s" >%0.2f</td>
+    <td class="tg-normal">%d</td>
+    <td class="tg-%s" >%0.2f</td>
+    <td class="tg-normal">%d</td>
+    <td class="tg-%s" >%0.2f</td>
+    <td class="tg-normal">%d</td>
+  </tr>
+  <tr>
+    <td class="tg-normal">3.5</td>
+    <td class="tg-%s" >%0.2f</td>
+    <td class="tg-normal">%d</td>
+    <td class="tg-%s" >%0.2f</td>
+    <td class="tg-normal">%d</td>
+    <td class="tg-%s" >%0.2f</td>
+    <td class="tg-normal">%d</td>
+    <td class="tg-%s" >%0.2f</td>
+    <td class="tg-normal">%d</td>
+    <td class="tg-%s" >%0.2f</td>
+    <td class="tg-normal">%d</td>
+  </tr>
+  <tr>
+    <td class="tg-normal">4</td>
+    <td class="tg-%s" >%0.2f</td>
+    <td class="tg-normal">%d</td>
+    <td class="tg-%s" >%0.2f</td>
+    <td class="tg-normal">%d</td>
+    <td class="tg-%s" >%0.2f</td>
+    <td class="tg-normal">%d</td>
+    <td class="tg-%s" >%0.2f</td>
+    <td class="tg-normal">%d</td>
+    <td class="tg-%s" >%0.2f</td>
+    <td class="tg-normal">%d</td>
+  </tr>
+</table>
+<p>Note: LSAE is for a 10mX10m growing area with an average:minimum &#60 4:1;</p>
