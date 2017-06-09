@@ -9,7 +9,7 @@ ppfTotal = (fluxTotal*ConversionFactor)/1000;
 numLuminaire = ceil((targetPPFD*roomLength*roomWidth)/(ppfTotal*CU));
 %% Rectangulrize Luminairs
 i = 1;
-fixDiff = 2;
+fixDiff = 3;
 while (i<=fixDiff)&&(numLuminaire>1)
     minLuminare = numLuminaire-i;
     i=i+1;
@@ -36,14 +36,18 @@ for i = 1:length(countArr)
 end
 [Irr,Avg,Max, Min]=deal(cell(1,length(newCountArr)));
 avgDiff = zeros(1,length(newCountArr));
-for i = 1:length(newCountArr)
+for i = 1:size(newCountArr,1)
         [Irr{i},Avg{i},Max{i},Min{i}] = PPFCalculator(wave,specFlux,IESdata,'LRcount',newCountArr(i,1),'TBcount',newCountArr(i,2),'MountHeight',mountHeight,'Length',roomLength,'Width',roomWidth,'Multiplier',round(ConversionFactor,1));
         avgDiff(i) = (Avg{i}-targetPPFD)/targetPPFD;
         if avgDiff(i) < 0
             avgDiff(i)=1;
         end
 end
-[~,index] = min(avgDiff);
+if size(newCountArr,1)>1
+    [~,index] = min(avgDiff);
+else 
+    index= 1;
+end
 Irr = Irr{index};
 Avg = Avg{index};
 Max = Max{index};

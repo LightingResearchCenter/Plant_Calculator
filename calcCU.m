@@ -13,6 +13,9 @@ zone(1:18,2) = 10:10:180;
 
 for i1 = 1:length(zone)
     itp = mean(interp2(IES.HorizAngles,IES.VertAngles,IES.photoTable,0:360,zone(i1,2)-5));
+    if isnan(itp)
+        itp = 0;
+    end
     zone(i1,3) = 2*pi*itp*(cos(deg2rad(zone(i1,1))) - cos(deg2rad(zone(i1,2))));
 end
 fluxTotal = sum(zone(:,3));

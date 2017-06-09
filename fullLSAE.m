@@ -4,7 +4,7 @@ outTable = [];
 %%  Test Files Exist
 file=java.io.File(SPD);
 assert(file.exists(),'SPD File does not exist');
-[hei,wid] = size(IES);
+hei = size(IES,1);
 switch hei
     case 1
         file=java.io.File(IES);
@@ -29,6 +29,7 @@ end
 IrrOut =cell(length(mountHeight),length(range));
 outTable = [];
 itt = 0;
+LSAE = zeros(length(mountHeight),length(range));
 for i1= 1:length(mountHeight)
     for i2 = 1:length(range)
         itt = itt+1;
@@ -37,20 +38,20 @@ for i1= 1:length(mountHeight)
         IrrOut{i1,i2} = sort(Irr(:));
         outTable = [outTable;historyTable];
         targetMin = range(i2)/Uniformity;
-        compliantIrr = IrrOut{i1,i2}(IrrOut{i1,i2} >=targetMin);
-        runAvg = zeros(1,length(compliantIrr));
-        compliantPPF = zeros(1,length(compliantIrr));
+        compliantIrr = IrrOut{i1,i2}(IrrOut{i1,i2} > targetMin);
+        runAvg = zeros(length(compliantIrr),1);
+        compliantPPF = zeros(length(compliantIrr),1);
         for i3 = 1:length(compliantIrr)
             runAvg(i3) = mean(compliantIrr(1:i3));
-            compliantPPF(i3) = compliantIrr(i3)* (0.5*0.5);
-            if max(runAvg)>=range(i2)
+            compliantPPF(i3) = compliantIrr(i3)* (0.125*0.125);
+            if max(runAvg)>range(i2)
                runAvg(i3) = 0;
                compliantPPF(i3) = 0;
                break
             end
         end
         PPF = sum(compliantPPF);
-        LSAE(i1,i2) = PPF/((historyTable.LRcount *historyTable.TBcount)*IESdata.InputWatts);
+        LSAE(i1,i2) = PPF/((historyTable.LRcount*historyTable.TBcount)*IESdata.InputWatts);
     end
 end
 

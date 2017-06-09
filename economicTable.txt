@@ -9,7 +9,7 @@
 <h1 style ="text-align:center;margin-top: 28px;margin-left:11px;">Simple Payback Calculations</h1>
 <table class="tg">
   <tr>
-    <th class="tg-wxgh">Summary (assuming target 300&#181;mol/sec)</th>
+    <th class="tg-wxgh">Summary (assuming target PPFD of 300 &#181;mol/sec m <sup>2</sup>)</th>
     <th class="tg-wxgh">1000 W HPS</th>
     <th class="tg-wxgh">600 W HPS</th>
     <th class="tg-wxgh">%s</th>
@@ -22,8 +22,8 @@
   </tr>
   <tr>
     <td class="tg-wxgh">Initial cost</td>
-    <td class="tg-wxgh">-</td>
-    <td class="tg-wxgh">-</td>
+    <td class="tg-wxgh">$%0.0f</td>
+    <td class="tg-wxgh">$%0.0f</td>
     <td class="tg-wxgh">$%0.0f</td>
   </tr>
   <tr>
@@ -62,6 +62,6 @@
   </tr>
 </table>
 <p>Note: Assuming a $%0.4f per kWh. Lamps are used for 12 hours per day.</p>
-<p>Note: All calculations were done with a 10mX10m growing area.</p>
+<p>Note: All calculations use a 10mX10m growing area.</p>
 <h2>%s</h2>
 <h2>%s</h2>

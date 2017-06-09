@@ -29,6 +29,7 @@ classdef IESFile
                 fid = fopen(fullfile(path));
                 onCleanup(@() fclose(fid));
                 match = 0;
+                ies.Properties.More= [];
                 while ~match
                     tline = fgetl(fid);
                     match = contains(tline,'TILT');
@@ -39,10 +40,10 @@ classdef IESFile
                         ies.Properties.TestLab = tline(length('[TESTLAB]')+1:end);
                     end
                     if contains(tline,'[ISSUEDATE]')
-                        ies.Properties.IssueDate = datevec(tline(length('[ISSUEDATE]')+1:end));
+                        ies.Properties.IssueDate = tline(length('[ISSUEDATE]')+1:end);
                     end
                     if contains(tline,'[TESTDATE]')
-                        ies.Properties.TestDate = datevec(tline(length('[TESTDATE]')+1:end));
+                        ies.Properties.TestDate = tline(length('[TESTDATE]')+1:end);
                     end
                     if contains(tline,'[MANUFAC]')
                         ies.Properties.Manufacture = tline(length('[MANUFAC]')+1:end);
@@ -90,7 +91,11 @@ classdef IESFile
                         ies.Properties.Search = tline(length('[SEARCH]')+1:end);
                     end
                     if contains(tline,'[MORE]')
-                        ies.Properties.More(end) = tline(length('[MORE]')+1:end);
+                        if isempty(ies.Properties.More)
+                            ies.Properties.More{1} = tline(length('[MORE]')+1:end);
+                        else
+                            ies.Properties.More{end} = tline(length('[MORE]')+1:end);
+                        end
                     end
                     if contains(tline,'TILT=NONE')
                         A = [];
@@ -112,6 +117,7 @@ classdef IESFile
                         ies.BallastFactor = A(11);
                         ies.FutureUse = A(12);
                         ies.InputWatts = A(13);
+                        
                         while (length(A)<(13+ies.NoVertAngles+ies.NoHorizAngles+ies.NoVertAngles*ies.NoHorizAngles))
                             tline = fgetl(fid);
                             B = sscanf(tline,'%f');

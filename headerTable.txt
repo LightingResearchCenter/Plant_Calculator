@@ -13,11 +13,11 @@
     <td class="tg-nrw8"> Voltage = %d V</td>
     <td class="tg-nrw8"> PPF = %0.2f µmol/sec</td>
     <td class="tg-nrw8"> YPF= %0.2f µmol/sec</td>
-    <td class="tg-yw4l"> RSS = %0.2f</td>
+    <td class="tg-yw4l"> PSS = %0.2f</td>
   </tr>
   <tr>
     <td class="tg-nrw8"> %s</td>
-    <td class="tg-nrw8"> Power = %0.2f W</td>
+    <td class="tg-nrw8"> Power = %0.1f W</td>
     <td class="tg-nrw8"> PPF/W= %0.2f µmol/J</td>
     <td class="tg-nrw8"> YPF/W = %0.2f µmol/J</td>
     <td class="tg-yw4l"> RCR= %0.2f</td>
