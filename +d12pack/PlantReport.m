@@ -33,7 +33,7 @@ classdef PlantReport < d12pack.report
                     'Product','LED109056',...
                     'Catalog','Unknown',...
                     'Cost',100.00,...
-                    'THD',0.15,...
+                    'THD',12,...
                     'spd','\\root\projects\NRCAn\2013 Horticultural Lighting\SphereTesting\LED109053\Trial2\SPD\LED109053109053SPD.txt',...
                     'Spectrum',load('\\root\projects\NRCAn\2013 Horticultural Lighting\SphereTesting\LED109053\Trial2\SPD\LED109053109053SPD.txt'),...
                     'ies','\\root\projects\NRCAn\2013 Horticultural Lighting\SphereTesting\LED109053\LED109053Trial1-repaired.ies',...
@@ -246,7 +246,7 @@ classdef PlantReport < d12pack.report
                 obj.FixtureData.Spectrum(:,2)/max(obj.FixtureData.Spectrum(:,2)),...
                 'LineWidth',1);
             axis(obj.FixtureInfo.SPDaxes,[380,830,0,inf]);
-            title(obj.FixtureInfo.SPDaxes,'Spectral Power Distribution');
+            title(obj.FixtureInfo.SPDaxes,'Spectral Power Distribution (SPD)');
             
             xlabel(obj.FixtureInfo.SPDaxes,'Wavelength (nm)')
             ylabel(obj.FixtureInfo.SPDaxes,'Relative Spectrum (Arb. Units)')
@@ -276,24 +276,25 @@ classdef PlantReport < d12pack.report
                 mount = mod(ind,8)*0.5;
             end
             ConversionFactor = PPF_Conversion_Factor_05Apr2016(obj.FixtureData.Spectrum(:,1),obj.FixtureData.Spectrum(:,2));
-            [Irr,Avg,Max,Min] = PPFCalculator(obj.FixtureData.Spectrum(:,1),obj.FixtureData.Spectrum(:,2),obj.FixtureData.IESdata,'MountHeight',mount,'Length',4,'Width',4,'LRcount',1,'TBcount',1,'Multiplier',round(ConversionFactor,1));
+            calcSpacing = 0.125;
+            [Irr,Avg,Max,Min] = PPFCalculator(obj.FixtureData.Spectrum(:,1),obj.FixtureData.Spectrum(:,2),obj.FixtureData.IESdata,'MountHeight',mount,'Length',4,'Width',4,'LRcount',1,'TBcount',1,'calcSpacing',.125,'Multiplier',round(ConversionFactor,1));
             
-            X = -0.25:.5:3.25;
-            Y = -0.25:.5:3.25;
+            X = (calcSpacing-(calcSpacing/2):calcSpacing:4-(calcSpacing/2))';
+            Y = (calcSpacing-(calcSpacing/2):calcSpacing:4-(calcSpacing/2));
             x = 0;
             w = obj.Body.Position(3)/2;
             h = (obj.Body.Position(4) - floor(obj.Body.Position(4))/2);
             y = 0;
             obj.FixtureInfo.ISOaxes = axes(obj.FixtureInfo.ISOPlot);
             
-            [C,h] = contour(obj.FixtureInfo.ISOaxes,X,Y,Irr,[100:100:500]);
+            [C,h] = contour(obj.FixtureInfo.ISOaxes,X,Y,Irr,[25,50,100:100:500]);
             
-            obj.FixtureInfo.ISOaxes.YTick =[0,(3)/6:(3)/6:3-((3)/6),3];
+            obj.FixtureInfo.ISOaxes.YTick =[0,(4)/6:(4)/6:4-((4)/6),4];
             obj.FixtureInfo.ISOaxes.YTickLabel = {'-1.5';'-1';'-0.5';'0';'0.5';'1';'1.5'};
-            obj.FixtureInfo.ISOaxes.XTick = [0,(3)/6:(3)/6:3-((3)/6),3];
+            obj.FixtureInfo.ISOaxes.XTick = [0,(4)/6:(4)/6:4-((4)/6),4];
             obj.FixtureInfo.ISOaxes.XTickLabel = {'-1.5';'-1';'-0.5';'0';'0.5';'1';'1.5'};
-            obj.FixtureInfo.ISOaxes.YLim = [0,3];
-            obj.FixtureInfo.ISOaxes.XLim = [0,3];
+            obj.FixtureInfo.ISOaxes.YLim = [0,4];
+            obj.FixtureInfo.ISOaxes.XLim = [0,4];
             title(obj.FixtureInfo.ISOaxes,sprintf('Iso-PPFD Countours (MH= %0.1fm)',mount));
             clabel(C,h,'FontSize',8);
             axis(obj.FixtureInfo.ISOaxes,'square');
@@ -302,8 +303,8 @@ classdef PlantReport < d12pack.report
             ylabel(obj.FixtureInfo.ISOaxes,'Meters')
             xlabel(obj.FixtureInfo.ISOaxes,'Meters')
             colormap(obj.FixtureInfo.ISOaxes,jet)
-            fixX = 1.5-(.5*obj.FixtureData.IESdata.Length);
-            fixY = 1.5-(.5*obj.FixtureData.IESdata.Width);
+            fixX = 2-(.5*obj.FixtureData.IESdata.Length);
+            fixY = 2-(.5*obj.FixtureData.IESdata.Width);
             fixW = obj.FixtureData.IESdata.Length;
             fixH = obj.FixtureData.IESdata.Width;
             

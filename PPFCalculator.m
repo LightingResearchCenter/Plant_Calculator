@@ -29,41 +29,46 @@ parse(p,wave,specFlux,IESdata, varargin{:});
 %% generate Calculation objects
 rows = (p.Results.calcSpacing-(p.Results.calcSpacing/2):p.Results.calcSpacing:p.Results.Width-(p.Results.calcSpacing/2))';
 columns = (p.Results.calcSpacing-(p.Results.calcSpacing/2):p.Results.calcSpacing:p.Results.Length-(p.Results.calcSpacing/2));
-xFixtureLocations = [];
-yFixtureLocations = [];
-for i1 = 1:p.Results.LRcount
-    for i2 = 1:p.Results.TBcount
-        xFixtureLocations = [xFixtureLocations,(i1/(p.Results.LRcount)*p.Results.Width) - (0.5*(1/(p.Results.LRcount))*p.Results.Width)];
-        yFixtureLocations = [yFixtureLocations,(i2/(p.Results.TBcount)*p.Results.Length) - (0.5*(1/(p.Results.TBcount))*p.Results.Length)];
-    end
-end
-orientation = p.Results.fixtureOrientation*pi/180*ones(size(xFixtureLocations));
+b = ones(p.Results.LRcount,p.Results.TBcount);
+deltaX = (((1:p.Results.LRcount)*(1/(p.Results.LRcount)*p.Results.Width))-(0.5*(1/(p.Results.LRcount)*p.Results.Width)));
+deltaY = (((1:p.Results.TBcount)*(1/(p.Results.TBcount)*p.Results.Length))-(0.5*(1/(p.Results.TBcount)*p.Results.Length)));
+xFixtureLocations = times( b ,deltaX');
+yFixtureLocations = times( b ,deltaY);
 
-[phiPtall, thetaPtall,dsqall] = deal(zeros(length(rows), length(columns), length(xFixtureLocations)));
-for i1 = 1:length(rows)
-    for i2 = 1:length(columns)
-        for i3 = 1:length(xFixtureLocations)
-            x = rows(i1)-xFixtureLocations(i3);
-            y = columns(i2)-yFixtureLocations(i3);
-            r = sqrt(x^2 + y^2);
-            thetaPt = atan(r/p.Results.MountHeight);
-            if x==0
-                phiPt = 0;
-            else
-                phiPt = atan2(y,x);
-            end
-            phiPt = phiPt+pi + p.Results.fixtureOrientation;
-            phiPt = mod(phiPt,2*pi)-pi;
-            dsqall(i1,i2,i3) = r^2+(p.Results.MountHeight)^2;
-            phiPtall(i1,i2,i3) = phiPt*180/pi;
-            thetaPtall(i1,i2,i3) = thetaPt*180/pi;
-        end
-    end
-end
+xFixtureLocations = reshape(xFixtureLocations',1,numel(xFixtureLocations));
+yFixtureLocations = reshape(yFixtureLocations',1,numel(yFixtureLocations));
 
-Ipt = interp2(p.Results.IESdata.HorizAngles-180, p.Results.IESdata.VertAngles,p.Results.IESdata.photoTable,  ...
+[newXFixtureLocations,newYFixtureLocations,newIES] = descritizeFixture(xFixtureLocations,yFixtureLocations,p.Results.IESdata,p.Results.MountHeight);
+orientation = p.Results.fixtureOrientation*pi/180*ones(size(newXFixtureLocations));
+
+rows = rows(:);
+columns = columns(:);
+
+nMeters   = numel(rows);
+nFixtures = numel(newXFixtureLocations);
+
+A = ones(nMeters, nMeters, nFixtures);
+rows3   = bsxfun(@times, A, rows);
+cols3   = bsxfun(@times, A, columns');
+
+xFix3   = bsxfun(@times, A, permute(newXFixtureLocations, [3 1 2]));
+yFix3   = bsxfun(@times, A, permute(newYFixtureLocations, [3 1 2]));
+orient3 = bsxfun(@times, A, permute(orientation, [3 1 2]));
+
+x = rows3 - xFix3;
+y = cols3 - yFix3;
+ 
+r = sqrt(x.^2 + y.^2);
+
+phiPt = atan2(y, x);
+phiPt(x == 0) = 0;
+phiPtall = (mod(phiPt + pi + orient3, 2*pi) - pi)*180/pi;
+dsqall = r.^2 + (p.Results.MountHeight)^2;
+thetaPtall = atan(r/p.Results.MountHeight)*180/pi;
+        
+Ipt = interp2(newIES.HorizAngles-180, newIES.VertAngles,newIES.photoTable,  ...
             phiPtall, thetaPtall,'*nearest', 0.); 
-Irr = round((Ipt.*cos(deg2rad(thetaPtall))./dsqall).*(p.Results.Multiplier./1000),3);
+Irr = (Ipt.*cosd(thetaPtall)./dsqall).*(p.Results.Multiplier./1000);
 Irr = sum(Irr,3);
 Avg = mean2(Irr);
 Max = max(max(Irr));

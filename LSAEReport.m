@@ -17,6 +17,7 @@ end
 fact = arrayfun(@factor,minLuminare:(numLuminaire+fixDiff),'UniformOutput',false);
 fullPart = [];
 for i = 1:length(fact)
+    
         fullPart = [partitions([fact{i},1],2);fullPart];
 end
 countArr = zeros(length(fullPart),2);

@@ -30,7 +30,7 @@ for i2=1:9
 end
 Drcr = (1/(propDown*fluxTotal))*sum(temp);
 % formulas Taken from IES handbook page 10.42. 
-% Note: Becasue this is assumed for a greenhouse ceiling and wall reflectances are 0 
+% Note: Because this is assumed for a greenhouse ceiling and wall reflectances are 0 
 C1 = ((1-0)*(1-Fcc2fc.^2)*RCR)/((2.5*0*(1-Fcc2fc.^2))+(RCR*Fcc2fc*1-0)); % formula Taken from IES handbook page 10.42
 C2 = ((1-0)*(1+Fcc2fc))/(1+(0*Fcc2fc)); 
 C3 = ((1-0.2)*(1+Fcc2fc))/(1+(0.2*Fcc2fc));

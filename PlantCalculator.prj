@@ -1,17 +1,17 @@
 <deployment-project plugin="plugin.ezdeploy" plugin-version="1.0">
-  <configuration build-checksum="3395144550" file="C:\Users\plummt\Documents\MATLAB\Plant_Calculator\PlantCalculator.prj" location="C:\Users\plummt\Documents\MATLAB\Plant_Calculator" name="PlantCalculator" preferred-package-location="C:\Users\plummt\Documents\MATLAB\Plant_Calculator\PlantCalculator\for_redistribution" preferred-package-type="package.type.exe" target="target.ezdeploy.standalone" target-name="Application Compiler">
+  <configuration build-checksum="3395144550" file="E:\Users\plummt\Documents\MATLAB\Plant_Calculator\PlantCalculator.prj" location="E:\Users\plummt\Documents\MATLAB\Plant_Calculator" name="PlantCalculator" preferred-package-location="E:\Users\plummt\Documents\MATLAB\Plant_Calculator\PlantCalculator\for_redistribution" preferred-package-type="package.type.exe" target="target.ezdeploy.standalone" target-name="Application Compiler">
     <param.appname>IPHPlantCalculator</param.appname>
     <param.icon />
     <param.icons />
-    <param.version>0.7</param.version>
-    <param.authnamewatermark>Tim Plummer</param.authnamewatermark>
-    <param.email>plummt@rpi.edu</param.email>
-    <param.company>LRC</param.company>
+    <param.version>0.8</param.version>
+    <param.authnamewatermark />
+    <param.email />
+    <param.company />
     <param.summary />
     <param.description />
     <param.screenshot>\\root\projects\IPH_PlantPathology\logo\ver 2\IPH_logo_small_v2.png</param.screenshot>
     <param.guid />
-    <param.installpath.string>\LRC\IPHPlantCalculator\</param.installpath.string>
+    <param.installpath.string>\IPHPlantCalculator\</param.installpath.string>
     <param.installpath.combo>option.installpath.programfiles</param.installpath.combo>
     <param.logo>\\root\projects\IPH_PlantPathology\logo\ver 2\IPH_logo_small_v2.png</param.logo>
     <param.install.notes />
@@ -22,7 +22,6 @@
     <param.logdir>${PROJECT_ROOT}\PlantCalculator</param.logdir>
     <param.enable.clean.build>false</param.enable.clean.build>
     <param.user.defined.mcr.options />
-    <param.embed.ctf>true</param.embed.ctf>
     <param.target.type>subtarget.standalone</param.target.type>
     <param.support.packages />
     <param.web.mcr>true</param.web.mcr>
@@ -52,7 +51,6 @@
       <param.logdir />
       <param.enable.clean.build />
       <param.user.defined.mcr.options />
-      <param.embed.ctf />
       <param.target.type />
       <param.support.packages />
       <param.web.mcr />
@@ -69,26 +67,49 @@
       <file>${PROJECT_ROOT}\PlantCalculator.mlapp</file>
     </fileset.main>
     <fileset.resources>
+      <file>${PROJECT_ROOT}\+d12pack</file>
+      <file>${PROJECT_ROOT}\calcCU.m</file>
+      <file>${PROJECT_ROOT}\calcPSSRCR.m</file>
+      <file>${PROJECT_ROOT}\calculateIrradiance.m</file>
+      <file>${PROJECT_ROOT}\CCT23Sep05.m</file>
+      <file>${PROJECT_ROOT}\CIE31by1.txt</file>
+      <file>${PROJECT_ROOT}\descritizeFixture.m</file>
+      <file>${PROJECT_ROOT}\economicTable.txt</file>
+      <file>${PROJECT_ROOT}\fullLSAE.m</file>
+      <file>${PROJECT_ROOT}\generatePlantReport.m</file>
+      <file>${PROJECT_ROOT}\headerTable.txt</file>
+      <file>${PROJECT_ROOT}\IESFile.m</file>
+      <file>${PROJECT_ROOT}\isoTempLinesNewestFine23Sep05.txt</file>
+      <file>${PROJECT_ROOT}\LSAEin.mat</file>
+      <file>${PROJECT_ROOT}\LSAEReport.m</file>
+      <file>${PROJECT_ROOT}\LSAETable.txt</file>
+      <file>${PROJECT_ROOT}\Lxy23Sep05.m</file>
+      <file>${PROJECT_ROOT}\McCree1972.txt</file>
+      <file>${PROJECT_ROOT}\partitions.m</file>
+      <file>${PROJECT_ROOT}\PlantCalculator.mlapp</file>
+      <file>${PROJECT_ROOT}\PlantCalculatorHPSfixtures.mat</file>
+      <file>${PROJECT_ROOT}\PPF_Conversion_Factor_05Apr2016.m</file>
+      <file>${PROJECT_ROOT}\PPFCalculator.m</file>
       <file>${PROJECT_ROOT}\PSS_RCR.txt</file>
+      <file>${PROJECT_ROOT}\readIES_FileFunction.m</file>
+      <file>${PROJECT_ROOT}\Results.mat</file>
+      <file>${PROJECT_ROOT}\ResultsNewCode.mat</file>
+      <file>${PROJECT_ROOT}\spd2xlsx.m</file>
+      <file>${PROJECT_ROOT}\SpecLocusPlankLocusFun.m</file>
+      <file>${PROJECT_ROOT}\writeSPDExcelFile.m</file>
     </fileset.resources>
     <fileset.package>
       <file>\\root\projects\IPH_PlantPathology\logo\ver 2\IPH_logo_small_v2.png</file>
     </fileset.package>
-    <fileset.depfun>
-      <file>${PROJECT_ROOT}\CCT23Sep05.m</file>
-      <file>${PROJECT_ROOT}\CIE31by1.txt</file>
-      <file>${PROJECT_ROOT}\isoTempLinesNewestFine23Sep05.txt</file>
-      <file>${PROJECT_ROOT}\Lxy23Sep05.m</file>
-      <file>${PROJECT_ROOT}\McCree1972.txt</file>
-    </fileset.depfun>
+    <fileset.depfun />
     <build-deliverables>
-      <file location="${PROJECT_ROOT}\PlantCalculator\for_testing" name="readme.txt" optional="true">C:\Users\plummt\Documents\MATLAB\Plant_Calculator\PlantCalculator\for_testing\readme.txt</file>
-      <file location="${PROJECT_ROOT}\PlantCalculator\for_testing" name="splash.png" optional="false">C:\Users\plummt\Documents\MATLAB\Plant_Calculator\PlantCalculator\for_testing\splash.png</file>
-      <file location="${PROJECT_ROOT}\PlantCalculator\for_testing" name="IPHPlantCalculator.exe" optional="false">C:\Users\plummt\Documents\MATLAB\Plant_Calculator\PlantCalculator\for_testing\IPHPlantCalculator.exe</file>
+      <file location="${PROJECT_ROOT}\PlantCalculator\for_testing" name="splash.png" optional="false">E:\Users\plummt\Documents\MATLAB\Plant_Calculator\PlantCalculator\for_testing\splash.png</file>
+      <file location="${PROJECT_ROOT}\PlantCalculator\for_testing" name="IPHPlantCalculator.exe" optional="false">E:\Users\plummt\Documents\MATLAB\Plant_Calculator\PlantCalculator\for_testing\IPHPlantCalculator.exe</file>
+      <file location="${PROJECT_ROOT}\PlantCalculator\for_testing" name="readme.txt" optional="true">E:\Users\plummt\Documents\MATLAB\Plant_Calculator\PlantCalculator\for_testing\readme.txt</file>
     </build-deliverables>
     <workflow />
     <matlab>
-      <root>C:\Program Files\MATLAB\R2016b</root>
+      <root>C:\Program Files\MATLAB\R2017a</root>
       <toolboxes>
         <toolbox name="matlabcoder" />
         <toolbox name="embeddedcoder" />
