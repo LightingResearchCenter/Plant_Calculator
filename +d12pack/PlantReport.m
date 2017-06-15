@@ -195,7 +195,7 @@ classdef PlantReport < d12pack.report
                     incentive600 = incentive600+1;
                     incentiveCost = (fixtureCost-incentive600)*fixcount(ind);
                     newHPS600Paynum = incentiveCost/HPS600Save;
-                    incentive600str = sprintf('An incentive of %0.0f would reduce the payback period to less than 3 years compaired to the 600W HPS.',incentive600);
+                    incentive600str = sprintf('An incentive of $%0.0f would reduce the payback period to less than 3 years compaired to the 600 W HPS.',incentive600);
                 end
                 else
                     incentive600str = 'No additional incentive is needed when compaired to the 600 W HPS system.';

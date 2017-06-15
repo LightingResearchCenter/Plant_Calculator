@@ -10,7 +10,7 @@
 <h1 style ="margin-top: 28px;margin-left:11px;">Luminaire System Application Efficiency (LSAE)</h1>
 <table class="tg">
   <tr>
-    <th class="tg-head">Mounting Height</th>
+    <th class="tg-head">Mounting Height (MH)</th>
     <th class="tg-normal" colspan="2">100 PPFD</th>
     <th class="tg-normal" colspan="2">200 PPFD</th>
     <th class="tg-normal" colspan="2">300 PPFD</th>
@@ -18,7 +18,7 @@
     <th class="tg-normal" colspan="2">500 PPFD</th>
   </tr>
   <tr>
-    <td class="tg-normal">(m)</td>
+    <td class="tg-normal">M</td>
     <td class="tg-normal">&#181;mol/J</td>
     <td class="tg-normal">Qty</td>
     <td class="tg-normal">&#181;mol/J</td>

@@ -20,17 +20,17 @@
     <td class="tg-nrw8"> Power = %0.1f W</td>
     <td class="tg-nrw8"> PPF/W= %0.2f µmol/J</td>
     <td class="tg-nrw8"> YPF/W = %0.2f µmol/J</td>
-    <td class="tg-yw4l"> RCR= %0.2f</td>
+    <td class="tg-yw4l"> RCR= %0.0f</td>
   </tr>
   <tr>
     <td class="tg-nrw8"> %s</td>
     <td class="tg-nrw8"> PF = %0.2f</td>
-    <td class="tg-nrw8"> PPF%% = %0.2f%%</td>
+    <td class="tg-nrw8"> PPF%% = %0.1f%%</td>
     <td class="tg-nrw8"> </td>
     <td class="tg-yw4l"> </td>
   </tr>
   <tr>
-    <td class="tg-yw4l"> $%0.2f</td>
+    <td class="tg-yw4l"> $%d</td>
     <td class="tg-yw4l"> THD = %0.2f%%</td>
     <td class="tg-yw4l"> </td>
     <td class="tg-yw4l"> </td>
