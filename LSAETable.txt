@@ -6,6 +6,7 @@
 .tg .tg-bold{text-align:center;vertical-align:top;font-weight:bold;background:#D3D3D3}
 .tg .tg-shade{text-align:center;vertical-align:top;background:#D3D3D3}
 .tg .tg-head{text-align:center;vertical-align:top;font-weight:bold}
+.para {margin:0}
 </style>
 <h1 style ="margin-top: 28px;margin-left:11px;">Luminaire System Application Efficiency (LSAE)</h1>
 <table class="tg">
@@ -135,4 +136,6 @@
     <td class="tg-normal">%d</td>
   </tr>
 </table>
-<p>Note: LSAE is for a 10mX10m growing area with an average:minimum &#60 4:1;</p>
+<p class = 'para'>Highlighted Cells: Highest LSAE for target PPFD.</p>
+<p class = 'para'>Bolded Cell: Highest LSAE for entire system.</p>
+<p class = 'para'>Note: LSAE is for a 10mX10m growing area with an average:minimum &#60 4:1;</p>

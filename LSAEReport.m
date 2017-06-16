@@ -38,7 +38,7 @@ end
 [Irr,Avg,Max, Min]=deal(cell(1,length(newCountArr)));
 avgDiff = zeros(1,length(newCountArr));
 for i = 1:size(newCountArr,1)
-        [Irr{i},Avg{i},Max{i},Min{i}] = PPFCalculator(wave,specFlux,IESdata,'LRcount',newCountArr(i,1),'TBcount',newCountArr(i,2),'MountHeight',mountHeight,'Length',roomLength,'Width',roomWidth,'Multiplier',round(ConversionFactor,1));
+        [Irr{i},Avg{i},Max{i},Min{i}] = PPFCalculator(IESdata,'LRcount',newCountArr(i,1),'TBcount',newCountArr(i,2),'MountHeight',mountHeight,'Length',roomLength,'Width',roomWidth,'Multiplier',round(ConversionFactor,1));
         avgDiff(i) = (Avg{i}-targetPPFD)/targetPPFD;
         if avgDiff(i) < 0
             avgDiff(i)=1;

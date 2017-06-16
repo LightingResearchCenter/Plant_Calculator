@@ -1,4 +1,4 @@
-function [Irr,Avg,Max,Min] = PPFCalculator(wave,specFlux,IESdata, varargin)
+function [Irr,Avg,Max,Min] = PPFCalculator(IESdata, varargin)
 % PPFCALCULATOR calculates the ppf eff. of a fixture in a Length x Width space.
 
 %% Input Checking
@@ -9,10 +9,8 @@ defaultWidth = 10;  %in Meters
 defaultMountHeight = 1.5;   %in Meters
 defaultCount = 3; % how many fixtures inboth rows and collums (specifiable sepratly)
 defaultSpacing = .125; %in Meters
-defaultOrientation = 0; %in Degrees
+defaultOrientation = 90; %in Degrees
 defaultMultiplier = 1;
-addRequired(p,'wave',@isnumeric);
-addRequired(p,'specFlux',@isnumeric);
 addRequired(p,'IESdata',@(x) validateattributes(x,{'IESFile'},{'nonempty'}));
 addParameter(p,'Length', defaultLength,@isnumeric)
 addParameter(p,'Multiplier', defaultMultiplier,@isnumeric)
@@ -23,7 +21,7 @@ addParameter(p,'Width', defaultWidth,@isnumeric)
 addParameter(p,'MountHeight',defaultMountHeight,@isnumeric);
 addParameter(p,'fixtureOrientation',defaultOrientation, @isnumeric);
 
-parse(p,wave,specFlux,IESdata, varargin{:});
+parse(p,IESdata, varargin{:});
 
 % Check that files are vaild
 %% generate Calculation objects
@@ -67,7 +65,7 @@ dsqall = r.^2 + (p.Results.MountHeight)^2;
 thetaPtall = atan(r/p.Results.MountHeight)*180/pi;
         
 Ipt = interp2(newIES.HorizAngles-180, newIES.VertAngles,newIES.photoTable,  ...
-            phiPtall, thetaPtall,'*nearest', 0.); 
+            phiPtall, thetaPtall,'linear', 0.); 
 Irr = (Ipt.*cosd(thetaPtall)./dsqall).*(p.Results.Multiplier./1000);
 Irr = sum(Irr,3);
 Avg = mean2(Irr);

@@ -111,8 +111,13 @@ classdef IESFile
                         ies.NoHorizAngles = A(5);
                         ies.PhotoType = A(6);
                         ies.UnitsType = A(7);
-                        ies.Width = A(8);
-                        ies.Length = A(9);
+                        if ies.UnitsType == 1
+                            ies.Width = convlength( A(8),'ft','m');
+                            ies.Length = convlength( A(9),'ft','m');
+                        else
+                            ies.Width = A(8);
+                            ies.Length = A(9);
+                        end
                         ies.Height = A(10);
                         ies.BallastFactor = A(11);
                         ies.FutureUse = A(12);

@@ -6,6 +6,7 @@ classdef PlantReport < d12pack.report
         background
         FixtureData
         FixtureInfo
+        
     end
     
     properties (Access = protected)
@@ -73,6 +74,7 @@ classdef PlantReport < d12pack.report
             headercell = textscan(headerTableFile,'%s');
             html = char(headercell{:});
             htmltext = reshape(html',1,[]);
+            % print data into HEADERTABLE.TXT
             data = {obj.FixtureData.Product;...
                 obj.FixtureData.Voltage;obj.FixtureData.PPF;obj.FixtureData.YPF;obj.FixtureData.PSS;...
                 obj.FixtureData.Lamp;obj.FixtureData.Wattage;(obj.FixtureData.PPF/obj.FixtureData.Wattage);...
@@ -82,7 +84,7 @@ classdef PlantReport < d12pack.report
             [str,~] = sprintf(htmltext,data{:});
             je = javax.swing.JEditorPane('text/html', str);
             jp = javax.swing.JScrollPane(je);
-            [hcomponent, hcontainer] = javacomponent(jp, [],obj.FixtureInfo.Title);
+            [~, hcontainer] = javacomponent(jp, [],obj.FixtureInfo.Title);
             set(hcontainer, 'units', 'normalized', 'position', [-.005,0,1.01,1.01],'backgroundcolor',[1,1,1]);
             
             java.lang.System.setProperty('awt.useSystemAAFontSettings', 'on');
@@ -204,6 +206,7 @@ classdef PlantReport < d12pack.report
             EcoCell = textscan(EconomicTableFile,'%s');
             html = char(EcoCell{:});
             htmltext = reshape(html',1,[]);
+            % pring numbers into ECONOMICTABLE.TXT
             data = {obj.FixtureData.Lamp,HPS1000qty,HPS600qty,fixcount(ind),...
                 HPS1000qty*HPS1000Cost,HPS600qty*HPS600Cost,...
                 obj.FixtureData.Cost*fixcount(ind),...
@@ -217,7 +220,7 @@ classdef PlantReport < d12pack.report
             [str,~] = sprintf(htmltext,data{:});
             je = javax.swing.JEditorPane('text/html', str);
             jp = javax.swing.JScrollPane(je);
-            [hcomponent, hcontainer] = javacomponent(jp, [],obj.FixtureInfo.Economic);
+            [~, hcontainer] = javacomponent(jp, [],obj.FixtureInfo.Economic);
             set(hcontainer, 'units', 'normalized', 'position', [-.005,0,1.01,1.01],'backgroundcolor',[1,1,1]);
             
             java.lang.System.setProperty('awt.useSystemAAFontSettings', 'on');
@@ -277,24 +280,23 @@ classdef PlantReport < d12pack.report
             end
             ConversionFactor = PPF_Conversion_Factor_05Apr2016(obj.FixtureData.Spectrum(:,1),obj.FixtureData.Spectrum(:,2));
             calcSpacing = 0.125;
-            [Irr,Avg,Max,Min] = PPFCalculator(obj.FixtureData.Spectrum(:,1),obj.FixtureData.Spectrum(:,2),obj.FixtureData.IESdata,'MountHeight',mount,'Length',4,'Width',4,'LRcount',1,'TBcount',1,'calcSpacing',.125,'Multiplier',round(ConversionFactor,1));
-            
-            X = (calcSpacing-(calcSpacing/2):calcSpacing:4-(calcSpacing/2))';
-            Y = (calcSpacing-(calcSpacing/2):calcSpacing:4-(calcSpacing/2));
-            x = 0;
-            w = obj.Body.Position(3)/2;
-            h = (obj.Body.Position(4) - floor(obj.Body.Position(4))/2);
-            y = 0;
+            [Irr,~,~,~] = PPFCalculator(obj.FixtureData.IESdata,'MountHeight',mount,'Length',4,'Width',4,'LRcount',1,'TBcount',1,'calcSpacing',.125,'Multiplier',round(ConversionFactor,1));
+            plotLabels = {'-1.5';'-1';'-0.5';'0';'0.5';'1';'1.5'};
+            plotMax = 4;
+            plotMin = 0;
+            plotSplits = size(plotLabels,1)-1;
+            X = (calcSpacing-(calcSpacing/2):calcSpacing:plotMax-(calcSpacing/2))';
+            Y = (calcSpacing-(calcSpacing/2):calcSpacing:plotMax-(calcSpacing/2));
             obj.FixtureInfo.ISOaxes = axes(obj.FixtureInfo.ISOPlot);
             
             [C,h] = contour(obj.FixtureInfo.ISOaxes,X,Y,Irr,[25,50,100:100:500]);
             
-            obj.FixtureInfo.ISOaxes.YTick =[0,(4)/6:(4)/6:4-((4)/6),4];
-            obj.FixtureInfo.ISOaxes.YTickLabel = {'-1.5';'-1';'-0.5';'0';'0.5';'1';'1.5'};
-            obj.FixtureInfo.ISOaxes.XTick = [0,(4)/6:(4)/6:4-((4)/6),4];
-            obj.FixtureInfo.ISOaxes.XTickLabel = {'-1.5';'-1';'-0.5';'0';'0.5';'1';'1.5'};
-            obj.FixtureInfo.ISOaxes.YLim = [0,4];
-            obj.FixtureInfo.ISOaxes.XLim = [0,4];
+            obj.FixtureInfo.ISOaxes.YTick =[plotMin,(plotMax)/plotSplits:(plotMax)/plotSplits:plotMax-((plotMax)/plotSplits),plotMax];
+            obj.FixtureInfo.ISOaxes.YTickLabel = plotLabels;
+            obj.FixtureInfo.ISOaxes.XTick = [plotMin,(plotMax)/plotSplits:(plotMax)/plotSplits:plotMax-((plotMax)/plotSplits),plotMax];
+            obj.FixtureInfo.ISOaxes.XTickLabel = plotLabels;
+            obj.FixtureInfo.ISOaxes.YLim = [plotMin,plotMax];
+            obj.FixtureInfo.ISOaxes.XLim = [plotMin,plotMax];
             title(obj.FixtureInfo.ISOaxes,sprintf('Iso-PPFD Countours (MH= %0.1fm)',mount));
             clabel(C,h,'FontSize',8);
             axis(obj.FixtureInfo.ISOaxes,'square');
@@ -303,14 +305,12 @@ classdef PlantReport < d12pack.report
             ylabel(obj.FixtureInfo.ISOaxes,'Meters')
             xlabel(obj.FixtureInfo.ISOaxes,'Meters')
             colormap(obj.FixtureInfo.ISOaxes,jet)
-            fixX = 2-(.5*obj.FixtureData.IESdata.Length);
-            fixY = 2-(.5*obj.FixtureData.IESdata.Width);
+            fixX = (plotMax/2)-(obj.FixtureData.IESdata.Length*.5);
+            fixY = (plotMax/2)-(obj.FixtureData.IESdata.Width*0.5);
             fixW = obj.FixtureData.IESdata.Length;
             fixH = obj.FixtureData.IESdata.Width;
             
-            rectangle('Position',[fixX,fixY,fixW,fixH],'LineWidth',2)
-%             points = bbox2points([fixX,fixY,fixW,fixH]);
-            %             line(points([1;3;2;4],1),points([1;3;2;4],2),'Color','Black')
+            rectangle('Position',[fixX,fixY,fixW,fixH],'LineWidth',2);
         end
         function initLASEPlot(obj)
             %plots in the bottom right quarter of the body
@@ -324,7 +324,7 @@ classdef PlantReport < d12pack.report
             obj.FixtureInfo.LSAEPlot.BorderType        = 'none';
             obj.FixtureInfo.LSAEPlot.Units             = 'pixels';
             obj.FixtureInfo.LSAEPlot.Position          = [x,y,w,h];
-            [IrrOut,outTable,LSAE] = fullLSAE(obj.FixtureData.spd,obj.FixtureData.ies,0.5:.5:4,100:100:500,3,10,10);
+            [~,outTable,LSAE] = fullLSAE(obj.FixtureData.spd,obj.FixtureData.ies,0.5:.5:4,100:100:500,3,10,10);
             obj.FixtureData.LSAE = LSAE;
             obj.FixtureData.outTable = outTable;
             LSAETableFile = fopen('LSAETable.txt');
@@ -334,6 +334,7 @@ classdef PlantReport < d12pack.report
             htmltext = reshape(html',1,[]);
             LSAEcol = reshape(obj.FixtureData.LSAE',[],1);
             fixcount = obj.FixtureData.outTable.LRcount.*obj.FixtureData.outTable.TBcount;
+            % print data into LSAETABLE.TXT
             textarray = cell(length(LSAEcol*2),1);
             for i = 1:length(LSAEcol)
                 if LSAEcol(i)==max(LSAEcol)
@@ -348,7 +349,7 @@ classdef PlantReport < d12pack.report
             end
             je = javax.swing.JEditorPane('text/html', sprintf(htmltext,textarray{:}));
             jp = javax.swing.JScrollPane(je);
-            [hcomponent, hcontainer] = javacomponent(jp, [], obj.FixtureInfo.LSAEPlot);
+            [~, hcontainer] = javacomponent(jp, [], obj.FixtureInfo.LSAEPlot);
             set(hcontainer, 'units', 'normalized', 'position', [0,0,1.01,1],'backgroundcolor',[1,1,1]);
             
             java.lang.System.setProperty('awt.useSystemAAFontSettings', 'on');

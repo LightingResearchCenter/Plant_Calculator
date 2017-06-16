@@ -29,11 +29,13 @@ end
 IrrOut =cell(length(mountHeight),length(range));
 outTable = [];
 itt = 0;
+ittMax = length(mountHeight)*length(range);
 LSAE = zeros(length(mountHeight),length(range));
+h = waitbar(itt/ittMax,sprintf('Calculating LSAE step %d out of %d', itt,ittMax));
 for i1= 1:length(mountHeight)
     for i2 = 1:length(range)
         itt = itt+1;
-        disp(itt)
+        h = waitbar(itt/ittMax,h,sprintf('Calculating LSAE step %d out of %d', itt,ittMax));
         [Irr,historyTable] = LSAEReport(wave, specFlux, IESdata, range(i2), Uniformity ,mountHeight(i1),RoomLength, RoomWidth);
         IrrOut{i1,i2} = sort(Irr(:));
         outTable = [outTable;historyTable];
@@ -54,5 +56,6 @@ for i1= 1:length(mountHeight)
         LSAE(i1,i2) = PPF/((historyTable.LRcount*historyTable.TBcount)*IESdata.InputWatts);
     end
 end
+delete(h);
 
 end
