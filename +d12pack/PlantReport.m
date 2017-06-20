@@ -30,7 +30,7 @@ classdef PlantReport < d12pack.report
                     'PPFofTotal',.9,...
                     'PSS',0.868,...
                     'RCR',325537.8,...
-                    'ImagePath','E:\Users\plummt\Documents\MATLAB\Plant_Calculator\incandescent.png',...
+                    'ImagePath','C:\Users\plummt\Documents\MATLAB\Plant_Calculator\incandescent.png',...
                     'Product','LED109056',...
                     'Catalog','Unknown',...
                     'Cost',100.00,...
@@ -75,13 +75,35 @@ classdef PlantReport < d12pack.report
             html = char(headercell{:});
             htmltext = reshape(html',1,[]);
             % print data into HEADERTABLE.TXT
-            data = {obj.FixtureData.Product;...
-                obj.FixtureData.Voltage;obj.FixtureData.PPF;obj.FixtureData.YPF;obj.FixtureData.PSS;...
-                obj.FixtureData.Lamp;obj.FixtureData.Wattage;(obj.FixtureData.PPF/obj.FixtureData.Wattage);...
-                (obj.FixtureData.YPF/obj.FixtureData.Wattage);obj.FixtureData.RCR;obj.FixtureData.Catalog;...
-                (obj.FixtureData.Wattage/obj.FixtureData.Voltage);obj.FixtureData.PPFofTotal;...
-                obj.FixtureData.Cost;obj.FixtureData.THD};
-            [str,~] = sprintf(htmltext,data{:});
+            data{1} = obj.FixtureData.Product;
+            A_str = num2str(round(obj.FixtureData.Voltage));
+            data{2} = A_str;
+            [~, A_str] = sd_round(obj.FixtureData.PPF,3);
+            data{3} = A_str;
+            [~, A_str] = sd_round(obj.FixtureData.YPF,3);
+            data{4} = A_str;
+            [~, A_str] = sd_round(obj.FixtureData.PSS,3);
+            data{5} = A_str;
+            data{6} = obj.FixtureData.Lamp;
+            [~, A_str] = sd_round(obj.FixtureData.Wattage,3);
+            data{7} = A_str;
+            [~, A_str] = sd_round((obj.FixtureData.PPF/obj.FixtureData.Wattage),3);
+            data{8} = A_str;
+            [~, A_str] = sd_round((obj.FixtureData.YPF/obj.FixtureData.Wattage),3);
+            data{9} = A_str;
+            [~, A_str] = sd_round(obj.FixtureData.RCR,3);
+            data{10} = A_str;
+            data{11} = obj.FixtureData.Catalog;
+            [~, A_str] = sd_round((obj.FixtureData.Wattage/obj.FixtureData.Voltage),3);
+            data{12} = A_str;
+            [~, A_str] = sd_round(obj.FixtureData.PPFofTotal,2);
+            data{13} = A_str;
+            A_str = num2str(round(obj.FixtureData.Cost));
+            data{14} = A_str;
+            [~, A_str] = sd_round(obj.FixtureData.THD,2);
+            data{15} = A_str;
+            outputText = cellfun(@char,data,'uni',0);
+            [str,~] = sprintf(htmltext,outputText{:});
             je = javax.swing.JEditorPane('text/html', str);
             jp = javax.swing.JScrollPane(je);
             [~, hcontainer] = javacomponent(jp, [],obj.FixtureInfo.Title);

@@ -6,32 +6,32 @@
 .tg .tg-07dj{padding:1px 1px;border-right: solid 1px #f00;text-align:left;font-weight:bold;font-size:18px}
 .tg .tg-yw4l{padding:1px 1px;border-right: solid 1px #f00;vertical-align:top}
 </style>
-<h1 style = "margin:0px">DataSheet</h1>
+<h1 style = "margin:0px">%s DataSheet</h1>
 <table class="tg">
   <tr>
-    <td class="tg-nrw8"> %s</td>
-    <td class="tg-nrw8"> Voltage = %d V</td>
-    <td class="tg-nrw8"> PPF = %0.2f µmol/sec</td>
-    <td class="tg-nrw8"> YPF= %0.2f µmol/sec</td>
-    <td class="tg-yw4l"> PSS = %0.2f</td>
+    <td class="tg-nrw8"> </td>
+    <td class="tg-nrw8"> Voltage = %s V</td>
+    <td class="tg-nrw8"> PPF = %s µmol/sec</td>
+    <td class="tg-nrw8"> YPF= %s µmol/sec</td>
+    <td class="tg-yw4l"> PSS = %s</td>
   </tr>
   <tr>
     <td class="tg-nrw8"> %s</td>
-    <td class="tg-nrw8"> Power = %0.1f W</td>
-    <td class="tg-nrw8"> PPF/W= %0.2f µmol/J</td>
-    <td class="tg-nrw8"> YPF/W = %0.2f µmol/J</td>
-    <td class="tg-yw4l"> RCR= %0.0f</td>
+    <td class="tg-nrw8"> Power = %s W</td>
+    <td class="tg-nrw8"> PPF/W= %s µmol/J</td>
+    <td class="tg-nrw8"> YPF/W = %s µmol/J</td>
+    <td class="tg-yw4l"> RCR= %s</td>
   </tr>
   <tr>
     <td class="tg-nrw8"> %s</td>
-    <td class="tg-nrw8"> PF = %0.2f</td>
-    <td class="tg-nrw8"> PPF%% = %0.1f%%</td>
+    <td class="tg-nrw8"> PF = %s</td>
+    <td class="tg-nrw8"> PPF%% = %s%%</td>
     <td class="tg-nrw8"> </td>
     <td class="tg-yw4l"> </td>
   </tr>
   <tr>
-    <td class="tg-yw4l"> $%d</td>
-    <td class="tg-yw4l"> THD = %0.2f%%</td>
+    <td class="tg-yw4l"> $%s</td>
+    <td class="tg-yw4l"> THD = %s%%</td>
     <td class="tg-yw4l"> </td>
     <td class="tg-yw4l"> </td>
     <td class="tg-yw4l"> </td>
