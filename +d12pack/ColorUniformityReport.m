@@ -26,16 +26,17 @@ classdef ColorUniformityReport < d12pack.report
             obj.FixtureData.yBarIES = yBarIES;
             obj.FixtureData.zBarIES = zBarIES;
             obj.PlotColorUniformity();
+            obj.PlotPolarIntensity();
         end
-         function PlotColorUniformity(obj)
+        function PlotColorUniformity(obj)
             %plots in the top left quarter of the body
             oldUnits = obj.Body.Units;
             obj.Body.Units = 'Pixel';
             
             x = 0;
             w = (obj.Body.Position(3))-2;
-            h = (obj.Body.Position(4));
-            y = 0;
+            h = (obj.Body.Position(4) - ceil(obj.Body.Position(4))/2);
+            y = h;
             
             obj.FixtureInfo.ColorPlot = uipanel(obj.Body);
             obj.FixtureInfo.ColorPlot.BackgroundColor   = obj.background;
@@ -48,8 +49,20 @@ classdef ColorUniformityReport < d12pack.report
             obj.pic = [xIrr,yIrr,zIrr];
             obj.pic = reshape(obj.pic,length(xIrr),length(xIrr),3);
             obj.FixtureInfo.ColorPlotAxes = axes(obj.FixtureInfo.ColorPlot);
-            obj.pic = xyz2rgb(obj.pic);
+            obj.pic = xyz2rgb(obj.pic,'WhitePoint','d50');
             imshow(obj.pic,'InitialMagnification','fit')
-         end
+        end
+        function PlotPolarIntensity(obj)
+            x = 0;
+            w = (obj.Body.Position(3))-2;
+            h = (obj.Body.Position(4) - ceil(obj.Body.Position(4))/2);
+            y = 0;
+            
+            obj.FixtureInfo.IntPolarPlot = uipanel(obj.Body);
+            obj.FixtureInfo.IntPolarPlot.BackgroundColor   = obj.background;
+            obj.FixtureInfo.IntPolarPlot.BorderType        = 'none';
+            obj.FixtureInfo.IntPolarPlot.Units             = 'pixels';
+            obj.FixtureInfo.IntPolarPlot.Position          = [x,y,w,h];
+        end
     end
 end
