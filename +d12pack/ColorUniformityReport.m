@@ -35,16 +35,13 @@ classdef ColorUniformityReport < d12pack.report
             oldUnits = obj.Body.Units;
             obj.Body.Units = 'Pixel';
             
-            x = 0;
-            w = (obj.Body.Position(3))-2;
-            h = (ceil(obj.Body.Position(4))/3);
-            y = 2*h+100;
+            
             
             obj.FixtureInfo.ColorPlot = uipanel(obj.Body);
             obj.FixtureInfo.ColorPlot.BackgroundColor   = obj.background;
             obj.FixtureInfo.ColorPlot.BorderType        = 'none';
-            obj.FixtureInfo.ColorPlot.Units             = 'pixels';
-            obj.FixtureInfo.ColorPlot.Position          = [x,y,w,h];
+            obj.FixtureInfo.ColorPlot.Units             = 'Normal';
+            obj.FixtureInfo.ColorPlot.Position          = [0,2/3,1,1/3];
             calcSpacing = 1/16;
             [xIrr,~,~,~] = PPFCalculator(obj.FixtureData.xBarIES,'MountHeight',2,'Length',3,'Width',3,'LRcount',1,'TBcount',1,'calcSpacing',calcSpacing);
             [yIrr,~,~,~] = PPFCalculator(obj.FixtureData.yBarIES,'MountHeight',2,'Length',3,'Width',3,'LRcount',1,'TBcount',1,'calcSpacing',calcSpacing);
@@ -72,31 +69,21 @@ classdef ColorUniformityReport < d12pack.report
             title('Spatial Color Distribution on Work Plane (RGB)');
             ax.Visible = 'on';
             
-            x = 0;
-            w = (obj.Body.Position(3))-2;
-            y = 2*h-50;
-            h = 50;
-            
+                       
             obj.FixtureInfo.textPlot = uicontrol(obj.Body,'Style','text');
             obj.FixtureInfo.textPlot.BackgroundColor   = obj.background;
-            obj.FixtureInfo.textPlot.Units             = 'pixels';
-            obj.FixtureInfo.textPlot.Position          = [x,y,w,h];
-            obj.FixtureInfo.textPlot.String            = sprintf(['Image color is plotted based on measured color matching functions from an imaging goniophotometer.\n',...
-                                                          'Color matching function values are converted to RGB triples using MATLAB function ''xyz2rgb''.\n',...
-                                                          '                        Note: Mounting Height = 2m, Work plane = 4m x 4m.                        ']);
+            obj.FixtureInfo.textPlot.Units             = 'normal';
+            obj.FixtureInfo.textPlot.Position          = [0,(2/3)-(1/40),1,1/40];
+            obj.FixtureInfo.textPlot.String            = sprintf('                        Note: Mounting Height = 2m, Work plane = 4m x 4m.                        ');
               
         end
         function PlotPolarIntensity(obj)
-            x = 0;
-            w = (obj.Body.Position(3))-2;
-            h = ceil(obj.Body.Position(4))/3+50;
-            y = h-75;
-            
+                        
             obj.FixtureInfo.IntPolarPlot = uipanel(obj.Body);
             obj.FixtureInfo.IntPolarPlot.BackgroundColor   = obj.background;
             obj.FixtureInfo.IntPolarPlot.BorderType        = 'none';
-            obj.FixtureInfo.IntPolarPlot.Units             = 'pixels';
-            obj.FixtureInfo.IntPolarPlot.Position          = [x,y,w,h];
+            obj.FixtureInfo.IntPolarPlot.Units             = 'normal';
+            obj.FixtureInfo.IntPolarPlot.Position          = [0,(1/3)-(1/40),1,1/3];
             axe = polaraxes(obj.FixtureInfo.IntPolarPlot);
             [~,ind2] = max(max(obj.FixtureData.IES.photoTable,[],1));
             [~,ind1] = max(max(obj.FixtureData.IES.photoTable,[],2));
@@ -126,5 +113,3 @@ classdef ColorUniformityReport < d12pack.report
         end
     end
 end
-
-
