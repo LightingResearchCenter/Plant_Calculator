@@ -83,7 +83,7 @@ classdef ColorUniformityReport < d12pack.report
             obj.FixtureInfo.IntPolarPlot.BackgroundColor   = obj.background;
             obj.FixtureInfo.IntPolarPlot.BorderType        = 'none';
             obj.FixtureInfo.IntPolarPlot.Units             = 'normal';
-            obj.FixtureInfo.IntPolarPlot.Position          = [0,(1/3)-(1/40),1,1/3];
+            obj.FixtureInfo.IntPolarPlot.Position          = [0,(1/3)-(1/20),1,(1/3)+(1/40)];
             axe = polaraxes(obj.FixtureInfo.IntPolarPlot);
             [~,ind2] = max(max(obj.FixtureData.IES.photoTable,[],1));
             [~,ind1] = max(max(obj.FixtureData.IES.photoTable,[],2));
