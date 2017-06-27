@@ -21,7 +21,7 @@ classdef ColorUniformityReport < d12pack.report
             obj.Type = 'Plant Metrics Report';
             obj.PageNumber = [2,2];
             obj.background = [1,1,1];
-            obj.HeaderHeight = 75;
+            obj.Body.Position(4) = obj.Header.Position(2)+obj.Header.Position(4)-obj.Body.Position(2);   
             obj.FixtureData.IES = tradIES;
             obj.FixtureData.xBarIES = xBarIES;
             obj.FixtureData.yBarIES = yBarIES;
@@ -108,7 +108,8 @@ classdef ColorUniformityReport < d12pack.report
                                    sprintf('270\x00B0'),'','','','','','','','',''};
             axe.RTick = [0, round(max(photoVect)/4), round((max(photoVect)/4)*2), round((max(photoVect)/4)*3), round(max(photoVect))];
             axe.RTickLabel = {'0', num2str(round(max(photoVect)/4)),num2str(round((max(photoVect)/4)*2)),num2str(round((max(photoVect)/4)*3)),num2str(round(max(photoVect)))};
-            legend({'Horizontal Cone through max intensity','Vertical Plane through max intensity'},'Position',[0.02 .02 .98 0.02],'Orientation','horizontal');
+            legend({'Horizontal Cone through max intensity','Vertical Plane through max intensity'},'Position',[0.02 .01 .98 0.015],'Orientation','horizontal');
+            legend('boxoff');
             title('Luminous Intensity Distribution (cd)');
         end
     end

@@ -22,6 +22,7 @@ classdef PlantReport < d12pack.report
             obj.PageNumber = [1,2];
             obj.background = [1,1,1];
             obj.HeaderHeight = 75;
+            obj.Body.BackgroundColor = obj.background;
             if nargin == 0
                 obj.FixtureData = struct('Lamp', 'LED',...
                     'Voltage',120,...
@@ -61,8 +62,8 @@ classdef PlantReport < d12pack.report
             obj.Header.Units = 'pixels';
             
             x = 0;
-            w = 4*floor(obj.Header.Position(3)/5)+10;
-            h = floor(obj.Header.Position(4));
+            w = 4*ceil(obj.Header.Position(3)/5)+10;
+            h = ceil(obj.Header.Position(4));
             y = obj.Header.Position(4) - h;
             
             obj.FixtureInfo.Title = uipanel(obj.Header);
@@ -114,8 +115,8 @@ classdef PlantReport < d12pack.report
             je.putClientProperty(javax.swing.JEditorPane.HONOR_DISPLAY_PROPERTIES, true);
             
             x = w-5;
-            w = floor(obj.Header.Position(3)/5)+10;
-            h = floor(obj.Header.Position(4));
+            w = ceil(obj.Header.Position(3)/5)+10;
+            h = ceil(obj.Header.Position(4));
             y = obj.Header.Position(4)-h;
             
             obj.FixtureInfo.Right = uipanel(obj.Header);
@@ -259,9 +260,9 @@ classdef PlantReport < d12pack.report
             oldUnits = obj.Body.Units;
             obj.Body.Units = 'pixels';
             
-            x = obj.Body.Position(3)/2;
+            x = obj.Body.Position(3)/2+20;
             w = obj.Body.Position(3)/2;
-            h = (obj.Body.Position(4) - floor(obj.Body.Position(4))/2);
+            h = (obj.Body.Position(4) - ceil(obj.Body.Position(4))/2);
             y = h;
             
             obj.FixtureInfo.SPD = uipanel(obj.Body);
@@ -289,7 +290,7 @@ classdef PlantReport < d12pack.report
             
             x = 0;
             w = obj.Body.Position(3)/2;
-            h = (obj.Body.Position(4) - floor(obj.Body.Position(4))/2);
+            h = (obj.Body.Position(4) - ceil(obj.Body.Position(4))/2);
             y = 0;
             obj.FixtureInfo.ISOPlot = uipanel(obj.Body);
             obj.FixtureInfo.ISOPlot.BackgroundColor   = obj.background;
@@ -342,7 +343,7 @@ classdef PlantReport < d12pack.report
             %plots in the bottom right quarter of the body
             x = obj.Body.Position(3)/2;
             w = obj.Body.Position(3)/2;
-            h = (obj.Body.Position(4) - floor(obj.Body.Position(4))/2);
+            h = (obj.Body.Position(4) - ceil(obj.Body.Position(4))/2);
             y = 0;
             
             obj.FixtureInfo.LSAEPlot = uipanel(obj.Body);
@@ -376,7 +377,7 @@ classdef PlantReport < d12pack.report
             je = javax.swing.JEditorPane('text/html', sprintf(htmltext,textarray{:}));
             jp = javax.swing.JScrollPane(je);
             [~, hcontainer] = javacomponent(jp, [], obj.FixtureInfo.LSAEPlot);
-            set(hcontainer, 'units', 'normalized', 'position', [0,0,1.01,1],'backgroundcolor',[1,1,1]);
+            set(hcontainer, 'units', 'normalized', 'position', [0,0,1.01,1.01],'backgroundcolor',[1,1,1]);
             
             java.lang.System.setProperty('awt.useSystemAAFontSettings', 'on');
             je.setFont(java.awt.Font('Arial', java.awt.Font.PLAIN, 13));
