@@ -19,20 +19,20 @@ classdef PlantReport < d12pack.report
         function obj = PlantReport(varargin)
             obj@d12pack.report;
             obj.Type = 'Plant Metrics Report';
-            obj.PageNumBox.Visible = 'off';
+            obj.PageNumber = [1,2];
             obj.background = [1,1,1];
             obj.HeaderHeight = 75;
             if nargin == 0
-                obj.FixtureData = struct(   'Lamp','LED',...
+                obj.FixtureData = struct('Lamp', 'LED',...
                     'Voltage',120,...
                     'PPF',380.7,...
                     'YPF',337.8,...
                     'PPFofTotal',.9,...
                     'PSS',0.868,...
                     'RCR',37.8,...
-                    'ImagePath','C:\Users\plummt\Documents\MATLAB\Plant_Calculator\incandescent.png',...
+                    'ImagePath','E:\Users\plummt\Documents\MATLAB\Plant_Calculator\incandescent.png',...
                     'Product','LED109056',...
-                    'Catalog','Unknown',...
+                    'Catalog', 'Unknown',...
                     'Cost',100.00,...
                     'THD',12,...
                     'spd','\\root\projects\NRCAn\2013 Horticultural Lighting\SphereTesting\LED109053\Trial2\SPD\LED109053109053SPD.txt',...
@@ -85,7 +85,7 @@ classdef PlantReport < d12pack.report
             [~, A_str] = sd_round(obj.FixtureData.PSS,3);
             data{5} = A_str;
             data{6} = obj.FixtureData.Lamp;
-            [~, A_str] = num2str(round(obj.FixtureData.Wattage));
+            A_str = num2str(round(obj.FixtureData.Wattage));
             data{7} = A_str;
             [~, A_str] = sd_round((obj.FixtureData.PPF/obj.FixtureData.Wattage),3);
             data{8} = A_str;
@@ -173,6 +173,7 @@ classdef PlantReport < d12pack.report
             HPS600Paynum = (fixtureCost*fixcount(ind))/HPS600Save;
             if HPS1000Save < 0
                 HPS1000pari = 'pari';
+                HPS1000SaveStr = sprintf('($%0.0f)',abs(HPS1000Save));
                 HPS1000Pay = 'No Payback';
                 incentive1000  = 0;
                 newHPS1000Paynum = HPS1000Paynum;
@@ -180,10 +181,11 @@ classdef PlantReport < d12pack.report
                     incentive1000 = incentive1000+1;
                     incentiveCost = (fixtureCost-incentive1000)*fixcount(ind);
                     newHPS1000Paynum = incentiveCost/HPS1000Save;
-                    incentive1000str = sprintf('An incentive of at least $%0.0f per luminaire is required to have equal engergy cost as the 1000 W HPS system.',incentive1000);
+                    incentive1000str = sprintf('An incentive of at least $%0.0f per luminaire is required to have equal energy costs as the 1000 W HPS system.',incentive1000);
                 end
             else
                 HPS1000pari = 'yw4l';
+                HPS1000SaveStr = sprintf('$%0.0f',HPS1000Save);
                 HPS1000Pay =sprintf('%0.0f',HPS1000Paynum);
                 incentive1000  = 0;
                 newHPS1000Paynum = HPS1000Paynum;
@@ -192,14 +194,15 @@ classdef PlantReport < d12pack.report
                         incentive1000 = incentive1000+1;
                         incentiveCost = (fixtureCost-incentive1000)*fixcount(ind);
                         newHPS1000Paynum = incentiveCost/HPS1000Save;
-                        incentive1000str = sprintf('An incentive of $%0.0f per luminare would reduce the payback period to less than 3 years compaired to 1000 W HPS system.',incentive1000);
+                        incentive1000str = sprintf('An incentive of $%0.0f per luminaire would reduce the payback period to less than 3 years compared to 1000 W HPS system.',incentive1000);
                     end
                 else
-                    incentive1000str = 'No additional incentive is needed when compaired to the 1000 W HPS system.';
+                    incentive1000str = 'No additional incentive is needed when compared to the 1000 W HPS system.';
                 end
             end
             if HPS600Save < 0
                 HPS600pari = 'pari';
+                HPS600SaveStr = sprintf('($%0.0f)',abs(HPS600Save));
                 HPS600Pay = 'No Payback';
                 incentive600 = 0;
                 newHPS600Paynum = HPS600Paynum;
@@ -207,10 +210,11 @@ classdef PlantReport < d12pack.report
                     incentive600 = incentive600+1;
                     incentiveCost = (fixtureCost-incentive600)*fixcount(ind);
                     newHPS600Paynum = incentiveCost/HPS600Save;
-                    incentive600str = sprintf('An incentive of $%0.0f per luminare would reduce the payback period to less than 3 years compaired to 600 W HPS system.',incentive600);
+                    incentive600str = sprintf('An incentive of at least $%0.0f per luminaire is required to have equal energy costs as the 600 W HPS system.',incentive600);
                 end
             else
                 HPS600pari = 'yw4l';
+                HPS600SaveStr = sprintf('$%0.0f',HPS600Save);
                 HPS600Pay = sprintf('%0.0f',HPS600Paynum);
                 incentive600 = 0;
                 newHPS600Paynum = HPS600Paynum;
@@ -219,10 +223,10 @@ classdef PlantReport < d12pack.report
                     incentive600 = incentive600+1;
                     incentiveCost = (fixtureCost-incentive600)*fixcount(ind);
                     newHPS600Paynum = incentiveCost/HPS600Save;
-                    incentive600str = sprintf('An incentive of $%0.0f would reduce the payback period to less than 3 years compaired to the 600 W HPS.',incentive600);
+                    incentive600str = sprintf('An incentive of $%0.0f would reduce the payback period to less than 3 years compared to the 600 W HPS system.',incentive600);
                 end
                 else
-                    incentive600str = 'No additional incentive is needed when compaired to the 600 W HPS system.';
+                    incentive600str = 'No additional incentive is needed when compared to the 600 W HPS system.';
                 end
             end
             EcoCell = textscan(EconomicTableFile,'%s');
@@ -235,9 +239,9 @@ classdef PlantReport < d12pack.report
                 HPS1000WpM,HPS600WpM,FixtureWpM,...
                 HPS1000kWpY,HPS600kWpY,FixturekWpY,...
                 HPS1000EnCost,HPS600EnCost,FixtureEnCost,...
-                obj.FixtureData.Lamp,HPS1000pari,HPS1000Save,...
-                obj.FixtureData.Lamp,HPS600pari,HPS600Save,...
-                ceil(HPS1000Pay),ceil(HPS600Pay),...
+                obj.FixtureData.Lamp,HPS1000pari,HPS1000SaveStr,...
+                obj.FixtureData.Lamp,HPS600pari,HPS600SaveStr,...
+                HPS1000Pay,HPS600Pay,...
                 energyCost, incentive1000str, incentive600str};
             [str,~] = sprintf(htmltext,data{:});
             je = javax.swing.JEditorPane('text/html', str);
@@ -319,7 +323,7 @@ classdef PlantReport < d12pack.report
             obj.FixtureInfo.ISOaxes.XTickLabel = plotLabels;
             obj.FixtureInfo.ISOaxes.YLim = [plotMin,plotMax];
             obj.FixtureInfo.ISOaxes.XLim = [plotMin,plotMax];
-            title(obj.FixtureInfo.ISOaxes,sprintf('Iso-PPFD Countours (MH= %0.1fm)',mount));
+            title(obj.FixtureInfo.ISOaxes,sprintf('Iso-PPFD Contours (MH= %0.1fm)',mount));
             clabel(C,h,'FontSize',8);
             axis(obj.FixtureInfo.ISOaxes,'square');
             obj.FixtureInfo.ISOaxes.XGrid = 'on';
@@ -327,10 +331,10 @@ classdef PlantReport < d12pack.report
             ylabel(obj.FixtureInfo.ISOaxes,'Meters')
             xlabel(obj.FixtureInfo.ISOaxes,'Meters')
             colormap(obj.FixtureInfo.ISOaxes,jet)
-            fixX = (plotMax/2)-(obj.FixtureData.IESdata.Length*.5);
-            fixY = (plotMax/2)-(obj.FixtureData.IESdata.Width*0.5);
-            fixW = obj.FixtureData.IESdata.Length;
-            fixH = obj.FixtureData.IESdata.Width;
+            fixX = (plotMax/2)-(obj.FixtureData.IESdata.Width*.5);
+            fixY = (plotMax/2)-(obj.FixtureData.IESdata.Length*0.5);
+            fixW = obj.FixtureData.IESdata.Width;
+            fixH = obj.FixtureData.IESdata.Length;
             
             rectangle('Position',[fixX,fixY,fixW,fixH],'LineWidth',2);
         end

@@ -6,7 +6,7 @@
 .tg .tg-07dj{padding:1px 1px;border-right: solid 1px #f00;text-align:left;font-weight:bold;font-size:18px}
 .tg .tg-yw4l{padding:1px 1px;border-right: solid 1px #f00;vertical-align:top}
 </style>
-<h1 style = "margin:0px">%s DataSheet</h1>
+<h1 style = "text-align:center;margin:0px">%s DataSheet</h1>
 <table class="tg">
   <tr>
     <td class="tg-nrw8"> </td>

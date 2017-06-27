@@ -137,5 +137,5 @@
   </tr>
 </table>
 <p class = 'para'>Highlighted Cells: Highest LSAE for target PPFD.</p>
-<p class = 'para'>Bolded Cell: Highest LSAE for entire system.</p>
+<p class = 'para'>Bolded Cell: Highest LSAE for all mounting height and PPFD combinations.</p>
 <p class = 'para'>Note: LSAE is for a 10mX10m growing area with an average:minimum &#60 4:1;</p>
