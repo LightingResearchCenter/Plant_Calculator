@@ -1,17 +1,20 @@
 <style type="text/css">
-.p {padding:0;margin:0;font-size:10px}
-.tg  {text-align:center;width:100%%;border-collapse:collapse;border-spacing:0;}
-.tg td{text-align:center;font-family:Arial, sans-serif;font-size:13px;padding:0px 0px;border-style:solid;border-width:0px;overflow:hidden;word-break:normal;}
-.tg th{text-align:center;font-family:Arial, sans-serif;font-size:13px;font-weight:normal;padding:0px 0px;border-style:solid;border-width:0px;overflow:hidden;word-break:normal;}
-.tg .tg-wxgh{text-align:center;border-width:1px;vertical-align:top}
-.tg .tg-left{text-align:left;border-width:1px;vertical-align:top}
-.tg .tg-yw4l{text-align:center;border-bottom:solid 2px;border-left:solid 1px;border-right:solid 1px;vertical-align:top}
-.tg .tg-pari{color:red;text-align:center;border-bottom:solid 2px #000000 ;border-left:solid 1px #000000;border-right:solid 1px #000000;vertical-align:top}
+.supe {vertical-align:super;
+    }
+.p {padding:0;margin:0;font-size:.9em}
+.psum {padding:0;margin:0}
+.tg  {font-size:1em;text-align:center;width:100%%;border-collapse:collapse;border-spacing:0;}
+.tg td{font-size:1em;text-align:center;font-family:Arial, sans-serif;padding:0px 0px;border-style:solid;border-width:0px;overflow:hidden;word-break:normal;}
+.tg th{font-size:1em;text-align:center;font-family:Arial, sans-serif;font-weight:normal;padding:0px 0px;border-style:solid;border-width:0px;overflow:hidden;word-break:normal;}
+.tg .tg-wxgh{font-size:1em;text-align:center;border-width:1px;vertical-align:top}
+.tg .tg-left{font-size:1em;text-align:left;border-width:1px}
+.tg .tg-yw4l{font-size:1em;text-align:center;border-bottom:solid 2px;border-left:solid 1px;border-right:solid 1px;}
+.tg .tg-pari{font-size:1em;color:red;text-align:center;border-bottom:solid 2px #000000 ;border-left:solid 1px #000000;border-right:solid 1px #000000;vertical-align:top}
 </style>
-<h1 style ="text-align:center;margin-top: 28px;margin-left:11px;">Simple Payback Calculations</h1>
+<h1 style ="text-align:center;margin-top: 28px;margin-left:11px;">Simple Payback Calculations</h2>
 <table class="tg">
   <tr>
-    <th class="tg-left"><b>Summary</b> <p class="p">(assuming target PPFD of 300 &#181;mol/sec m <sup>2</sup>)</p></th>
+    <th class="tg-left"><b>Summary</b> <p class="psum">(assuming target PPFD of 300 &#181;mol/sec m<span class="supe">2</span>)</p></th>
     <th class="tg-wxgh">1000 W HPS</th>
     <th class="tg-wxgh">600 W HPS</th>
     <th class="tg-wxgh">%s</th>
@@ -29,26 +32,26 @@
     <td class="tg-wxgh">$%0.0f</td>
   </tr>
   <tr>
-    <td class="tg-left">Power demand (W/m <sup>2</sup>)</td>
+    <td class="tg-left">Power demand (W/m<span class="supe">2</span>)</td>
     <td class="tg-wxgh">%0.1f</td>
     <td class="tg-wxgh">%0.1f</td>
     <td class="tg-wxgh">%0.1f</td>
   </tr>
   <tr>
-    <td class="tg-left">Total energy use per year (kWh/m <sup>2</sup> year)</td>
+    <td class="tg-left">Total energy use per year (kWh/m<span class="supe">2</span>year)</td>
     <td class="tg-wxgh">%0.0f</td>
     <td class="tg-wxgh">%0.0f</td>
     <td class="tg-wxgh">%0.0f</td>
   </tr>
   <tr>
-    <td class="tg-left">Total energy cost per year ($/m <sup>2</sup> year)</td>
+    <td class="tg-left">Total energy cost per year ($/m<span class="supe">2</span>year)</td>
     <td class="tg-wxgh">$%0.0f</td>
     <td class="tg-wxgh">$%0.0f</td>
     <td class="tg-wxgh">$%0.0f</td>
   </tr>
   <tr>
     <td class="tg-left" colspan="3">Annual energy savings for %s compared to 1000 W HPS</td>
-    <td class="tg-%s">%s.</td>
+    <td class="tg-%s">%s</td>
   </tr>
   <tr>
     <td class="tg-left" colspan="3">Annual energy savings for %s compared to 600 W HPS</td>
@@ -65,5 +68,5 @@
 </table>
 <p class="p">Note: Assuming a $%0.4f per kWh. Lamps are used for 12 hours per day.</p>
 <p class="p">Note: All calculations assume a 10mX10m growing area.</p>
-<h2>%s</h2>
-<h2>%s</h2>
+<h3 class="psum">%s</h3>
+<h3 class="psum">%s</h3>

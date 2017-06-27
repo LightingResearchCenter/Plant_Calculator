@@ -83,7 +83,7 @@ classdef PlantReport < d12pack.report
             data{3} = A_str;
             [~, A_str] = sd_round(obj.FixtureData.YPF,3);
             data{4} = A_str;
-            [~, A_str] = sd_round(obj.FixtureData.PSS,3);
+            [~, A_str] = sd_round(obj.FixtureData.PSS,2);
             data{5} = A_str;
             data{6} = obj.FixtureData.Lamp;
             A_str = num2str(round(obj.FixtureData.Wattage));
@@ -111,7 +111,7 @@ classdef PlantReport < d12pack.report
             set(hcontainer, 'units', 'normalized', 'position', [-.005,0,1.01,1.01],'backgroundcolor',[1,1,1]);
             
             java.lang.System.setProperty('awt.useSystemAAFontSettings', 'on');
-            je.setFont(java.awt.Font('Arial', java.awt.Font.PLAIN, 13));
+            je.setFont(java.awt.Font('Arial', java.awt.Font.PLAIN, 10));
             je.putClientProperty(javax.swing.JEditorPane.HONOR_DISPLAY_PROPERTIES, true);
             
             x = w-5;
@@ -251,7 +251,7 @@ classdef PlantReport < d12pack.report
             set(hcontainer, 'units', 'normalized', 'position', [-.005,0,1.01,1.01],'backgroundcolor',[1,1,1]);
             
             java.lang.System.setProperty('awt.useSystemAAFontSettings', 'on');
-            je.setFont(java.awt.Font('Arial', java.awt.Font.PLAIN, 13));
+            je.setFont(java.awt.Font('Arial', java.awt.Font.PLAIN, 10));
             je.putClientProperty(javax.swing.JEditorPane.HONOR_DISPLAY_PROPERTIES, true);
             
         end
@@ -289,8 +289,8 @@ classdef PlantReport < d12pack.report
             obj.Body.Units = 'pixels';
             
             x = 0;
-            w = obj.Body.Position(3)/2;
-            h = (obj.Body.Position(4) - ceil(obj.Body.Position(4))/2);
+            w = ceil(obj.Body.Position(3)/2)+1;
+            h = (obj.Body.Position(4) - ceil(obj.Body.Position(4))/2)+1;
             y = 0;
             obj.FixtureInfo.ISOPlot = uipanel(obj.Body);
             obj.FixtureInfo.ISOPlot.BackgroundColor   = obj.background;
@@ -380,7 +380,7 @@ classdef PlantReport < d12pack.report
             set(hcontainer, 'units', 'normalized', 'position', [0,0,1.01,1.01],'backgroundcolor',[1,1,1]);
             
             java.lang.System.setProperty('awt.useSystemAAFontSettings', 'on');
-            je.setFont(java.awt.Font('Arial', java.awt.Font.PLAIN, 13));
+            je.setFont(java.awt.Font('Arial', java.awt.Font.PLAIN, 10));
             je.putClientProperty(javax.swing.JEditorPane.HONOR_DISPLAY_PROPERTIES, true);
         end
     end

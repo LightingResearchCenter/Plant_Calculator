@@ -1,9 +1,9 @@
 <style type="text/css">
 .tg  {text-align:left;width:100%%;border-collapse:collapse;border-spacing:0;border:none;}
-.tg td{font-family:Arial, sans-serif;font-size:14px;padding:0px 0px;border-style:solid;border-width:0px;overflow:hidden;word-break:normal;}
-.tg th{font-family:Arial, sans-serif;font-size:14px;font-weight:normal;padding:0px 0px;border-style:solid;border-width:0px;overflow:hidden;word-break:normal;}
-.tg .tg-nrw8{border-right: solid 1px #f00;font-size:14px;padding:1px 1px}
-.tg .tg-07dj{padding:1px 1px;border-right: solid 1px #f00;text-align:left;font-weight:bold;font-size:18px}
+.tg td{font-family:Arial, sans-serif;font-size:1em;padding:0px 0px;border-style:solid;border-width:0px;overflow:hidden;word-break:normal;}
+.tg th{font-family:Arial, sans-serif;font-size:1em;font-weight:normal;padding:0px 0px;border-style:solid;border-width:0px;overflow:hidden;word-break:normal;}
+.tg .tg-nrw8{border-right: solid 1px #f00;font-size:1em;padding:1px 1px}
+.tg .tg-07dj{padding:1px 1px;border-right: solid 1px #f00;text-align:left;font-weight:bold;font-size:1.2em}
 .tg .tg-yw4l{padding:1px 1px;border-right: solid 1px #f00;vertical-align:top}
 </style>
 <h1 style = "text-align:center;margin:0px">%s DataSheet</h1>
@@ -12,15 +12,15 @@
     <td class="tg-nrw8"> </td>
     <td class="tg-nrw8"> Voltage = %s V</td>
     <td class="tg-nrw8"> PPF = %s µmol/sec</td>
-    <td class="tg-nrw8"> YPF= %s µmol/sec</td>
+    <td class="tg-nrw8"> YPF = %s µmol/sec</td>
     <td class="tg-yw4l"> PSS = %s</td>
   </tr>
   <tr>
     <td class="tg-nrw8"> %s</td>
     <td class="tg-nrw8"> Power = %s W</td>
-    <td class="tg-nrw8"> PPF/W= %s µmol/J</td>
+    <td class="tg-nrw8"> PPF/W = %s µmol/J</td>
     <td class="tg-nrw8"> YPF/W = %s µmol/J</td>
-    <td class="tg-yw4l"> RCR= %s</td>
+    <td class="tg-yw4l"> RCR = %s</td>
   </tr>
   <tr>
     <td class="tg-nrw8"> %s</td>

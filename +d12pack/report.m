@@ -55,6 +55,7 @@ classdef report < matlab.mixin.SetGet
             
             obj.Figure = figure;
             obj.Figure.Renderer = 'painters';
+            obj.Figure.PaperPositionMode = 'auto';
             obj.Figure.Resize = 'off';
             obj.Figure.ToolBar = 'none';
             obj.Figure.DockControls = 'off';
