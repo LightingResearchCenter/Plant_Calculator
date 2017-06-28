@@ -1,15 +1,15 @@
 <style type="text/css">
 .supe {vertical-align:super;
     }
-.p {padding:0;margin:0;font-size:.9em}
+.p {padding:0;margin:0;font-size:9pt}
 .psum {padding:0;margin:0}
-.tg  {font-size:1em;text-align:center;width:100%%;border-collapse:collapse;border-spacing:0;}
-.tg td{font-size:1em;text-align:center;font-family:Arial, sans-serif;padding:0px 0px;border-style:solid;border-width:0px;overflow:hidden;word-break:normal;}
-.tg th{font-size:1em;text-align:center;font-family:Arial, sans-serif;font-weight:normal;padding:0px 0px;border-style:solid;border-width:0px;overflow:hidden;word-break:normal;}
-.tg .tg-wxgh{font-size:1em;text-align:center;border-width:1px;vertical-align:top}
-.tg .tg-left{font-size:1em;text-align:left;border-width:1px}
-.tg .tg-yw4l{font-size:1em;text-align:center;border-bottom:solid 2px;border-left:solid 1px;border-right:solid 1px;}
-.tg .tg-pari{font-size:1em;color:red;text-align:center;border-bottom:solid 2px #000000 ;border-left:solid 1px #000000;border-right:solid 1px #000000;vertical-align:top}
+.tg  {font-size:10pt;text-align:center;width:100%%;border-collapse:collapse;border-spacing:0;}
+.tg td{font-size:10pt;text-align:center;font-family:Arial, sans-serif;padding:0px 0px;border-style:solid;border-width:0px;overflow:hidden;word-break:normal;}
+.tg th{font-size:10pt;text-align:center;font-family:Arial, sans-serif;font-weight:normal;padding:0px 0px;border-style:solid;border-width:0px;overflow:hidden;word-break:normal;}
+.tg .tg-wxgh{font-size:10pt;text-align:center;border-width:1px;vertical-align:top}
+.tg .tg-left{font-size:10pt;text-align:left;border-width:1px}
+.tg .tg-yw4l{font-size:10pt;text-align:center;border-bottom:solid 2px;border-left:solid 1px;border-right:solid 1px;}
+.tg .tg-pari{font-size:10pt;text-align:center;border-bottom:solid 2px #000000 ;border-left:solid 1px #000000;border-right:solid 1px #000000;vertical-align:top}
 </style>
 <h1 style ="text-align:center;margin-top: 28px;margin-left:11px;">Simple Payback Calculations</h2>
 <table class="tg">
