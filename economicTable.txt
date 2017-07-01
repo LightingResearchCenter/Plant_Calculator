@@ -1,72 +1,117 @@
 <style type="text/css">
-.supe {vertical-align:super;
-    }
-.p {padding:0;margin:0;font-size:9pt}
-.psum {padding:0;margin:0}
-.tg  {font-size:10pt;text-align:center;width:100%%;border-collapse:collapse;border-spacing:0;}
-.tg td{font-size:10pt;text-align:center;font-family:Arial, sans-serif;padding:0px 0px;border-style:solid;border-width:0px;overflow:hidden;word-break:normal;}
-.tg th{font-size:10pt;text-align:center;font-family:Arial, sans-serif;font-weight:normal;padding:0px 0px;border-style:solid;border-width:0px;overflow:hidden;word-break:normal;}
-.tg .tg-wxgh{font-size:10pt;text-align:center;border-width:1px;vertical-align:top}
-.tg .tg-left{font-size:10pt;text-align:left;border-width:1px}
-.tg .tg-yw4l{font-size:10pt;text-align:center;border-bottom:solid 2px;border-left:solid 1px;border-right:solid 1px;}
-.tg .tg-pari{font-size:10pt;text-align:center;border-bottom:solid 2px #000000 ;border-left:solid 1px #000000;border-right:solid 1px #000000;vertical-align:top}
+th, td{
+    padding:            0px;
+    margin:             0px;
+    border:             1px solid black;
+    border-collapse:    collapse;}
+tr {display:none}
+table{border-collapse:    collapse;
+ padding:            0px;
+    margin:             0px;}
+.p {    padding:            0px;
+        padding-left:       2px;
+        margin:             0;
+        font-size:          9pt}
+.psum { padding:            0;
+        margin:             0}
+.tg  {  font-size:          10pt;
+        text-align:         center;
+        width:              100%%;
+        border:             1px solid black;
+        border-spacing:     0px;}
+.tg td{ font-size:          10pt;
+        text-align:         center;
+        font-family:        Arial, sans-serif;
+        overflow:           hidden;
+        word-break:         normal;
+padding:            0;
+        margin:             0}
+.tg th{ font-size:          10pt;
+        text-align:         center;
+        font-family:        Arial, sans-serif;
+        font-weight:        normal;
+        overflow:           hidden;
+        word-break:         normal;
+padding:            0;
+        margin:             0}
+.tg .tg-wxgh{   font-size:      10pt;
+                text-align:     center;
+                vertical-align: top;
+padding:            0;
+        margin:             0}
+.tg .tg-left{   font-size:      10pt;
+                text-align:     left;
+padding:            0;
+        margin:             0}
+.tg .tg-yw4l{   font-size:      10pt;
+                text-align:     center;
+padding:            0;
+        margin:             0}
+.tg .tg-pari{   font-size:      10pt;
+                text-align:     center;
+                vertical-align: top;
+padding:            0;
+        margin:             0}
 </style>
-<h1 style ="text-align:center;margin-top: 28px;margin-left:11px;">Simple Payback Calculations</h2>
+<h2 style ="text-align:center;margin:0px;">Simple Payback Calculations</h2>
 <table class="tg">
   <tr>
-    <th class="tg-left"><b>Summary</b> <p class="psum">(assuming target PPFD of 300 &#181;mol/sec m<span class="supe">2</span>)</p></th>
-    <th class="tg-wxgh">1000 W HPS</th>
-    <th class="tg-wxgh">600 W HPS</th>
-    <th class="tg-wxgh">%s</th>
+    <th class="tg-left"><b>Summary</b> <p class="psum">(assuming target PPFD of 300 &#181;mol/sec m&#178)</p></th>
+    <th class="tg-wxgh">1000 W HPS&#8311</th>
+    <th class="tg-wxgh">600 W HPS&#8312</th>
+    <th class="tg-wxgh">%s&#8313</th>
   </tr>
   <tr>
-    <td class="tg-left">Quantity</td>
+    <td class="tg-left"><b>Quantity</b></td>
     <td class="tg-wxgh">%d</td>
     <td class="tg-wxgh">%d</td>
     <td class="tg-wxgh">%d</td>
   </tr>
   <tr>
-    <td class="tg-left">Initial cost</td>
+    <td class="tg-left"><b>Initial cost</b></td>
     <td class="tg-wxgh">$%0.0f</td>
     <td class="tg-wxgh">$%0.0f</td>
     <td class="tg-wxgh">$%0.0f</td>
   </tr>
   <tr>
-    <td class="tg-left">Power demand (W/m<span class="supe">2</span>)</td>
+    <td class="tg-left"><b>Power demand (W/m&#178)</b></td>
     <td class="tg-wxgh">%0.1f</td>
     <td class="tg-wxgh">%0.1f</td>
     <td class="tg-wxgh">%0.1f</td>
   </tr>
   <tr>
-    <td class="tg-left">Total energy use per year (kWh/m<span class="supe">2</span>year)</td>
+    <td class="tg-left"><b>Total energy use per year (kWh/m&#178year)</b></td>
     <td class="tg-wxgh">%0.0f</td>
     <td class="tg-wxgh">%0.0f</td>
     <td class="tg-wxgh">%0.0f</td>
   </tr>
   <tr>
-    <td class="tg-left">Total energy cost per year ($/m<span class="supe">2</span>year)</td>
+    <td class="tg-left"><b>Total energy cost per year ($/m&#178year)</b></td>
     <td class="tg-wxgh">$%0.0f</td>
     <td class="tg-wxgh">$%0.0f</td>
     <td class="tg-wxgh">$%0.0f</td>
   </tr>
   <tr>
-    <td class="tg-left" colspan="3">Annual energy savings for %s compared to 1000 W HPS</td>
+    <td class="tg-left" colspan="3"><b>Annual energy savings for %s compared to 1000 W HPS</b></td>
     <td class="tg-%s">%s</td>
   </tr>
   <tr>
-    <td class="tg-left" colspan="3">Annual energy savings for %s compared to 600 W HPS</td>
+    <td class="tg-left" colspan="3"><b>Annual energy savings for %s compared to 600 W HPS</b></td>
     <td class="tg-%s">%s</td>
   </tr>
   <tr>
-    <td class="tg-left" colspan="3">Simple payback compared to 1000 W HPS (years)</td>
-    <td class="tg-yw4l">%s</td>
+    <td class="tg-left" colspan="3" rowspan="2"><b>Simple payback compared to 1000 W HPS (years)</b><br/>%s</td>
+    <td class="tg-yw4l" rowspan="2">%s</td>
   </tr>
   <tr>
-    <td class="tg-left" colspan="3">Simple payback compared to 600 W HPS (years)</td>
-    <td class="tg-yw4l">%s</td>
   </tr>
+  <tr>
+    <td class="tg-left" colspan="3" rowspan="2" ><b>Simple payback compared to 600 W HPS (years)</b><br/>%s</td>
+    <td class="tg-yw4l" rowspan="2">%s</td>
+  </tr>
+  <tr>
+  </tr>
+
 </table>
 <p class="p">Note: Assuming a $%0.4f per kWh. Lamps are used for 12 hours per day.</p>
 <p class="p">Note: All calculations assume a 10mX10m growing area.</p>
-<h3 class="psum">%s</h3>
-<h3 class="psum">%s</h3>

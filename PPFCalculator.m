@@ -55,7 +55,7 @@ orient3 = bsxfun(@times, A, permute(orientation, [3 1 2]));
 
 x = rows3 - xFix3;
 y = cols3 - yFix3;
- 
+
 r = sqrt(x.^2 + y.^2);
 
 phiPt = atan2(y, x);

@@ -4,6 +4,9 @@ function [newXLocation, newYLocation, newIES] = descritizeFixture(xLocations,yLo
 if mountHeight < 5*maxDim
     %Split up the fixture
     newMax = mountHeight / 5;
+    if newMax<1
+        newMax = convlength(1,'ft','m');
+    end
     minDim = min([IESdata.Length,IESdata.Width]);
     numSplit = ceil(maxDim/newMax);
     if minDim > 1

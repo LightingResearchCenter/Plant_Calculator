@@ -1,25 +1,60 @@
+<meta charset="UTF-8">
 <style type="text/css">
-.tg  {font-size:8pt;border-collapse:collapse;border-spacing:0;}
-.tg td{font-family:Arial, sans-serif;font-size:8pt;padding-top:5px;padding-bottom:5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;}
-.tg th{font-family:Arial, sans-serif;font-size:8pt;padding-top:5px;padding-bottom:5px;font-weight:normal;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;}
-.tg .tg-normal{text-align:center;vertical-align:top}
-.tg .tg-bold{text-align:center;vertical-align:top;font-weight:bold;background:#D3D3D3}
-.tg .tg-shade{text-align:center;vertical-align:top;background:#D3D3D3}
-.tg .tg-head{text-align:center;vertical-align:top;font-weight:bold}
-.para {margin:0;font-size:8pt}
+.tg  {  font-size:      8pt;
+        border-collapse:collapse;
+        border-spacing: 0;
+        border-color:black}
+
+.tg td{ font-family:    Arial, sans-serif;
+        font-size:      8pt;
+        padding-top:    5px;
+        padding-bottom: 5px;
+        border-style:   solid;
+        border-width:   1px;
+        overflow:       hidden;
+        word-break:     normal;}
+
+.tg th{ font-family:    Arial, sans-serif;
+        font-size:      8pt;
+        padding-top:    5px;
+        padding-bottom: 5px;
+        font-weight:    normal;
+        border-style:   solid;
+        border-width:   1px;
+        overflow:       hidden;
+        word-break:     normal;}
+
+.tg .tg-normal{ text-align:     center;
+                vertical-align: top}
+
+.tg .tg-bold{   text-align:     center;
+                vertical-align: top;
+                font-weight:    bold;
+                background:     #D3D3D3}
+
+.tg .tg-shade{  text-align:     center;
+                vertical-align: top;
+                background:     #D3D3D3}
+
+.tg .tg-head{   text-align:     center;
+                vertical-align: top;
+                font-weight:    bold}
+
+.para {         margin:         0;
+                font-size:      8pt}
 </style>
-<h2 style ="text-align:center">Luminaire System Application Efficiency (LSAE)</h2>
-<table class="tg">
+<h2 style ="text-align:center;margin:0px;">Luminaire System Application Efficiency (LSAE)&#185&#178</h2>
+<table class="tg" style ="border-width:1px">
   <tr>
     <th class="tg-head">Mounting Height (MH)</th>
-    <th class="tg-normal" colspan="2">100 PPFD</th>
-    <th class="tg-normal" colspan="2">200 PPFD</th>
-    <th class="tg-normal" colspan="2">300 PPFD</th>
-    <th class="tg-normal" colspan="2">400 PPFD</th>
-    <th class="tg-normal" colspan="2">500 PPFD</th>
+    <th class="tg-normal" colspan="2">PPFD: <br/> 100 &#181;mol/J</th>
+    <th class="tg-normal" colspan="2">PPFD: <br/> 200 &#181;mol/J</th>
+    <th class="tg-normal" colspan="2">PPFD: <br/> 300 &#181;mol/J</th>
+    <th class="tg-normal" colspan="2">PPFD: <br/> 400 &#181;mol/J</th>
+    <th class="tg-normal" colspan="2">PPFD: <br/> 500 &#181;mol/J</th>
   </tr>
   <tr>
-    <td class="tg-normal">M</td>
+    <td class="tg-normal">Meters (m)</td>
     <td class="tg-normal">&#181;mol/J</td>
     <td class="tg-normal">Qty</td>
     <td class="tg-normal">&#181;mol/J</td>
@@ -137,5 +172,5 @@
   </tr>
 </table>
 <p class = 'para'>Highlighted Cells: Highest LSAE for target PPFD.</p>
-<p class = 'para'>Bolded Cell: Highest LSAE for all mounting height and PPFD combinations.</p>
-<p class = 'para'>Note: LSAE is for a 10mX10m growing area with an average:minimum &#60 4:1;</p>
+<p class = 'para'>Bolded Text: Highest LSAE for all mounting height and PPFD combinations.</p>
+<p class = 'para'>Note: LSAE is for a 10 m x10 m growing area with an average:minimum &#60 4:1;</p>

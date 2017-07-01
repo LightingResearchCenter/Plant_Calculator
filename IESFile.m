@@ -141,11 +141,49 @@ classdef IESFile
                 end
                 %TODO see if this is the proper way of generating this file
                 % Add a duplicate collum so it can loop around at 360==0
-                if ies.HorizAngles(end) < 360
-                    ies.photoTable = [ies.photoTable,ies.photoTable(:,1)];
-                    ies.HorizAngles = [ies.HorizAngles;360];
-                    ies.NoHorizAngles = ies.NoHorizAngles+1;
+                if ies.HorizAngles(1) == 0
+                    switch ies.HorizAngles(end)
+                        % This determins the symitry of the system.
+                        case 0
+                            ies.photoTable(:,end+1) = ies.photoTable(:,end);
+                            ies.HorizAngles(end+1) = 360;
+                            ies.NoHorizAngles = length(ies.HorizAngles);
+                        case 90
+                            
+                        case 180
+                            
+                        case 360
+                            %this is what we want
+                        otherwise
+                            error('IESFile s Last Horizontal Angle is not 0, 90, 180, or 360');
+                            
+                    end
+                else
+                    error('IESFile s first Horizontal Angle is not 0');
                 end
+                if ies.VertAngles(1) == 0
+                    switch ies.VertAngles(end)
+                        % This determins the symitry of the system.                             
+                        case 90
+                            ies.photoTable(end+1,:) = zeros(1,ies.NoHorizAngles);
+                            ies.VertAngles(end+1) = 180;
+                            ies.NoVertAngles = length(ies.VertAngles);
+                        case 180
+                            %this is what we want
+                        otherwise
+                            error('IESFile s Last Vertical Angle is not 90 or 180');
+                            
+                    end
+                elseif ies.VertAngles(1) == 90
+                else
+                    error('IESFile s first Vertical Angle is not 0 or 90');
+                end
+                
+%                 if ies.HorizAngles(end) < 360
+%                     ies.photoTable = [ies.photoTable,ies.photoTable(:,1)];
+%                     ies.HorizAngles = [ies.HorizAngles;360];
+%                     ies.NoHorizAngles = ies.NoHorizAngles+1;
+%                 end
             else
                 error('File does not exist');
             end %file exists & not dir

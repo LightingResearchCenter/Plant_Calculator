@@ -38,7 +38,7 @@ classdef report < matlab.mixin.SetGet
     
     properties (Access = protected)
         DefaultHeaderHeight = 54;
-        DefaultFooterHeight = 54;
+        DefaultFooterHeight = 60;
         TitleBox
         FooterBox
         PageNumBox
@@ -193,7 +193,7 @@ classdef report < matlab.mixin.SetGet
             obj.Footer.BorderType = 'none';
             obj.Footer.BackgroundColor = 'white';
                         
-            nowStr = datestr(obj.DateGenerate,'yyyy mmmm dd, HH:MM');
+            nowStr = datestr(obj.DateGenerate,'yyyy mmmm dd');
             footerStr = {obj.Type;['Generated: ',nowStr]};
             
             obj.FooterBox = annotation(obj.Footer,'textbox');
@@ -222,7 +222,7 @@ classdef report < matlab.mixin.SetGet
         
         % LRC logo
         function initLrcLogo(obj)
-            [A,map,alpha] = imread('+d12pack\lrcLogo.png'); % Read in our image.
+            [A,map,alpha] = imread('+d12pack\lrcLogo2.png'); % Read in our image.
             
             obj.LRClogo = axes(obj.Footer); % Make a new axes for logo
             
@@ -235,7 +235,7 @@ classdef report < matlab.mixin.SetGet
         
         % RPI Logo
         function initRpiLogo(obj)
-            [A,map,alpha] = imread('+d12pack\rpiLogo.png'); % Read in our image.
+            [A,map,alpha] = imread('+d12pack\rpiLogo copy.png'); % Read in our image.
             
             obj.RPIlogo = axes(obj.Footer); % Make a new axes for logo
             
@@ -265,14 +265,14 @@ classdef report < matlab.mixin.SetGet
             obj.PageNumBox.Position = [0,0,w,h];
             
             obj.LRClogo.Units = 'pixels';
-            x = 0;
-            h = 36;
+            x = -40;
+            h = 36+17+5;
             w = ceil(518*h/150);
-            y = floor((obj.Footer.Position(4) - h)/2);
+            y = floor((obj.Footer.Position(4) - h)/2)+2;
             obj.LRClogo.Position = [x,y,w,h];
             
             obj.RPIlogo.Units = 'pixels';
-            h = 17;
+            h = 17+36;
             w = 100; %ceil(384*h/71);
             x = obj.Footer.Position(3) - w;
             y = floor((obj.Footer.Position(4) - h)/2);
@@ -311,7 +311,7 @@ classdef report < matlab.mixin.SetGet
         %% Update Footer text on event callback
         function footerTextCallback(src,evnt)
             evnt.AffectedObject.DateGenerate = datetime('now','TimeZone','local');
-            nowStr = datestr(evnt.AffectedObject.DateGenerate,'yyyy mmmm dd, HH:MM');
+            nowStr = datestr(evnt.AffectedObject.DateGenerate,'yyyy mmmm dd');
             footerStr = {evnt.AffectedObject.Type;['Generated: ',nowStr]};
             evnt.AffectedObject.FooterBox.String = footerStr;
         end

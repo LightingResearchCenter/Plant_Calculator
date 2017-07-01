@@ -18,7 +18,7 @@ classdef PlantReport < d12pack.report
         
         function obj = PlantReport(varargin)
             obj@d12pack.report;
-            obj.Type = 'Plant Metrics Report';
+            obj.Type = 'LRC Horticultural Metrics';
             obj.PageNumber = [1,2];
             obj.background = [1,1,1];
             obj.HeaderHeight = 75;
@@ -51,6 +51,8 @@ classdef PlantReport < d12pack.report
             obj.initEconomic();
             obj.initSPDPlot();
             obj.initISOPPFPlot();
+            uistack(obj.LRClogo,'top');
+            align([obj.FixtureInfo.ISOaxes, obj.FixtureInfo.LSAEPlot],'distribute','top');
             
         end % End of class constructor
     end
@@ -76,7 +78,7 @@ classdef PlantReport < d12pack.report
             html = char(headercell{:});
             htmltext = reshape(html',1,[]);
             % print data into HEADERTABLE.TXT
-            data{1} = obj.FixtureData.Product;
+            data{1} = [obj.FixtureData.Brand, ' ',obj.FixtureData.Product];
             A_str = num2str(round(obj.FixtureData.Voltage));
             data{2} = A_str;
             [~, A_str] = sd_round(obj.FixtureData.PPF,3);
@@ -85,24 +87,23 @@ classdef PlantReport < d12pack.report
             data{4} = A_str;
             [~, A_str] = sd_round(obj.FixtureData.PSS,2);
             data{5} = A_str;
-            data{6} = obj.FixtureData.Lamp;
             A_str = num2str(round(obj.FixtureData.Wattage));
-            data{7} = A_str;
+            data{6} = A_str;
             [~, A_str] = sd_round((obj.FixtureData.PPF/obj.FixtureData.Wattage),3);
-            data{8} = A_str;
+            data{7} = A_str;
             [~, A_str] = sd_round((obj.FixtureData.YPF/obj.FixtureData.Wattage),3);
+            data{8} = A_str;
+            [~, A_str] = sd_round(obj.FixtureData.RCR,2);
             data{9} = A_str;
-            [~, A_str] = sd_round(obj.FixtureData.RCR,3);
-            data{10} = A_str;
-            data{11} = obj.FixtureData.Catalog;
-            [~, A_str] = sd_round((obj.FixtureData.Wattage/obj.FixtureData.Voltage),3);
-            data{12} = A_str;
+            data{10} = obj.FixtureData.Catalog;
+            [~, A_str] = sd_round(obj.FixtureData.PowerFactor,2);
+            data{11} = A_str;
             [~, A_str] = sd_round(obj.FixtureData.PPFofTotal,2);
-            data{13} = A_str;
+            data{12} = A_str;
             A_str = num2str(round(obj.FixtureData.Cost));
-            data{14} = A_str;
+            data{13} = A_str;
             [~, A_str] = sd_round(obj.FixtureData.THD,2);
-            data{15} = A_str;
+            data{14} = A_str;
             outputText = cellfun(@char,data,'uni',0);
             [str,~] = sprintf(htmltext,outputText{:});
             je = javax.swing.JEditorPane('text/html', str);
@@ -129,6 +130,7 @@ classdef PlantReport < d12pack.report
             
             imshow(imread(obj.FixtureData.ImagePath));
             obj.FixtureInfo.imgAxes.Position = [0 0 1 1];
+            
         end
         function initEconomic(obj)
             %plots in the top left quarter of the body
@@ -137,8 +139,8 @@ classdef PlantReport < d12pack.report
             
             x = 0;
             w = (obj.Body.Position(3)/2)-2;
-            h = (obj.Body.Position(4) - ceil(obj.Body.Position(4))/2);
-            y = h;
+            h = (obj.Body.Position(4) - ceil(obj.Body.Position(4))/2)-10;
+            y = (obj.Body.Position(4) - ceil(obj.Body.Position(4))/2);
             
             obj.FixtureInfo.Economic = uipanel(obj.Body);
             obj.FixtureInfo.Economic.BackgroundColor   = obj.background;
@@ -242,8 +244,8 @@ classdef PlantReport < d12pack.report
                 HPS1000EnCost,HPS600EnCost,FixtureEnCost,...
                 obj.FixtureData.Lamp,HPS1000pari,HPS1000SaveStr,...
                 obj.FixtureData.Lamp,HPS600pari,HPS600SaveStr,...
-                HPS1000Pay,HPS600Pay,...
-                energyCost, incentive1000str, incentive600str};
+                incentive1000str,HPS1000Pay,incentive600str,HPS600Pay,...
+                energyCost};
             [str,~] = sprintf(htmltext,data{:});
             je = javax.swing.JEditorPane('text/html', str);
             jp = javax.swing.JScrollPane(je);
@@ -276,21 +278,23 @@ classdef PlantReport < d12pack.report
                 obj.FixtureData.Spectrum(:,2)/max(obj.FixtureData.Spectrum(:,2)),...
                 'LineWidth',1);
             axis(obj.FixtureInfo.SPDaxes,[380,830,0,inf]);
-            title(obj.FixtureInfo.SPDaxes,'Spectral Power Distribution (SPD)');
+            ax = gca;
+            ax.FontSize = 8;
+            title(obj.FixtureInfo.SPDaxes,'Spectral Power Distribution (SPD)^1^0');
             
-            xlabel(obj.FixtureInfo.SPDaxes,'Wavelength (nm)')
-            ylabel(obj.FixtureInfo.SPDaxes,'Relative Spectrum (Arb. Units)')
+            xlabel(obj.FixtureInfo.SPDaxes,'Wavelength (nm)','FontSize',10)
+            ylabel(obj.FixtureInfo.SPDaxes,'Relative Spectrum (Arb. Units)','FontSize',10)
             obj.FixtureInfo.SPDaxes.YGrid = 'On';
-            text(obj.FixtureInfo.SPDaxes,475,.95,sprintf('(Absolute mult.=%0.2f W/nm)',max(obj.FixtureData.Spectrum(:,2))));
+            text(obj.FixtureInfo.SPDaxes,400,.95,sprintf('(Absolute mult.=%0.2f W/nm)',max(obj.FixtureData.Spectrum(:,2))),'FontSize',8);
         end
         function initISOPPFPlot(obj)
             %plots in the bottom left quarter of the body
             oldUnits = obj.Body.Units;
             obj.Body.Units = 'pixels';
             
-            x = 0;
-            w = ceil(obj.Body.Position(3)/2)+1;
-            h = (obj.Body.Position(4) - ceil(obj.Body.Position(4))/2)+1;
+            x = -10;
+            w = ceil(obj.Body.Position(3)/2)+18;
+            h = (obj.Body.Position(4) - ceil(obj.Body.Position(4))/2)+42;
             y = 0;
             obj.FixtureInfo.ISOPlot = uipanel(obj.Body);
             obj.FixtureInfo.ISOPlot.BackgroundColor   = obj.background;
@@ -324,7 +328,9 @@ classdef PlantReport < d12pack.report
             obj.FixtureInfo.ISOaxes.XTickLabel = plotLabels;
             obj.FixtureInfo.ISOaxes.YLim = [plotMin,plotMax];
             obj.FixtureInfo.ISOaxes.XLim = [plotMin,plotMax];
-            title(obj.FixtureInfo.ISOaxes,sprintf('Iso-PPFD Contours (MH= %0.1fm)',mount));
+            ax = gca;
+            ax.FontSize = 8;
+            title(obj.FixtureInfo.ISOaxes,sprintf('Iso-PPFD Contours (MH = %0.1f m)^1^1',mount));
             clabel(C,h,'FontSize',8);
             axis(obj.FixtureInfo.ISOaxes,'square');
             obj.FixtureInfo.ISOaxes.XGrid = 'on';
@@ -336,13 +342,14 @@ classdef PlantReport < d12pack.report
             fixY = (plotMax/2)-(obj.FixtureData.IESdata.Length*0.5);
             fixW = obj.FixtureData.IESdata.Width;
             fixH = obj.FixtureData.IESdata.Length;
-            
             rectangle('Position',[fixX,fixY,fixW,fixH],'LineWidth',2);
+            align([obj.FixtureInfo.ISOPlot,obj.FixtureInfo.ISOaxes],'center','top');
+            uistack(obj.FixtureInfo.ISOPlot,'top');
         end
         function initLASEPlot(obj)
             %plots in the bottom right quarter of the body
-            x = obj.Body.Position(3)/2;
-            w = obj.Body.Position(3)/2;
+            x = obj.Body.Position(3)/2+10;
+            w = obj.Body.Position(3)/2-15;
             h = (obj.Body.Position(4) - ceil(obj.Body.Position(4))/2);
             y = 0;
             
@@ -382,6 +389,7 @@ classdef PlantReport < d12pack.report
             java.lang.System.setProperty('awt.useSystemAAFontSettings', 'on');
             je.setFont(java.awt.Font('Arial', java.awt.Font.PLAIN, 10));
             je.putClientProperty(javax.swing.JEditorPane.HONOR_DISPLAY_PROPERTIES, true);
+            uistack(obj.FixtureInfo.LSAEPlot,'bottom');
         end
     end
     
