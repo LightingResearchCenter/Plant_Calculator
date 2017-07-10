@@ -16,17 +16,18 @@ classdef ColorUniformityReport < d12pack.report
     
     methods
         
-        function obj = ColorUniformityReport(tradIES,xBarIES,yBarIES,zBarIES,ppf)
+        function obj = ColorUniformityReport(FixtureData,xBarIES)
             obj@d12pack.report;
             obj.Type = 'LRC Horticultural Metrics';
             obj.PageNumber = [2,2];
             obj.background = [1,1,1];
             obj.Body.Position(4) = obj.Header.Position(2)+obj.Header.Position(4)-obj.Body.Position(2);   
-            obj.FixtureData.IES = tradIES;
-            obj.FixtureData.xBarIES = xBarIES;
-            obj.FixtureData.yBarIES = yBarIES;
-            obj.FixtureData.zBarIES = zBarIES;
-            obj.FixtureData.PPF =ppf;
+            obj.FixtureData = FixtureData;
+            if strcmpi(obj.FixtureData.Lamp,'LED')
+            obj.FixtureData.xBarIES = IESFile(xBarIES);
+            obj.FixtureData.yBarIES = IESFile(strrep(xBarIES,'Xbar','Ybar'));
+            obj.FixtureData.zBarIES = IESFile(strrep(xBarIES,'Xbar','Zbar'));
+            end
             obj.PlotColorUniformity();
             obj.PlotPolarIntensity();
             obj.PlotColorUniformity();
@@ -37,29 +38,45 @@ classdef ColorUniformityReport < d12pack.report
             oldUnits = obj.Body.Units;
             obj.Body.Units = 'Pixel';
             
-            
-            
             obj.FixtureInfo.ColorPlot = uipanel(obj.Body);
             obj.FixtureInfo.ColorPlot.BackgroundColor   = obj.background;
             obj.FixtureInfo.ColorPlot.BorderType        = 'none';
             obj.FixtureInfo.ColorPlot.Units             = 'Normal';
             obj.FixtureInfo.ColorPlot.Position          = [0-1/80,1/2,1/2,(1/2)+(1/20)];
             calcSpacing = 1/16;
-            [xIrr,~,~,~] = PPFCalculator(obj.FixtureData.xBarIES,'MountHeight',2,'Length',3,'Width',3,'LRcount',1,'TBcount',1,'calcSpacing',calcSpacing);
-            [yIrr,~,~,~] = PPFCalculator(obj.FixtureData.yBarIES,'MountHeight',2,'Length',3,'Width',3,'LRcount',1,'TBcount',1,'calcSpacing',calcSpacing);
-            [zIrr,~,~,~] = PPFCalculator(obj.FixtureData.zBarIES,'MountHeight',2,'Length',3,'Width',3,'LRcount',1,'TBcount',1,'calcSpacing',calcSpacing);
-            obj.pic = [xIrr,yIrr,zIrr];
-            obj.pic = reshape(obj.pic,length(xIrr),length(xIrr),3);
-            obj.FixtureInfo.ColorPlotAxes = axes(obj.FixtureInfo.ColorPlot);
-            obj.pic = xyz2rgb(obj.pic);
-            imshow(obj.pic,'InitialMagnification','fit')
+            if strcmpi(obj.FixtureData.Lamp,'LED')
+                [xIrr,~,~,~] = PPFCalculator(obj.FixtureData.xBarIES,'MountHeight',2,'Length',3,'Width',3,'LRcount',1,'TBcount',1,'calcSpacing',calcSpacing,'Color',0);
+                [yIrr,~,~,~] = PPFCalculator(obj.FixtureData.yBarIES,'MountHeight',2,'Length',3,'Width',3,'LRcount',1,'TBcount',1,'calcSpacing',calcSpacing,'Color',0);
+                [zIrr,~,~,~] = PPFCalculator(obj.FixtureData.zBarIES,'MountHeight',2,'Length',3,'Width',3,'LRcount',1,'TBcount',1,'calcSpacing',calcSpacing,'Color',0);
+                obj.pic = [xIrr,yIrr,zIrr];
+                obj.pic = reshape(obj.pic,length(xIrr),length(xIrr),3);
+                obj.FixtureInfo.ColorPlotAxes = axes(obj.FixtureInfo.ColorPlot);
+                obj.pic = xyz2rgb(obj.pic);
+                imshow(obj.pic,'InitialMagnification','fit');
+            else
+                [Irr,~,~,~] = PPFCalculator(obj.FixtureData.IESdata,'MountHeight',2,'Length',3,'Width',3,'LRcount',1,'TBcount',1,'calcSpacing',calcSpacing,'Color',0);
+                [X,Y,Z] = tristimulus(obj.FixtureData.Spectrum);
+                Irr2 = mat2gray(Irr,[0,max(max(Irr))] );
+                xIrr = X.*ones(size(Irr2));
+                yIrr = Y.*ones(size(Irr2));
+                zIrr = Z.*ones(size(Irr2));
+                obj.pic = [xIrr,yIrr,zIrr];
+                obj.pic = reshape(obj.pic,length(xIrr),length(xIrr),3);
+                obj.FixtureInfo.ColorPlotAxes = axes(obj.FixtureInfo.ColorPlot);
+                obj.pic = xyz2rgb(obj.pic);
+                blackimg = zeros(size(obj.pic));
+                imshow(blackimg,'InitialMagnification','fit');
+                hold on
+                h = imshow(obj.pic,'InitialMagnification','fit');
+                set(h, 'AlphaData', Irr2);
+                hold off
+            end
             
             ax = gca;
             plotLabels = {'-1.5';'-1';'-0.5';'0';'0.5';'1';'1.5'};
             plotMax = size(obj.pic,1);
             plotMin =1;
             plotSplits = size(plotLabels,1)-1;
-            imshow(obj.pic)
             ax.YTick =[plotMin,(plotMax)/plotSplits:(plotMax)/plotSplits:plotMax-((plotMax)/plotSplits),plotMax];
             ax.YTickLabel = flipud(plotLabels);
             plotMax = size(obj.pic,2);
@@ -76,7 +93,7 @@ classdef ColorUniformityReport < d12pack.report
             obj.FixtureInfo.textPlot.BackgroundColor   = obj.background;
             obj.FixtureInfo.textPlot.Units             = 'normal';
             obj.FixtureInfo.textPlot.Position          = [0+1/80,(1/2)+(1/20),1/2,1/40];
-            obj.FixtureInfo.textPlot.String            = sprintf('Note: Mounting Height = 2m, Work plane = 3m x 3m.');
+            obj.FixtureInfo.textPlot.String            = sprintf('Note: Mounting Height = 2 m.');
               
         end
         function PlotPolarIntensity(obj)
@@ -85,23 +102,26 @@ classdef ColorUniformityReport < d12pack.report
             obj.FixtureInfo.IntPolarPlot.BackgroundColor   = obj.background;
             obj.FixtureInfo.IntPolarPlot.BorderType        = 'none';
             obj.FixtureInfo.IntPolarPlot.Units             = 'normal';
-            obj.FixtureInfo.IntPolarPlot.Position          = [1/2,(1/2)+(1/80),1/2,(1/2)-(1/60)];
+            obj.FixtureInfo.IntPolarPlot.Position          = [1/2,(1/2)+(1/90),1/2,(1/2)-(1/60)];
             axe = polaraxes(obj.FixtureInfo.IntPolarPlot);
             axe.FontSize = 8;
-            [~,ind2] = max(max(obj.FixtureData.IES.photoTable,[],1));
-            [~,ind1] = max(max(obj.FixtureData.IES.photoTable,[],2));
-            polarplot(axe,deg2rad(obj.FixtureData.IES.HorizAngles),obj.FixtureData.IES.photoTable(ind1,:),'LineWidth',1.5,'Color', [1 0 0] );
+            [~,ind2] = max(max(obj.FixtureData.IESdata.photoTable,[],1));
+            [~,ind1] = max(max(obj.FixtureData.IESdata.photoTable,[],2));
+            polarplot(axe,deg2rad(obj.FixtureData.IESdata.HorizAngles),obj.FixtureData.IESdata.photoTable(ind1,:),'LineWidth',1.5,'Color', [1 0 0] );
             hold on;
-            degfirst = obj.FixtureData.IES.VertAngles(ind2);
-            degsecond = mod(mod(obj.FixtureData.IES.VertAngles(ind2)+90,360),180);
-            ind2nd = find(obj.FixtureData.IES.VertAngles==degsecond);
+            degfirst = obj.FixtureData.IESdata.VertAngles(ind2);
+            degsecond = mod(mod(obj.FixtureData.IESdata.VertAngles(ind2)+180,360),180);
+            ind2nd = find(obj.FixtureData.IESdata.VertAngles==degsecond);
             if degfirst  > degsecond
                 
-                photoVect = [obj.FixtureData.IES.photoTable(:,ind2);flipud(obj.FixtureData.IES.photoTable(2:end,ind2nd))];
+                photoVect = [obj.FixtureData.IESdata.photoTable(:,ind2);flipud(obj.FixtureData.IESdata.photoTable(2:end,ind2nd))];
+                degvect =  mod([obj.FixtureData.IESdata.VertAngles(:);(obj.FixtureData.IESdata.VertAngles(2:end)+180)]-90,360);
+                
             else
-                photoVect = [obj.FixtureData.IES.photoTable(:,ind2nd);flipud(obj.FixtureData.IES.photoTable(2:end,ind2))]';
+                photoVect = [obj.FixtureData.IESdata.photoTable(:,ind2nd);flipud(obj.FixtureData.IESdata.photoTable(2:end,ind2))]';
+                degvect =  mod([obj.FixtureData.IESdata.VertAngles(:);(obj.FixtureData.IESdata.VertAngles(2:end)+180)]-90,360);
             end
-            polarplot(axe ,deg2rad(-90:180/(obj.FixtureData.IES.NoVertAngles-1):270),photoVect,'LineWidth',1.5, 'Color', obj.LRCBlue);
+            polarplot(axe ,deg2rad(degvect),photoVect,'LineWidth',1.5, 'Color', obj.LRCBlue);
             rlim([0,max(photoVect)]);
             axe.ThetaTick = [0:10:360];
             axe.FontSize = 9;

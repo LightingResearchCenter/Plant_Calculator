@@ -6,60 +6,60 @@ th, td{
     border-collapse:    collapse;}
 tr {display:none}
 table{border-collapse:    collapse;
- padding:            0px;
-    margin:             0px;}
+        padding:            0px;
+        margin:             0px;}
 .p {    padding:            0px;
         padding-left:       2px;
         margin:             0;
-        font-size:          9pt}
+        font-size:          8.5pt}
 .psum { padding:            0;
         margin:             0}
-.tg  {  font-size:          10pt;
+.tg  {  font-size:          8.5pt;
         text-align:         center;
         width:              100%%;
         border:             1px solid black;
         border-spacing:     0px;}
-.tg td{ font-size:          10pt;
+.tg td{ font-size:          8.5pt;
         text-align:         center;
         font-family:        Arial, sans-serif;
         overflow:           hidden;
         word-break:         normal;
-padding:            0;
+        padding:            0;
         margin:             0}
-.tg th{ font-size:          10pt;
+.tg th{ font-size:          8.5pt;
         text-align:         center;
         font-family:        Arial, sans-serif;
         font-weight:        normal;
         overflow:           hidden;
         word-break:         normal;
-padding:            0;
+        padding:            0;
         margin:             0}
-.tg .tg-wxgh{   font-size:      10pt;
+.tg .tg-wxgh{   font-size:      8.5pt;
                 text-align:     center;
                 vertical-align: top;
-padding:            0;
-        margin:             0}
-.tg .tg-left{   font-size:      10pt;
+                padding:            0;
+                margin:             0}
+.tg .tg-left{   font-size:      8.5pt;
                 text-align:     left;
-padding:            0;
-        margin:             0}
-.tg .tg-yw4l{   font-size:      10pt;
+                padding:            0;
+                margin:             0}
+.tg .tg-yw4l{   font-size:      8.5pt;
                 text-align:     center;
-padding:            0;
-        margin:             0}
-.tg .tg-pari{   font-size:      10pt;
+                padding:            0;
+                margin:             0}
+.tg .tg-pari{   font-size:      8.5pt;
                 text-align:     center;
                 vertical-align: top;
-padding:            0;
-        margin:             0}
+                padding:            0;
+                margin:             0}
 </style>
-<h2 style ="text-align:center;margin:0px;">Simple Payback Calculations</h2>
+<h2 style ="text-align:center;margin:0px;word-spacing: 5px">Simple Payback Calculations</h2>
 <table class="tg">
   <tr>
     <th class="tg-left"><b>Summary</b> <p class="psum">(assuming target PPFD of 300 &#181;mol/sec m&#178)</p></th>
-    <th class="tg-wxgh">1000 W HPS&#8311</th>
-    <th class="tg-wxgh">600 W HPS&#8312</th>
-    <th class="tg-wxgh">%s&#8313</th>
+    <th class="tg-wxgh">1000 W <br/>HPS &#8311</th>
+    <th class="tg-wxgh">600 W <br/>HPS &#8312</th>
+    <th class="tg-wxgh">%s &#8313</th>
   </tr>
   <tr>
     <td class="tg-left"><b>Quantity</b></td>
@@ -68,25 +68,55 @@ padding:            0;
     <td class="tg-wxgh">%d</td>
   </tr>
   <tr>
-    <td class="tg-left"><b>Initial cost</b></td>
+    <td class="tg-left"><b>Initial cost (US$)</b></td>
+    <td class="tg-wxgh">$%0.0f</td>
+    <td class="tg-wxgh">$%0.0f</td>
+    <td class="tg-wxgh">$%0.0f</td>
+  </tr>
+<tr>
+    <td class="tg-left"><b>Initial cost per area (US$/m&#178)</b></td>
+    <td class="tg-wxgh">$%0.0f</td>
+    <td class="tg-wxgh">$%0.0f</td>
+    <td class="tg-wxgh">$%0.0f</td>
+  </tr>
+<tr>
+    <td class="tg-left"><b>Initial cost per area (US$/ft&#178)</b></td>
     <td class="tg-wxgh">$%0.0f</td>
     <td class="tg-wxgh">$%0.0f</td>
     <td class="tg-wxgh">$%0.0f</td>
   </tr>
   <tr>
-    <td class="tg-left"><b>Power demand (W/m&#178)</b></td>
+    <td class="tg-left"><b>Lighting Power Density (W/m&#178)</b></td>
     <td class="tg-wxgh">%0.1f</td>
     <td class="tg-wxgh">%0.1f</td>
     <td class="tg-wxgh">%0.1f</td>
   </tr>
   <tr>
-    <td class="tg-left"><b>Total energy use per year (kWh/m&#178year)</b></td>
+    <td class="tg-left"><b>Lighting Power Density (W/ft&#178)</b></td>
+    <td class="tg-wxgh">%0.1f</td>
+    <td class="tg-wxgh">%0.1f</td>
+    <td class="tg-wxgh">%0.1f</td>
+  </tr>
+  <tr>
+    <td class="tg-left"><b>Total energy use per year<br/>(kWh/m&#178 year)</b></td>
+    <td class="tg-wxgh">%0.0f</td>
+    <td class="tg-wxgh">%0.0f</td>
+    <td class="tg-wxgh">%0.0f</td>
+  </tr>
+<tr>
+    <td class="tg-left"><b>Total energy use per year<br/>(kWh/ft&#178 year)</b></td>
     <td class="tg-wxgh">%0.0f</td>
     <td class="tg-wxgh">%0.0f</td>
     <td class="tg-wxgh">%0.0f</td>
   </tr>
   <tr>
-    <td class="tg-left"><b>Total energy cost per year ($/m&#178year)</b></td>
+    <td class="tg-left"><b>Total energy cost per year<br/>($/m&#178 year)</b></td>
+    <td class="tg-wxgh">$%0.0f</td>
+    <td class="tg-wxgh">$%0.0f</td>
+    <td class="tg-wxgh">$%0.0f</td>
+  </tr>
+<tr>
+    <td class="tg-left"><b>Total energy cost per year<br/>($/ft&#178 year)</b></td>
     <td class="tg-wxgh">$%0.0f</td>
     <td class="tg-wxgh">$%0.0f</td>
     <td class="tg-wxgh">$%0.0f</td>
@@ -113,5 +143,5 @@ padding:            0;
   </tr>
 
 </table>
-<p class="p">Note: Assuming a $%0.4f per kWh. Lamps are used for 12 hours per day.</p>
-<p class="p">Note: All calculations assume a 10mX10m growing area.</p>
+<p class="p">Note: Assuming a $%0.4f per kWh. Luminaires are used for 12 hours per day.</p>
+<p class="p">Note: All calculations assume a 10 m x 10 m growing area.</p>

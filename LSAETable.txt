@@ -43,15 +43,15 @@
 .para {         margin:         0;
                 font-size:      8pt}
 </style>
-<h2 style ="text-align:center;margin:0px;">Luminaire System Application Efficiency (LSAE)&#185&#178</h2>
+<h2 style ="text-align:center;margin:0px;word-spacing: 5px">Luminaire System Application Efficiency (LSAE) &#185&#178</h2>
 <table class="tg" style ="border-width:1px">
   <tr>
     <th class="tg-head">Mounting Height (MH)</th>
-    <th class="tg-normal" colspan="2">PPFD: <br/> 100 &#181;mol/J</th>
-    <th class="tg-normal" colspan="2">PPFD: <br/> 200 &#181;mol/J</th>
-    <th class="tg-normal" colspan="2">PPFD: <br/> 300 &#181;mol/J</th>
-    <th class="tg-normal" colspan="2">PPFD: <br/> 400 &#181;mol/J</th>
-    <th class="tg-normal" colspan="2">PPFD: <br/> 500 &#181;mol/J</th>
+    <th class="tg-normal" colspan="2">PPFD: <br/> 100 &#181;mol/sec m&#178</th>
+    <th class="tg-normal" colspan="2">PPFD: <br/> 200 &#181;mol/sec m&#178</th>
+    <th class="tg-normal" colspan="2">PPFD: <br/> 300 &#181;mol/sec m&#178</th>
+    <th class="tg-normal" colspan="2">PPFD: <br/> 400 &#181;mol/sec m&#178</th>
+    <th class="tg-normal" colspan="2">PPFD: <br/> 500 &#181;mol/sec m&#178</th>
   </tr>
   <tr>
     <td class="tg-normal">Meters (m)</td>
@@ -173,4 +173,4 @@
 </table>
 <p class = 'para'>Highlighted Cells: Highest LSAE for target PPFD.</p>
 <p class = 'para'>Bolded Text: Highest LSAE for all mounting height and PPFD combinations.</p>
-<p class = 'para'>Note: LSAE is for a 10 m x10 m growing area with an average:minimum &#60 4:1;</p>
+<p class = 'para'>Note: LSAE is for a 10 m x10 m growing area with an average:minimum &#60 4:1.</p>

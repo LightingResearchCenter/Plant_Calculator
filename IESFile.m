@@ -19,7 +19,7 @@ classdef IESFile
         InputWatts
         VertAngles
         HorizAngles
-        photoTable % photopic distrobution Table
+        photoTable % photopic distribution Table
     end
     
     methods
@@ -143,7 +143,7 @@ classdef IESFile
                 % Add a duplicate collum so it can loop around at 360==0
                 if ies.HorizAngles(1) == 0
                     switch ies.HorizAngles(end)
-                        % This determins the symitry of the system.
+                        % This determins the symmetry of the system.
                         case 0
                             ies.photoTable(:,end+1) = ies.photoTable(:,end);
                             ies.HorizAngles(end+1) = 360;
@@ -165,9 +165,12 @@ classdef IESFile
                     switch ies.VertAngles(end)
                         % This determins the symitry of the system.                             
                         case 90
-                            ies.photoTable(end+1,:) = zeros(1,ies.NoHorizAngles);
-                            ies.VertAngles(end+1) = 180;
-                            ies.NoVertAngles = length(ies.VertAngles);
+                            skip = ies.VertAngles(end)-ies.VertAngles(end-1);
+                            while ies.VertAngles(end)<180
+                                ies.photoTable(end+1,:) = zeros(1,ies.NoHorizAngles);
+                                ies.VertAngles(end+1) = ies.VertAngles(end)+skip;
+                                ies.NoVertAngles = length(ies.VertAngles);
+                            end
                         case 180
                             %this is what we want
                         otherwise

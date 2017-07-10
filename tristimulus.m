@@ -1,4 +1,4 @@
-function [L,x,y] = Lxy23Sep05(spd,varargin)
+function [X,Y,Z] = tristimulus(spd,varargin)
 % Photometry calculations
 % Calculates luminous flux and (x,y) chromaticity coordinates
 % Function arguements:
@@ -47,6 +47,3 @@ X = trapz(wavelength_spd,spd .* xbar);
 Y = trapz(wavelength_spd,spd .* ybar);
 Z = trapz(wavelength_spd,spd .* zbar);
 
-L = 683 * trapz(wavelength_spd', spd .* ybar);
-x = X/(X+Y+Z);
-y = Y/(X+Y+Z);

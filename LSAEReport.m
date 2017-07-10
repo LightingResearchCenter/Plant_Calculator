@@ -7,7 +7,7 @@ ConversionFactor = PPF_Conversion_Factor_05Apr2016(wave,specFlux);
 [CU, fluxTotal]= calcCU(IESdata,mountHeight, roomLength, roomWidth);
 ppfTotal = (fluxTotal*ConversionFactor)/1000;
 numLuminaire = ceil((targetPPFD*roomLength*roomWidth)/(ppfTotal*CU));
-%% Rectangulrize Luminairs
+%% Rectangularize Luminaires
 i = 1;
 fixDiff = 3;
 while (i<=fixDiff)&&(numLuminaire>1)

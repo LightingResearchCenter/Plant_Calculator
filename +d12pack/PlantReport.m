@@ -52,6 +52,8 @@ classdef PlantReport < d12pack.report
             obj.initSPDPlot();
             obj.initISOPPFPlot();
             uistack(obj.LRClogo,'top');
+            uistack(obj.FixtureInfo.ISOPlot,'bottom');
+            uistack(obj.FixtureInfo.ISOPlot,'up',2);
             align([obj.FixtureInfo.ISOaxes, obj.FixtureInfo.LSAEPlot],'distribute','top');
             
         end % End of class constructor
@@ -78,32 +80,52 @@ classdef PlantReport < d12pack.report
             html = char(headercell{:});
             htmltext = reshape(html',1,[]);
             % print data into HEADERTABLE.TXT
-            data{1} = [obj.FixtureData.Brand, ' ',obj.FixtureData.Product];
+            
+            data{1} = [obj.FixtureData.Brand, ' &ensp ',obj.FixtureData.Product];
+            str = obj.FixtureData.Catalog;
+            words_in_str = textscan(str,'%s');
+            strArr = words_in_str{1};
+            outputArr = cell(4,1);
+            index = 1;
+            for i=1:length(strArr)
+                if index<=3
+                    if (length(outputArr{index})+length(strArr{i})) > 30
+                        index = index+1;
+                        outputArr{index} = [strArr{i},' '];
+                    else
+                        outputArr{index} = [ outputArr{index}, strArr{i},' '];
+                    end
+                end
+            end
+            
+            outputArr{index+1} = ['$',num2str(round(obj.FixtureData.Cost))];
+            outputArr(cellfun('isempty',outputArr))={' '};
+            data{2} = outputArr{1};
             A_str = num2str(round(obj.FixtureData.Voltage));
-            data{2} = A_str;
-            [~, A_str] = sd_round(obj.FixtureData.PPF,3);
             data{3} = A_str;
-            [~, A_str] = sd_round(obj.FixtureData.YPF,3);
+            [~, A_str] = sd_round(obj.FixtureData.PPF,3);
             data{4} = A_str;
-            [~, A_str] = sd_round(obj.FixtureData.PSS,2);
+            [~, A_str] = sd_round(obj.FixtureData.YPF,3);
             data{5} = A_str;
-            A_str = num2str(round(obj.FixtureData.Wattage));
+            [~, A_str] = sd_round(obj.FixtureData.PSS,2);
             data{6} = A_str;
-            [~, A_str] = sd_round((obj.FixtureData.PPF/obj.FixtureData.Wattage),3);
-            data{7} = A_str;
-            [~, A_str] = sd_round((obj.FixtureData.YPF/obj.FixtureData.Wattage),3);
+            data{7} = outputArr{2};
+            A_str = num2str(round(obj.FixtureData.Wattage));
             data{8} = A_str;
-            [~, A_str] = sd_round(obj.FixtureData.RCR,2);
+            [~, A_str] = sd_round((obj.FixtureData.PPF/obj.FixtureData.Wattage),3);
             data{9} = A_str;
-            data{10} = obj.FixtureData.Catalog;
-            [~, A_str] = sd_round(obj.FixtureData.PowerFactor,2);
+            [~, A_str] = sd_round((obj.FixtureData.YPF/obj.FixtureData.Wattage),3);
+            data{10} = A_str;
+            [~, A_str] = sd_round(obj.FixtureData.RCR,2);
             data{11} = A_str;
-            [~, A_str] = sd_round(obj.FixtureData.PPFofTotal,2);
-            data{12} = A_str;
-            A_str = num2str(round(obj.FixtureData.Cost));
+            data{12} = outputArr{3};
+            [~, A_str] = sd_round(obj.FixtureData.PowerFactor,3);
             data{13} = A_str;
-            [~, A_str] = sd_round(obj.FixtureData.THD,2);
+            [~, A_str] = sd_round(obj.FixtureData.PPFofTotal,2);
             data{14} = A_str;
+            data{15} = outputArr{4};
+            [~, A_str] = sd_round(obj.FixtureData.THD,2);
+            data{16} = A_str;
             outputText = cellfun(@char,data,'uni',0);
             [str,~] = sprintf(htmltext,outputText{:});
             je = javax.swing.JEditorPane('text/html', str);
@@ -139,8 +161,8 @@ classdef PlantReport < d12pack.report
             
             x = 0;
             w = (obj.Body.Position(3)/2)-2;
-            h = (obj.Body.Position(4) - ceil(obj.Body.Position(4))/2)-10;
-            y = (obj.Body.Position(4) - ceil(obj.Body.Position(4))/2);
+            h = (obj.Body.Position(4) - ceil(obj.Body.Position(4))/2)+20;
+            y = (obj.Body.Position(4) - ceil(obj.Body.Position(4))/2)-30;
             
             obj.FixtureInfo.Economic = uipanel(obj.Body);
             obj.FixtureInfo.Economic.BackgroundColor   = obj.background;
@@ -156,19 +178,28 @@ classdef PlantReport < d12pack.report
             HPS600qty = HPS600Table.LRcount(59)*HPS600Table.TBcount(59); %2m @300ppfd target
             HPS1000Cost = 525;
             HPS600Cost = 460;
-            HPS1000watt = HPS600IES.InputWatts;
+            HPS1000watt = HPS1000IES.InputWatts;
             HPS600watt=HPS600IES.InputWatts;
             energyCost=0.1048;
             fixtureCost =  obj.FixtureData.Cost;
-            HPS1000WpM = (HPS1000watt*HPS1000qty)/10;
-            HPS600WpM = (HPS600watt*HPS600qty)/10;
-            FixtureWpM = (obj.FixtureData.Wattage*fixcount(ind))/10;
+            HPS1000WpM = (HPS1000watt*HPS1000qty)/100;
+            HPS600WpM = (HPS600watt*HPS600qty)/100;
+            FixtureWpM = (obj.FixtureData.Wattage*fixcount(ind))/100;
+            HPS1000Wpft = HPS1000WpM/10.7639; %convert to Watt/ft^2
+            HPS600Wpft = HPS600WpM/10.7639;   %convert to Watt/ft^2
+            FixtureWpft = FixtureWpM/10.7639; %convert to Watt/ft^2
             HPS1000kWpY = (HPS1000WpM*365*12)/1000;
             HPS600kWpY = (HPS600WpM*365*12)/1000;
             FixturekWpY = (FixtureWpM*365*12)/1000;
+            HPS1000kWpYft = (HPS1000Wpft*365*12)/1000;
+            HPS600kWpYft = (HPS600Wpft*365*12)/1000;
+            FixturekWpYft = (FixtureWpft*365*12)/1000;
             HPS1000EnCost = HPS1000kWpY*energyCost;
             HPS600EnCost = HPS600kWpY*energyCost;
             FixtureEnCost = FixturekWpY*energyCost;
+            HPS1000EnCostft = HPS1000kWpYft*energyCost;
+            HPS600EnCostft = HPS600kWpYft*energyCost;
+            FixtureEnCostft = FixturekWpYft*energyCost;
             EconomicTableFile = fopen('economicTable.txt');
             HPS1000Save = HPS1000EnCost-FixtureEnCost;
             HPS600Save = HPS600EnCost-FixtureEnCost;
@@ -197,7 +228,7 @@ classdef PlantReport < d12pack.report
                         incentive1000 = incentive1000+1;
                         incentiveCost = (fixtureCost-incentive1000)*fixcount(ind);
                         newHPS1000Paynum = incentiveCost/HPS1000Save;
-                        incentive1000str = sprintf('An incentive of $%0.0f per luminaire would reduce the payback period to less than 3 years compared to 1000 W HPS system.',incentive1000);
+                        incentive1000str = sprintf('An incentive of $%0.0f per luminaire would reduce the payback period to less than 3 years compared to the 1000 W HPS system.',incentive1000);
                     end
                 else
                     incentive1000str = 'No additional incentive is needed when compared to the 1000 W HPS system.';
@@ -239,9 +270,16 @@ classdef PlantReport < d12pack.report
             data = {obj.FixtureData.Lamp,HPS1000qty,HPS600qty,fixcount(ind),...
                 HPS1000qty*HPS1000Cost,HPS600qty*HPS600Cost,...
                 obj.FixtureData.Cost*fixcount(ind),...
+                (HPS1000qty*HPS1000Cost)/100,(HPS600qty*HPS600Cost)/10,...
+                (obj.FixtureData.Cost*fixcount(ind))/100,...
+                (HPS1000qty*HPS1000Cost)/1076.39,(HPS600qty*HPS600Cost)/1076.39,...
+                (obj.FixtureData.Cost*fixcount(ind))/1076.39,...
                 HPS1000WpM,HPS600WpM,FixtureWpM,...
+                HPS1000Wpft,HPS600Wpft,FixtureWpft,...
                 HPS1000kWpY,HPS600kWpY,FixturekWpY,...
+                HPS1000kWpYft,HPS600kWpYft,FixturekWpYft,...
                 HPS1000EnCost,HPS600EnCost,FixtureEnCost,...
+                HPS1000EnCostft,HPS600EnCostft,FixtureEnCostft,...
                 obj.FixtureData.Lamp,HPS1000pari,HPS1000SaveStr,...
                 obj.FixtureData.Lamp,HPS600pari,HPS600SaveStr,...
                 incentive1000str,HPS1000Pay,incentive600str,HPS600Pay,...
@@ -282,10 +320,10 @@ classdef PlantReport < d12pack.report
             ax.FontSize = 8;
             title(obj.FixtureInfo.SPDaxes,'Spectral Power Distribution (SPD)^1^0');
             
-            xlabel(obj.FixtureInfo.SPDaxes,'Wavelength (nm)','FontSize',10)
-            ylabel(obj.FixtureInfo.SPDaxes,'Relative Spectrum (Arb. Units)','FontSize',10)
+            xlabel(obj.FixtureInfo.SPDaxes,'Wavelength (nm)','FontSize',8)
+            ylabel(obj.FixtureInfo.SPDaxes,'Relative Spectrum (Arbitrary Units)','FontSize',8)
             obj.FixtureInfo.SPDaxes.YGrid = 'On';
-            text(obj.FixtureInfo.SPDaxes,400,.95,sprintf('(Absolute mult.=%0.2f W/nm)',max(obj.FixtureData.Spectrum(:,2))),'FontSize',8);
+            text(obj.FixtureInfo.SPDaxes,400,.95,sprintf('(Absolute multiplier=%0.2f W/nm)',max(obj.FixtureData.Spectrum(:,2))),'FontSize',8);
         end
         function initISOPPFPlot(obj)
             %plots in the bottom left quarter of the body
@@ -293,9 +331,9 @@ classdef PlantReport < d12pack.report
             obj.Body.Units = 'pixels';
             
             x = -10;
-            w = ceil(obj.Body.Position(3)/2)+18;
-            h = (obj.Body.Position(4) - ceil(obj.Body.Position(4))/2)+42;
-            y = 0;
+            w = ceil(obj.Body.Position(3)/2)+21;
+            h = (obj.Body.Position(4) - ceil(obj.Body.Position(4))/2)+12;
+            y = -20;
             obj.FixtureInfo.ISOPlot = uipanel(obj.Body);
             obj.FixtureInfo.ISOPlot.BackgroundColor   = obj.background;
             obj.FixtureInfo.ISOPlot.BorderType        = 'none';
@@ -330,14 +368,14 @@ classdef PlantReport < d12pack.report
             obj.FixtureInfo.ISOaxes.XLim = [plotMin,plotMax];
             ax = gca;
             ax.FontSize = 8;
-            title(obj.FixtureInfo.ISOaxes,sprintf('Iso-PPFD Contours (MH = %0.1f m)^1^1',mount));
+            title(obj.FixtureInfo.ISOaxes,sprintf('Iso-PPFD Contours (MH = %0.1f m) ^1^1',mount));
             clabel(C,h,'FontSize',8);
             axis(obj.FixtureInfo.ISOaxes,'square');
             obj.FixtureInfo.ISOaxes.XGrid = 'on';
             obj.FixtureInfo.ISOaxes.YGrid = 'on';
-            ylabel(obj.FixtureInfo.ISOaxes,'Meters')
-            xlabel(obj.FixtureInfo.ISOaxes,'Meters')
-            colormap(obj.FixtureInfo.ISOaxes,jet)
+            ylabel(obj.FixtureInfo.ISOaxes,'Meters','FontSize',8)
+            xlabel(obj.FixtureInfo.ISOaxes,'Meters','FontSize',8)
+            colormap(obj.FixtureInfo.ISOaxes,hsv)
             fixX = (plotMax/2)-(obj.FixtureData.IESdata.Width*.5);
             fixY = (plotMax/2)-(obj.FixtureData.IESdata.Length*0.5);
             fixW = obj.FixtureData.IESdata.Width;
@@ -351,7 +389,7 @@ classdef PlantReport < d12pack.report
             x = obj.Body.Position(3)/2+10;
             w = obj.Body.Position(3)/2-15;
             h = (obj.Body.Position(4) - ceil(obj.Body.Position(4))/2);
-            y = 0;
+            y = -35;
             
             obj.FixtureInfo.LSAEPlot = uipanel(obj.Body);
             obj.FixtureInfo.LSAEPlot.BackgroundColor   = obj.background;

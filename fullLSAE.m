@@ -40,7 +40,7 @@ for i1= 1:length(mountHeight)
         IrrOut{i1,i2} = sort(Irr(:));
         outTable = [outTable;historyTable];
         targetMin = range(i2)/Uniformity;
-        compliantIrr = IrrOut{i1,i2}(IrrOut{i1,i2} > targetMin);
+        compliantIrr = IrrOut{i1,i2}(IrrOut{i1,i2} >= targetMin);
         runAvg = zeros(length(compliantIrr),1);
         compliantPPF = zeros(length(compliantIrr),1);
         for i3 = 1:length(compliantIrr)

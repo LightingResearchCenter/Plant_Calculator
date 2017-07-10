@@ -5,7 +5,7 @@ if mountHeight < 5*maxDim
     %Split up the fixture
     newMax = mountHeight / 5;
     if newMax<1
-        newMax = convlength(1,'ft','m');
+        newMax = .4;
     end
     minDim = min([IESdata.Length,IESdata.Width]);
     numSplit = ceil(maxDim/newMax);
