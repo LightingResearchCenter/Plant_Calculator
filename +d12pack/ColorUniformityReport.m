@@ -54,9 +54,10 @@ classdef ColorUniformityReport < d12pack.report
                 obj.pic = xyz2rgb(obj.pic);
                 imshow(obj.pic,'InitialMagnification','fit');
             else
+                [IrrHigh,~,~,~] = PPFCalculator(obj.FixtureData.IESdata,'MountHeight',0.5,'Length',3,'Width',3,'LRcount',1,'TBcount',1,'calcSpacing',calcSpacing,'Color',0);
                 [Irr,~,~,~] = PPFCalculator(obj.FixtureData.IESdata,'MountHeight',2,'Length',3,'Width',3,'LRcount',1,'TBcount',1,'calcSpacing',calcSpacing,'Color',0);
                 [X,Y,Z] = tristimulus(obj.FixtureData.Spectrum);
-                Irr2 = mat2gray(Irr,[0,max(max(Irr))] );
+                Irr2 = mat2gray(Irr,[min(min(IrrHigh)),max(max(Irr))] );
                 xIrr = X.*ones(size(Irr2));
                 yIrr = Y.*ones(size(Irr2));
                 zIrr = Z.*ones(size(Irr2));

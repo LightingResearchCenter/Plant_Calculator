@@ -1,0 +1,53 @@
+  <html>
+  <head>
+      <meta charset="utf-8" />
+      <title>Document Part Templates</title>
+      <link rel="StyleSheet" href="./stylesheets/root.css" type="text/css" />
+  </head>
+<body>
+<dplibrary>
+          <dptemplate name="rgChapter">
+              <h1 class="rgChapterTitle">
+              <hole id="rgChapterTitlePrefix" default-style-name="rgChapterTitlePrefix" /><span> </span>  
+              <hole id="rgChapterTitleNumber" default-style-name="rgChapterTitleNumber" /><span>. </span>
+              <hole id="rgChapterTitleText" default-style-name="rgChapterTitleText" />
+              </h1>
+              <hole id="rgChapterContent"/>
+          </dptemplate>
+<dptemplate name="ReportTOC"><TOC number-of-levels ="3" leader-pattern="dots" /></dptemplate>
+          <dptemplate name="HeaderTable">
+          <table width="100%" height="1in" border="0">
+    <tr class="tableRow">
+      <td width="16%" class="headerLeft"><p><hole id="Brand1">Brand Line 1</hole></p></td>
+      <td width="17%" class="tableBody"><p>Voltage = <hole id="Voltage"> Voltage </hole>V</p></td>
+      <td width="17%" class="tableBody"><p>PPF <sup>1</sup> =<hole id="PPF">PPF</hole> &micro;mol/sec</p></td>
+      <td width="17%" class="tableBody"><p>YPF <sup>4</sup> = <hole id="YPF">YPF</hole> &micro;mol/sec</p></td>
+      <td width="16%" class="tableBody"><p>PSS <sup>5</sup> = <hole id="PSS">PSS</hole></p></td>
+      <td width="17%" rowspan="4" align="center" valign="middle" class="TableBody"><p class="tableLeft"><hole id="FixtureImg">FixtureImg</hole></p></td>
+    </tr>
+    <tr class="tableRow">
+      <td width="16%" class="headerLeft"><p><hole id="Brand2">Brand Line 2</hole></p></td>
+      <td width="17%" class="tableBody"><p>Power = <hole id="Power">Power</hole> W</p></td>
+      <td width="17%" class="tableBody"><p>PPF/W <sup>2</sup> = <hole id="PPFperW">PPFperW</hole> &micro;mol/J</p></td>
+      <td width="17%" class="tableBody"><p>YPF/W = <hole id="YPFperW">YPFperW</hole> &micro;mol/J</p></td>
+      <td width="16%" class="tableBody"><p>RCR <sup>6</sup> = <hole id="RCR"> RCR</hole></p></td>
+    </tr>
+    <tr class="tableRow">
+      <td width="16%" class="headerLeft"><p><hole id="Brand3">brand Line 3</hole></p></td>
+      <td width="17%" class="tableBody"><p>PF = <hole id="PF"> PF</hole></p></td>
+      <td width="17%" class="tableBody"><p>PPF% <sup>3</sup> = <hole id="PPFper">PPFper</hole>%</p></td>
+      <td width="17%" class="tableBody">&nbsp;</td>
+      <td width="16%" class="tableBody">&nbsp;</td>
+    </tr>
+    <tr class="tableRow">
+      <td width="16%" class="headerLeft"><p><hole id="Brand4">Brand Line 4</hole></p></td>
+      <td width="17%" class="tableBody"><p>THD = <hole id="THD">THD</hole> %</p></td>
+      <td width="17%" class="tableBody">&nbsp;</td>
+      <td width="17%" class="tableBody">&nbsp;</td>
+      <td width="16%" class="tableBody">&nbsp;</td>
+    </tr>
+  </table>
+  </dptemplate>
+</dplibrary>
+</body>
+  </html>
