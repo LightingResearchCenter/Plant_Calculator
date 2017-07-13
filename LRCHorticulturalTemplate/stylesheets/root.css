@@ -22,7 +22,7 @@
   
   */
   
-  body { height: 100%; padding: 0; margin: 0; }
+  body { width: 8.5in; height: 11in; padding: 0; margin: 0; }
   p.Title {
 	  font-family: Arial;
 	  font-size: 26pt;
@@ -36,8 +36,8 @@
 	  border-bottom-style: solid;
 	  -fo-letter-spacing: 0.25pt;
   }
-  
-  #header > p {
+
+   p {
 	  font-family: Arial;
 	  font-size: 8pt;
   }
@@ -66,7 +66,7 @@
 	  margin-top: 24pt;
   }
   
-table {
+	table {
 	  font-family: Arial;
 	  border: 0px;
 	  font-size: 10px;
@@ -127,28 +127,32 @@ table {
   table.rgMATLABTable td {
 	  padding: 0 0.04in 0 0.04in;
   }
-  #header .tableLeft td{
+  .tableLeft {
 	  border-top-style: none;
 	  border-right-style: none;
-	  border-bottom-style: none;
 	  border-left-style: none;
   }
-  #header .tableRow {
+  .tableRow {
 	  border-top-style: none;
 	  border-right-style: none ;
-	  border-bottom-style: none;
   }
-#header .tableBody {
+  .tableBody {
+	  vertical-align: text-bottom;
 	  border-left-width: thin;
 	  border-left-style: solid;
-	  vertical-align: middle;
+	  border-bottom-style: none;
   }
+  
+ .header{
+	 width:100%;
+	height:10%;
+	 
+ }
 .centerBody{
 	width:100%;
 	height:80%;
 }
 .bottomBody{
-	position: fixed;
     width: 100%;
     height: 10%;
     background: yellow;
@@ -174,3 +178,8 @@ table {
 	height: 50%;
 	background:red
 }
+  p {
+	  font-family: Arial;
+	  font-size: 8pt;
+	  
+  }
