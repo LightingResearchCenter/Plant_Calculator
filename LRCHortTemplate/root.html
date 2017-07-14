@@ -1,0 +1,158 @@
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <title>Report Template</title>
+        <link rel="StyleSheet" href="./stylesheets/root.css" type="text/css" />
+    </head>
+    <body>
+        <!-- page-margin: top left bottom right header footer gutter -->
+        <!-- In PDF output, the effective top margin is the sum of the top margin and the page header extension; 
+     the effective bottom margin is the sum of the bottom margin and the page footer extension. -->        
+        <layout style="page-margin: 0.5in 0.5in 0.5in 0.5in 0in 0in 0in; page-size: 8.5in 11in portrait"></layout> 
+        <div class="header"> 
+            <table width="100%" border="0" rules="cols">
+                <tr valign="middle">
+                    <td valign="bottom" width="16%" class="tableLeft"><p><hole id="Brand1">Brand Line 1</hole></p></td>
+                    <td valign="bottom" width="17%" class="tableBody"><p>Voltage = <hole id="Voltage"> Voltage</hole>V<sup> </sup> </p></td>
+                    <td valign="bottom" width="17%" class="tableBody"><p>PPF <sup>1</sup> =<hole id="PPF">PPF</hole> &#181;mol/sec<sup> </sup> </p></td>
+                    <td valign="bottom" width="17%" class="tableBody"><p>YPF <sup>4</sup> = <hole id="YPF">YPF</hole> &#181;mol/sec<sup> </sup> </p></td>
+                    <td valign="bottom" width="16%" class="tableBody"><p>PSS <sup>5</sup> = <hole id="PSS">PSS</hole><sup> </sup> </p></td>
+                    <td width="17%" rowspan="4" align="center" valign="middle" class="TableBody"><p><hole id="FixtureImg">FixtureImg</hole><sup> </sup> </p></td>
+                </tr >
+                <tr valign="middle" >
+                    <td valign="bottom" width="16%" class="tableLeft"><p><hole id="Brand2">Brand Line 2</hole><sup> </sup> </p></td>
+                    <td valign="bottom" width="17%" class="tableBody"><p>Power = <hole id="Power">Power</hole> W<sup> </sup> </p></td>
+                    <td valign="bottom" width="17%" class="tableBody"><p>PPF/W <sup>2</sup> = <hole id="PPFperW">PPFperW</hole> &#181;mol/J<sup> </sup> </p></td>
+                    <td valign="bottom" width="17%" class="tableBody"><p>YPF/W = <hole id="YPFperW">YPFperW</hole> &#181;mol/J<sup> </sup> </p></td>
+                    <td valign="bottom" width="16%" class="tableBody"><p>RCR <sup>6</sup> = <hole id="RCR"> RCR</hole><sup> </sup> </p></td>
+                </tr>
+                <tr valign="middle">
+                    <td valign="bottom" width="16%" class="tableLeft"><p><hole id="Brand3">Brand Line 3</hole><sup> </sup> </p></td>
+                    <td valign="bottom" width="17%" class="tableBody"><p>PF = <hole id="PF"> PF</hole><sup> </sup> </p></td>
+                    <td valign="bottom" width="17%" class="tableBody"><p>PPF% <sup>3</sup> = <hole id="PPFper">PPFper</hole>%<sup> </sup> </p></td>
+                    <td valign="bottom" width="17%" class="tableBody"><p>&nbsp;<sup> </sup> </p></td>
+                    <td valign="bottom" width="16%" class="tableBody"><p>&nbsp;<sup> </sup> </p></td>
+                </tr>
+                <tr valign="middle">
+                    <td valign="bottom" width="16%" class="tableLeft"><p><hole id="Brand4">Brand Line 4</hole><sup> </sup> </p></td>
+                    <td valign="bottom" width="17%" class="tableBody"><p>THD = <hole id="THD">THD</hole> %<sup> </sup> </p></td>
+                    <td valign="bottom" width="17%" class="tableBody"><p>&nbsp;<sup> </sup> </p></td>
+                    <td valign="bottom" width="17%" class="tableBody"><p>&nbsp;<sup> </sup> </p></td>
+                    <td valign="bottom" width="16%" class="tableBody"><p>&nbsp;<sup> </sup> </p></td>
+                </tr>
+            </table>
+        </div>
+        <div class="centerBody">
+            <table class="container">
+                <tr>
+                    <td class="TopLeft">
+                        <h2>Simple Payback Calculations</h2>
+                        <table class="Eco">
+                            <tr>
+                                <th><b>Summary</b> <p class="psum">(assuming target PPFD of 300 &#181;mol/sec m&#178;)</p></th>
+                                <th>1000 W <br/>HPS &#8311;</th>
+                                <th>600 W <br/>HPS &#8312;</th>
+                                <th><hole id="Lamp">Lamp</hole> &#8313;</th>
+                            </tr>
+                            <tr>
+                                <td><b>Quantity</b></td>
+                                <td><hole id="HPS1000qty">HPS1000qty</hole></td>
+                                <td><hole id="HPS600qty">HPS600qty</hole></td>
+                                <td><hole id="Lampqty">Lampqty</hole></td>
+                            </tr>
+                            <tr>
+                                <td><p><b>Initial cost (US$)</b></p></td>
+                                <td><hole id="HPS1000init">HPS1000qty</hole></td>
+                                <td><hole id="HPS600init">HPS600init</hole></td>
+                                <td><hole id="Lampinit">Lampinit</hole></td>
+                            </tr>
+                            <tr>
+                                <td><b>Initial cost per area (US$/m&#178;)</b></td>
+                                <td><hole id="HPS1000CostM">HPS1000CostM</hole></td>
+                                <td><hole id="HPS600CostM">HPS600CostM</hole></td>
+                                <td><hole id="LampCostM">LampCostM</hole></td>
+                            </tr>
+                            <tr>
+                                <td><b>Initial cost per area (US$/ft&#178;)</b></td>
+                                <td><hole id="HPS1000CostFt">HPS1000CostFt</hole></td>
+                                <td><hole id="HPS600CostFt">HPS600CostFt</hole></td>
+                                <td><hole id="LampCostFt">LampCostFt</hole></td>
+                            </tr>
+                            <tr>
+                                <td><b>Lighting Power Density (W/m&#178;)</b></td>
+                                <td><hole id="HPS1000WM">HPS1000WM</hole></td>
+                                <td><hole id="HPS600WM">HPS600WM</hole></td>
+                                <td><hole id="LampWM">LampWM</hole></td>
+                            </tr>
+                            <tr>
+                                <td><b>Lighting Power Density (W/ft&#178;)</b></td>
+                                <td><hole id="HPS1000WFt">HPS1000WFt</hole></td>
+                                <td><hole id="HPS600WFt">HPS600WFt</hole></td>
+                                <td><hole id="LampWFt">LampWFt</hole></td>
+                            </tr>
+                            <tr>
+                                <td><b>Total energy use per year<br/>(kWh/m&#178; year)</b></td>
+                                <td><hole id="HPS1000kWMyear">HPS1000kWMyear</hole></td>
+                                <td><hole id="HPS600kWMyear">HPS600kWMyear</hole></td>
+                                <td><hole id="LampkWMyear">LampkWMyear</hole></td>
+                            </tr>
+                            <tr>
+                                <td><b>Total energy use per year<br/>(kWh/ft&#178; year)</b></td>
+                                <td><hole id="HPS1000kWFtyear">HPS1000kWFtyear</hole></td>
+                                <td><hole id="HPS600kWFtyear">HPS600kWFtyear</hole></td>
+                                <td><hole id="LampkWFtyear">LampkWFtyear</hole></td>
+                            </tr>
+                            <tr>
+                                <td><b>Total energy cost per year<br/>($/m&#178; year)</b></td>
+                                <td><hole id="HPS1000CostMyear">HPS1000CostMyear</hole></td>
+                                <td><hole id="HPS600CostMyear">HPS600CostMyear</hole></td>
+                                <td><hole id="LampCostMyear">LampCostMyear</hole></td>
+                            </tr>
+                            <tr>
+                                <td><b>Total energy cost per year<br/>($/ft&#178; year)</b></td>
+                                <td><hole id="HPS1000CostFtyear">HPS1000CostFtyear</hole></td>
+                                <td><hole id="HPS600CostFtyear">HPS600CostFtyear</hole></td>
+                                <td><hole id="LampCostFtyear">LampCostFtyear</hole></td>
+                            </tr>
+                            <tr>
+                                <td colspan="3"><b>Annual energy savings for <hole id="Lamp">Lamp</hole> compared to 1000 W HPS</b></td>
+                                <td><hole id="HPS1000Save">HPS1000Save</hole></td>
+                            </tr>
+                            <tr>
+                                <td colspan="3"><b>Annual energy savings for <hole id="Lamp">Lamp</hole> compared to 600 W HPS</b></td>
+                                <td><hole id="HPS600Save">HPS600Save</hole></td>
+                            </tr>
+                            <tr>
+                                <td colspan="3"><b>Simple payback compared to 1000 W HPS (years)</b><br/><hole id="HPS1000PayStr">HPS1000PayStr</hole></td>
+                                <td><hole id="HPS1000Pay">HPS1000Pay</hole></td>
+                            </tr>
+                            <tr>
+                                <td colspan="3"><b>Simple payback compared to 600 W HPS (years)</b><br/><hole id="HPS600PayStr">HPS600PayStr</hole></td>
+                                <td><hole id="HPS600Pay">HPS600Pay</hole></td>
+                            </tr>
+                        </table>
+                        <p>Note: Assuming a <hole id="energyCost">energyCost</hole> per kWh. Luminaires are used for 12 hours per day.</p>
+                        <p>Note: All calculations assume a 10 m x 10 m growing area.</p>
+                    </td>
+                    <td class="TopRight">
+                        <h2>SPD </h2>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="BottomLeft">
+                        <h2>ISO-PPFD</h2>
+                    </td>
+                    <td class="BottomRight">
+                        <h2>LSAE</h2>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        
+        <div class="bottomBody">
+            <p>test</p>
+        </div>
+    </body>
+</html>
+
