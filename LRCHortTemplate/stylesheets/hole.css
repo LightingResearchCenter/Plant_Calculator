@@ -1,44 +1,45 @@
 hole::before {
 	content: " " attr(id) " ";
-	font-family: Arial;
-	font-size: 7 pt;
+	font-family: "Courier New",Courier,monospace;
+	font-size: 10pt;
 	font-weight: bold;
 }
 
 hole {
-	display:inline;
-	font-size: 10px;
-	color: #3333ff;
-	font-family: Arial;
-	font-weight: bold;
-	padding-top: 7 px;
-	padding-bottom: 8px;
-	padding-right: 2px;
-	padding-left: 8px;
-	border-radius: 5px;
-	background: #FFF482;
-	box-shadow: 0 0 0 2px #FFF482;
+  display:block;
+  font-size: x-small;
+  color: #3333ff;
+  font-family: "Courier New",Courier,monospace;
+  font-weight: bold;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-right: 2px;
+  padding-left: 8px;
+  border-radius: 5px;
+  background: #FFF482;
+  box-shadow: 0 0 0 2px #FFF482;
 }
 
 p hole {
-	display:inline;
-	font-size: 7 px;
-	color: #3333ff;
-	font-family: Verdana, Geneva, sans-serif;
-	padding-top: 2px;
-	padding-bottom: 2px;
-	padding-right: 2px;
-	padding-left: 8px;
-	border-radius: 5px;
-	background: #FFF482;
-	box-shadow: 0 0 0 2px #FFF482;
+  display:inline;
+  font-size: x-small;
+  color: #3333ff;
+  font-family: "Courier New",Courier,monospace;
+  font-weight: bold;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  padding-right: 2px;
+  padding-left: 8px;
+  border-radius: 5px;
+  background: #FFF482;
+  box-shadow: 0 0 0 2px #FFF482;
 }
 
 span hole {
   display:inline;
   font-size: x-small;
   color: #3333ff;
-  font-family: Arial;
+  font-family: "Courier New",Courier,monospace;
   font-weight: bold;
   padding-top: 2px;
   padding-bottom: 2px;
@@ -53,7 +54,7 @@ h1 hole {
   display:inline;
   font-size: x-small;
   color: #3333ff;
-  font-family: Arial;
+  font-family: "Courier New",Courier,monospace;
   font-weight: bold;
   padding-top: 2px;
   padding-bottom: 2px;
@@ -68,7 +69,7 @@ h2 hole {
   display:inline;
   font-size: x-small;
   color: #3333ff;
-  font-family: Arial;
+  font-family: "Courier New",Courier,monospace;
   font-weight: bold;
   padding-top: 2px;
   padding-bottom: 2px;
@@ -83,7 +84,7 @@ h3 hole {
   display:inline;
   font-size: x-small;
   color: #3333ff;
-  font-family: Arial;
+  font-family: "Courier New",Courier,monospace;
   font-weight: bold;
   padding-top: 2px;
   padding-bottom: 2px;
@@ -98,7 +99,7 @@ h4 hole {
   display:inline;
   font-size: x-small;
   color: #3333ff;
-  font-family: Arial;
+  font-family: "Courier New",Courier,monospace;
   font-weight: bold;
   padding-top: 2px;
   padding-bottom: 2px;
@@ -113,7 +114,7 @@ h5 hole {
   display:inline;
   font-size: x-small;
   color: #3333ff;
-  font-family: Arial;
+  font-family: "Courier New",Courier,monospace;
   font-weight: bold;
   padding-top: 2px;
   padding-bottom: 2px;
@@ -128,7 +129,7 @@ h6 hole {
   display:inline;
   font-size: x-small;
   color: #3333ff;
-  font-family: Arial;
+  font-family: "Courier New",Courier,monospace;
   font-weight: bold;
   padding-top: 2px;
   padding-bottom: 2px;
@@ -143,7 +144,7 @@ h6 hole {
 form.Hole {
   font-size: x-small;
   color: #3333ff;
-  font-family: Arial;
+  font-family: "Courier New",Courier,monospace;
   font-weight: bold;
   padding-right: 2px;
   padding-left: 4 px;
@@ -152,7 +153,7 @@ form.Hole {
 div.Hole {
   font-size: x-small;
   color: #3333ff;
-  font-family: Arial;
+  font-family: "Courier New",Courier,monospace;
   font-weight: bold;
   padding-top: 8px;
   padding-bottom: 8px;
@@ -166,7 +167,7 @@ div.Hole {
 span.Hole {
   font-size: x-small;
   color: #3333ff;
-  font-family: Arial;
+  font-family: "Courier New",Courier,monospace;
   font-weight: bold;
   padding-top: 2px;
   padding-bottom: 2px;

@@ -18,6 +18,8 @@ dptemplate {
 div.TemplateBody {
   border-style:dotted;
   border-width:thin;
+  padding-left: 10px; 
+  padding-right: 10px;
 }
 
 span.TemplateName {
@@ -27,5 +29,9 @@ span.TemplateName {
 }
 
 div.TemplateName {
+  font-family: "Courier New",Courier,monospace;
+  font-weight: bold;
+  color: #3333ff;
   margin-top:25px;
 }
+
