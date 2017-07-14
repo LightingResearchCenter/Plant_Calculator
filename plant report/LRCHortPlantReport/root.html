@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <title>Report Template</title>
+        <link rel="StyleSheet" href="./stylesheets/root.css" type="text/css" />
+    </head>
+    <body>
+        <!-- page-margin: top left bottom right header footer gutter -->
+    <!-- In PDF output, the effective top margin is the sum of the top margin and the page header extension; 
+     the effective bottom margin is the sum of the bottom margin and the page footer extension. -->        
+        <layout style="page-margin: 0.5in 0.5in 0.5in 0.5in 0in 0in 0in; page-size: 8.5in 11in portrait"></layout>
+               <div class="header"> 
+          <table>
+                <tr>
+                    <td class="tableLeft"><p><hole id="Brand1">Brand Line 1</hole></p></td>
+                    <td class="tableBody"><p>Voltage = <hole id="Voltage"> Voltage</hole>V<sup> </sup> </p></td>
+                    <td class="tableBody"><p>PPF <sup>1</sup> =<hole id="PPF">PPF</hole> µmol/sec<sup> </sup> </p></td>
+                    <td class="tableBody"><p>YPF <sup>4</sup> = <hole id="YPF">YPF</hole> µmol/sec<sup> </sup> </p></td>
+                    <td class="tableBody"><p>PSS <sup>5</sup> = <hole id="PSS">PSS</hole><sup> </sup> </p></td>
+                    <td  rowspan="4" class="TableIMG"><p><hole id="FixtureImg">FixtureImg</hole><sup> </sup> </p></td>
+                </tr>
+                <tr>
+                    <td class="tableLeft"><p><hole id="Brand2">Brand Line 2</hole><sup> </sup> </p></td>
+                    <td class="tableBody"><p>Power = <hole id="Power">Power</hole> W<sup> </sup> </p></td>
+                    <td class="tableBody"><p>PPF/W <sup>2</sup> = <hole id="PPFperW">PPFperW</hole> µmol/J<sup> </sup> </p></td>
+                    <td class="tableBody"><p>YPF/W = <hole id="YPFperW">YPFperW</hole> µmol/J<sup> </sup> </p></td>
+                    <td class="tableBody"><p>RCR <sup>6</sup> = <hole id="RCR"> RCR</hole><sup> </sup> </p></td>
+                </tr>
+                <tr>
+                    <td class="tableLeft"><p><hole id="Brand3">Brand Line 3</hole><sup> </sup> </p></td>
+                    <td class="tableBody"><p>PF = <hole id="PF"> PF</hole><sup> </sup> </p></td>
+                    <td class="tableBody"><p>PPF% <sup>3</sup> = <hole id="PPFper">PPFper</hole>%<sup> </sup> </p></td>
+                    <td class="tableBody"><p></p></td>
+                    <td class="tableBody"><p></p></td>
+                </tr>
+                <tr>
+                    <td class="tableLeft"><p><hole id="Brand4">Brand Line 4</hole><sup> </sup> </p></td>
+                    <td class="tableBody"><p>THD = <hole id="THD">THD</hole> %<sup> </sup> </p></td>
+                    <td class="tableBody"><p></p></td>
+                    <td class="tableBody"><p></p></td>
+                    <td class="tableBody"><p></p></td>
+                </tr>
+            </table>
+        </div>
+        <div class="centerBody">
+    <table class="container">
+                <tr>
+                    <td class="TopLeft">
+                      <h2>Simple Payback Calculations</h2>
+						<table class="Eco">
+                            <tr>
+                                <th class="EcoLeft"><p class="psum"><b>Summary</b></p>
+                                  <p>(assuming target PPFD of </p>
+                                <p>300 µmol/sec m<sup>2</sup>)</p></th>
+                            	<th class="data"><p>1000 W </p>                            	  
+                           	    <p>HPS <sup>7</sup></p></th>
+                                <th class="data"><p>600 W </p>                                  
+                                <p>HPS <sup>8</sup></p></th>
+                                <th class="data"><p>Lamp<hole id="Lamp">Lamp</hole> <sup>9</sup></p></th>
+                            </tr>
+                            <tr>
+                              <td class="EcoLeft"><p><b>Quantity</b></p></td>
+                              	<td class="data"><p><hole id="HPS1000qty">HPS1000qty</hole></p></td>
+                              <td class="data"><p><hole id="HPS600qty">HPS600qty</hole></p></td>
+                              <td class="data"><p><hole id="Lampqty">Lampqty</hole></p></td>
+                            </tr>
+                            <tr>
+                              <td class="EcoLeft"><p><b>Initial cost (US$)</b></p></td>
+                              	<td class="data"><p><hole id="HPS1000init">HPS1000qty</hole></p></td>
+                              <td class="data"><p><hole id="HPS600init">HPS600init</hole></p></td>
+                              <td class="data"><p><hole id="Lampinit">Lampinit</hole></p></td>
+                            </tr>
+                            <tr>
+                              <td class="EcoLeft"><p><b>Initial cost per area (US$/m<sup>2</sup>)</b></p></td>
+                             	<td class="data"><p><hole id="HPS1000CostM">HPS1000</hole></p></td>
+                              <td class="data"><p><hole id="HPS600CostM">HPS600</hole></p></td>
+                              <td class="data"><p><hole id="LampCostM">Lamp</hole></p></td>
+                            </tr>
+                            <tr>
+                              <td class="EcoLeft"><p><b>Initial cost per area (US$/ft<sup>2</sup>)</b></p></td>
+                              	<td class="data"><p><hole id="HPS1000CostFt">HPS1000</hole></p></td>
+                              <td class="data"><p><hole id="HPS600CostFt">HPS600</hole></p></td>
+                              <td class="data"><p><hole id="LampCostFt">LampCost</hole></p></td>
+                            </tr>
+                            <tr>
+                              <td class="EcoLeft"><p><b>Lighting Power Density (W/m<sup>2</sup>)</b></p></td>
+                              	<td class="data"><p><hole id="HPS1000WM">HPS1000WM</hole></p></td>
+                              <td class="data"><p><hole id="HPS600WM">HPS600WM</hole></p></td>
+                              <td class="data"><p><hole id="LampWM">LampWM</hole></p></td>
+                            </tr>
+                            <tr>
+                              <td class="EcoLeft"><p><b>Lighting Power Density (W/ft<sup>2</sup>)</b></p></td>
+                             	<td class="data"><p><hole id="HPS1000WFt">HPS1000WFt</hole></p></td>
+                              <td class="data"><p><hole id="HPS600WFt">HPS600WFt</hole></p></td>
+                              <td class="data"><p><hole id="LampWFt">LampWFt</hole></p></td>
+                            </tr>
+                            <tr>
+                              <td class="EcoLeft"><p><b>Total energy use per year</b></p>
+                                  <p><b>(kWh/m<sup>2</sup> year)</b></p></td>
+                              	<td class="data"><p><hole id="HPS1000kWMyear">HPS1000</hole></p></td>
+                              <td class="data"><p><hole id="HPS600kWMyear">HPS600</hole></p></td>
+                              <td class="data"><p><hole id="LampkWMyear">LampkW</hole></p></td>
+                            </tr>
+                            <tr>
+                              <td class="EcoLeft"><p><b>Total energy use per year</b></p>
+                                <p><b>(kWh/ft<sup>2</sup> year)</b></p></td>
+                              	<td class="data"><p><hole id="HPS1000kWFtyear">HPS1000kW</hole></p></td>
+                              <td class="data"><p><hole id="HPS600kWFtyear">HPS600kW</hole></p></td>
+                              <td class="data"><p><hole id="LampkWFtyear">LampkW</hole></p></td>
+                            </tr>
+                            <tr>
+                              <td class="EcoLeft"><p><b>Total energy cost per year</b></p>
+                                  <p><b>($/m<sup>2</sup> year)</b></p></td>
+                              	<td class="data"><p><hole id="HPS1000CostMyear">HPS1000</hole></p></td>
+                              <td class="data"><p><hole id="HPS600CostMyear">HPS600</hole></p></td>
+                              <td class="data"><p><hole id="LampCostMyear">Lamp</hole></p></td>
+                            </tr>
+                            <tr>
+                              <td class="EcoLeft"><p><b>Total energy cost per year</b></p>
+                                  <p><b>($/ft<sup>2</sup> year)</b></p></td>
+                              	<td class="data"><p><hole id="HPS1000CostFtyear">HPS1000Cost</hole></p></td>
+                              <td class="data"><p><hole id="HPS600CostFtyear">HPS600</hole></p></td>
+                              <td class="data"><p><hole id="LampCostFtyear">Lamp</hole></p></td>
+                            </tr>
+                            <tr>
+                                <td colspan="3"><p><b>Annual energy savings for </b><hole id="Lamp">Lamp</hole><b> compared to 1000 W HPS</b></p></td>
+                                <td class="data"><p><hole id="HPS1000Save">HPS1000Save</hole></p></td>
+                            </tr>
+                            <tr>
+                                <td colspan="3"><p><b>Annual energy savings for </b><hole id="Lamp">Lamp</hole><b> compared to 600 W HPS</b></p></td>
+                                <td class="data"><p><hole id="HPS600Save">HPS600Save</hole></p></td>
+                            </tr>
+                            <tr>
+                                <td colspan="3"><p><b>Simple payback compared to 1000 W HPS (years)</b><br/>
+                                <hole id="HPS1000PayStr">HPS1000PayStr</hole></p></td>
+                                <td class="data"><p><hole id="HPS1000Pay">HPS1000Pay</hole></p></td>
+                            </tr>
+                            <tr>
+                                <td colspan="3"><p><b>Simple payback compared to 600 W HPS (years)</b><br/>
+                                <hole id="HPS600PayStr">HPS600PayStr</hole></p></td>
+                                <td class="data"><p><hole id="HPS600Pay">HPS600Pay</hole></p></td>
+                            </tr>
+                        </table>
+                    <p>Note: Assuming a <hole id="energyCost">energyCost</hole> per kWh. Luminaires are used for 12 hours per day.</p>
+                        <p>Note: All calculations assume a 10 m x 10 m growing area.</p>
+                    </td>
+                    <td class="TopRight">
+                    <h2>SPD</h2>
+                    <p><hole id="SPDpic">SPDpic</hole></p>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="BottomLeft">
+                        <h2>ISO-PPFD</h2>
+                        <p><hole id="ISOPPDFpic">ISOPPDFpic</hole></p>
+                  </td>
+                    <td class="BottomRight">
+                        <h2>Luminaire System Application Efficiency (LSAE)<sup>12</sup></h2>
+                        
+                       
+<table width="100%"  class="LSAETable">
+  <tr>
+    <th scope="col"><p>Mount Height</p><p>
+      (MH)
+    </p></th>
+    <th colspan="2" scope="col"><p>PPFD:</p><p>100</p><p>µmol/sec m<sup>2</sup></p></th>
+    <th colspan="2" scope="col"><p>PPFD:</p>
+      <p>200</p>
+      <p>µmol/sec m<sup>2</sup></p></th>
+    <th colspan="2" scope="col"><p>PPFD:</p>
+      <p>300</p>
+      <p>µmol/sec m<sup>2</sup></p></th>
+    <th colspan="2" scope="col"><p>PPFD:</p>
+      <p>400</p>
+      <p>µmol/sec m<sup>2</sup></p></th>
+    <th colspan="2" scope="col"><p>PPFD:</p>
+      <p>500</p>
+      <p>µmol/sec m<sup>2</sup></p></th>
+    </tr>
+  <tr>
+    <th scope="row"><p>(m)</p></th>
+    <td><p>µmol/J</p></td>
+    <td><p>QTY</p></td>
+    <td><p>µmol/J</p></td>
+    <td><p>QTY</p></td>
+    <td><p>µmol/J</p></td>
+    <td><p>QTY</p></td>
+    <td><p>µmol/J</p></td>
+    <td><p>Qty</p></td>
+    <td><p>µmol/J</p></td>
+    <td><p>Qty</p></td>
+  </tr>
+  <tr>
+    <th scope="row"><p>0.5</p></th>
+    <td><p><hole id="LSAE11">11</hole></p></td>
+    <td><p><hole id="LSAE12">12</hole></p></td>
+    <td><p><hole id="LSAE13">13</hole></p></td>
+    <td><p><hole id="LSAE14">14</hole></p></td>
+    <td><p><hole id="LSAE15">15</hole></p></td>
+    <td><p><hole id="LSAE16">16</hole></p></td>
+    <td><p><hole id="LSAE17">17</hole></p></td>
+    <td><p><hole id="LSAE18">18</hole></p></td>
+    <td><p><hole id="LSAE19">19</hole></p></td>
+    <td><p><hole id="LSAE10">10</hole></p></td>
+  </tr>
+  <tr>
+    <th scope="row"><p>1.0</p></th>
+   	<td><p><hole id="LSAE21">21</hole></p></td>
+    <td><p><hole id="LSAE22">22</hole></p></td>
+    <td><p><hole id="LSAE23">23</hole></p></td>
+    <td><p><hole id="LSAE24">24</hole></p></td>
+    <td><p><hole id="LSAE25">25</hole></p></td>
+    <td><p><hole id="LSAE26">26</hole></p></td>
+    <td><p><hole id="LSAE27">27</hole></p></td>
+    <td><p><hole id="LSAE28">28</hole></p></td>
+    <td><p><hole id="LSAE29">29</hole></p></td>
+    <td><p><hole id="LSAE20">20</hole></p></td>
+  </tr>
+  <tr>
+    <th scope="row"><p>1.5</p></th>
+    <td><p><hole id="LSAE31">31</hole></p></td>
+    <td><p><hole id="LSAE32">32</hole></p></td>
+    <td><p><hole id="LSAE33">33</hole></p></td>
+    <td><p><hole id="LSAE34">34</hole></p></td>
+    <td><p><hole id="LSAE35">35</hole></p></td>
+    <td><p><hole id="LSAE36">36</hole></p></td>
+    <td><p><hole id="LSAE37">37</hole></p></td>
+    <td><p><hole id="LSAE38">38</hole></p></td>
+    <td><p><hole id="LSAE39">39</hole></p></td>
+    <td><p><hole id="LSAE30">30</hole></p></td>
+  </tr>
+  <tr>
+    <th scope="row"><p>2.0</p></th>
+    <td><p><hole id="LSAE41">41</hole></p></td>
+    <td><p><hole id="LSAE42">42</hole></p></td>
+    <td><p><hole id="LSAE43">43</hole></p></td>
+    <td><p><hole id="LSAE44">44</hole></p></td>
+    <td><p><hole id="LSAE45">45</hole></p></td>
+    <td><p><hole id="LSAE46">46</hole></p></td>
+    <td><p><hole id="LSAE47">47</hole></p></td>
+    <td><p><hole id="LSAE48">48</hole></p></td>
+    <td><p><hole id="LSAE49">49</hole></p></td>
+    <td><p><hole id="LSAE40">40</hole></p></td>
+  </tr>
+  <tr>
+    <th scope="row"><p>2.5</p></th>
+    <td><p><hole id="LSAE51">51</hole></p></td>
+    <td><p><hole id="LSAE52">52</hole></p></td>
+    <td><p><hole id="LSAE53">53</hole></p></td>
+    <td><p><hole id="LSAE54">54</hole></p></td>
+    <td><p><hole id="LSAE55">55</hole></p></td>
+    <td><p><hole id="LSAE56">56</hole></p></td>
+    <td><p><hole id="LSAE57">57</hole></p></td>
+    <td><p><hole id="LSAE58">58</hole></p></td>
+    <td><p><hole id="LSAE59">59</hole></p></td>
+    <td><p><hole id="LSAE50">50</hole></p></td>
+  </tr>
+  <tr>
+    <th scope="row"><p>3.0</p></th>
+    <td><p><hole id="LSAE61">61</hole></p></td>
+    <td><p><hole id="LSAE62">62</hole></p></td>
+    <td><p><hole id="LSAE63">63</hole></p></td>
+    <td><p><hole id="LSAE64">64</hole></p></td>
+    <td><p><hole id="LSAE65">65</hole></p></td>
+    <td><p><hole id="LSAE66">66</hole></p></td>
+    <td><p><hole id="LSAE67">67</hole></p></td>
+    <td><p><hole id="LSAE68">68</hole></p></td>
+    <td><p><hole id="LSAE69">69</hole></p></td>
+    <td><p><hole id="LSAE60">60</hole></p></td>
+  </tr>
+  <tr>
+    <th scope="row"><p>3.5</p></th>
+   	<td><p><hole id="LSAE71">71</hole></p></td>
+    <td><p><hole id="LSAE72">72</hole></p></td>
+    <td><p><hole id="LSAE73">73</hole></p></td>
+    <td><p><hole id="LSAE74">74</hole></p></td>
+    <td><p><hole id="LSAE75">75</hole></p></td>
+    <td><p><hole id="LSAE76">76</hole></p></td>
+    <td><p><hole id="LSAE77">77</hole></p></td>
+    <td><p><hole id="LSAE78">78</hole></p></td>
+    <td><p><hole id="LSAE79">79</hole></p></td>
+    <td><p><hole id="LSAE70">70</hole></p></td>
+  </tr>
+  <tr>
+    <th scope="row"><p>4</p></th>
+    <td><p><hole id="LSAE81">81</hole></p></td>
+    <td><p><hole id="LSAE82">82</hole></p></td>
+    <td><p><hole id="LSAE83">83</hole></p></td>
+    <td><p><hole id="LSAE84">84</hole></p></td>
+    <td><p><hole id="LSAE85">85</hole></p></td>
+    <td><p><hole id="LSAE86">86</hole></p></td>
+    <td><p><hole id="LSAE87">87</hole></p></td>
+    <td><p><hole id="LSAE88">88</hole></p></td>
+    <td><p><hole id="LSAE89">89</hole></p></td>
+    <td><p><hole id="LSAE80">80</hole></p></td>
+  </tr>
+</table>
+                    <p class="Notes">Highlighted Cells: Highest LSAE for target PPFD.</p>
+                    <p class="Notes">Bolded Text: Highest LASE for all mounting heights and PPFD combinations.</p>
+                    <p class="Notes">Note: LSAE is for a 10 m x 10 m growing area with an average:minimum &lt;4:1</p>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        
+        <div class="bottomBody">
+            <table width="100%" border="1" cellspacing="0" cellpadding="0">
+  				<tr>
+    				<td><hole id="LEAlogo">LEALogo</hole></td>
+    				<td><h2>LRC Horticultural Metrics</h2></td>
+    				<td><hole id="LRCLogo">LRCLogo</hole></td>
+ 				 </tr>
+  				<tr>
+  				  <td><hole id="NRCanLogo">NRCanLogo</hole></td>
+  				  <td><h3>Generated: <hole id="GenTime">GenTime</hole></h3></td>
+  				  <td><hole id="RPIlogo">RPIlogo</hole></td>
+			  </tr>
+			</table>
+
+        </div>
+</body>
+</html>
+
