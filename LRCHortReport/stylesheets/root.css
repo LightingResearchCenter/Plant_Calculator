@@ -144,10 +144,6 @@ table.Eco .EcoLeft {
 	text-align: left;
 	
 }
-.bottomBody {
-	height:100%;
-	vertical-align:bottom;
-}
 table.Eco .EcoLeft p {
 	font-size:7pt;
 	vertical-align:baseline;
@@ -196,9 +192,10 @@ table.Eco .left p{
 }
 .bottomBody td {
 	width:33%;
-	height:.5in;
+	
 }
 .bottomBody table{
+	height:100%;
 }
 .bottomBody p{
 	text-align:center;
