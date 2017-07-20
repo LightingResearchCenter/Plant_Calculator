@@ -34,18 +34,18 @@ b hole{
   box-shadow: 0 0 0 2px #FFF482;	
 }
 p hole {
-  display:inline;
-  font-size: inherate;
-  color: #3333ff;
-  font-family: "Courier New",Courier,monospace;
-  font-weight: bold;
-  padding-top: 2px;
-  padding-bottom: 2px;
-  padding-right: 2px;
-  padding-left: 8px;
-  border-radius: 5px;
-  background: #FFF482;
-  box-shadow: 0 0 0 2px #FFF482;
+	display:inline;
+	font-size: inherate;
+	color: #3333ff;
+	font-family: "Courier New",Courier,monospace;
+	font-weight: bold;
+	padding-top: 2px;
+	padding-bottom: 2px;
+	padding-right: 2px;
+	padding-left: 8px;
+	border-radius: 5px;
+	background: #FFF482;
+	box-shadow: 0 0 0 2px #FFF482;
 }
 
 span hole {
