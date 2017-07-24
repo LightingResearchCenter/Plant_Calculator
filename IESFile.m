@@ -21,7 +21,10 @@ classdef IESFile
         HorizAngles
         photoTable % photopic distribution Table
     end
-    
+    properties (Dependent)
+        LengthFt
+        WidthFt
+    end
     methods
         %Constructor
         function ies= IESFile(path)
@@ -191,7 +194,12 @@ classdef IESFile
                 error('File does not exist');
             end %file exists & not dir
         end
-        %Methods
+        function len = get.LengthFt(obj)
+            len = unitsratio('ft','m') * obj.Length;
+        end
+        function wid = get.WidthFt(obj)
+            wid = unitsratio('ft','m') * obj.Width;
+        end
         
         
     end
