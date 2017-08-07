@@ -63,3 +63,6 @@ PlantCalculator/*
 output/*
 *.xlsx
 *.pdf
+*.tif
+test*
+*.AGI

@@ -1,6 +1,4 @@
-function [IrrOut,outTable,LSAE] = fullLSAE(SPD,IES,mountHeight,range, Uniformity,RoomLength, RoomWidth)
-IrrOut =cell(length(mountHeight),length(range));
-outTable = [];
+function [IrrOut,outTable,LSAE,IrrArr] = fullLSAE(SPD,IES,mountHeight,range, Uniformity,RoomLength, RoomWidth,calcSpace,lampType)
 %%  Test Files Exist
 file=java.io.File(SPD);
 assert(file.exists(),'SPD File does not exist');
@@ -27,6 +25,7 @@ switch hei
 end
 %% Calculate LSAE
 IrrOut =cell(length(mountHeight),length(range));
+IrrArr=cell(length(mountHeight),length(range));
 outTable = [];
 itt = 0;
 ittMax = length(mountHeight)*length(range);
@@ -36,24 +35,16 @@ for i1= 1:length(mountHeight)
     for i2 = 1:length(range)
         itt = itt+1;
         h = waitbar(itt/ittMax,h,sprintf('Calculating LSAE step %d out of %d', itt,ittMax));
-        [Irr,historyTable] = LSAEReport(wave, specFlux, IESdata, range(i2), Uniformity ,mountHeight(i1),RoomLength, RoomWidth);
+        [Irr,historyTable] = LSAEReport(wave, specFlux, IESdata, lampType,range(i2), Uniformity ,mountHeight(i1),RoomLength, RoomWidth,calcSpace);
         IrrOut{i1,i2} = sort(Irr(:));
+        IrrArr{i1,i2} = Irr;
         outTable = [outTable;historyTable];
-        targetMin = range(i2)/Uniformity;
+        targetMin = range(i2)*Uniformity;
         compliantIrr = IrrOut{i1,i2}(IrrOut{i1,i2} >= targetMin);
-        runAvg = zeros(length(compliantIrr),1);
-        compliantPPF = zeros(length(compliantIrr),1);
-        for i3 = 1:length(compliantIrr)
-            runAvg(i3) = mean(compliantIrr(1:i3));
-            compliantPPF(i3) = compliantIrr(i3)* (0.125*0.125);
-            if max(runAvg)>range(i2)
-               runAvg(i3) = 0;
-               compliantPPF(i3) = 0;
-               break
-            end
-        end
+        compliantPPF = compliantIrr* (calcSpace^2);
         PPF = sum(compliantPPF);
-        LSAE(i1,i2) = PPF/((historyTable.LRcount*historyTable.TBcount)*IESdata.InputWatts);
+        coveragePercent = numel(compliantPPF)/numel(IrrOut{i1,i2});
+        LSAE(i1,i2) = (PPF/(length(historyTable.count{:})*IESdata.InputWatts))*coveragePercent;
     end
 end
 delete(h);

@@ -1,13 +1,7 @@
-import mlreportgen.dom.*;
-d = Document('test');
-input1 = CustomElement('input');
-input1.CustomAttributes = {
- CustomAttribute('type', 'checkbox'), ...
- CustomAttribute('name', 'vehicle'), ...
- CustomAttribute('value', 'Bike'), ...
- };
-append(input1, Text('I have a bike'));
-ol = OrderedList({input1});
-append(d,ol);
-close(d);
-rptview('test','html');
+load('variables.mat');
+targetMounts =[1,2:2:16]*unitsratio('m','ft');
+targetPPFDs = [minPPFD:stepPPFD:maxPPFD,1000];
+targetUni = 0.6;
+[Irr,outTable,LSAE,IrrArr] = fullLSAE(Data.spd,Data.ies,targetMounts,targetPPFDs,targetUni,roomLength,roomWidth,calcSpacing,2);
+Data.LSAE = LSAE;
+Data.outTable = outTable;
