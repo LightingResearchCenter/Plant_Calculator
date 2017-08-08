@@ -64,5 +64,5 @@ output/*
 *.xlsx
 *.pdf
 *.tif
-test*
+*test*
 *.AGI

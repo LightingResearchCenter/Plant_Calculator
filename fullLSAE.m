@@ -38,13 +38,15 @@ for i1= 1:length(mountHeight)
         [Irr,historyTable] = LSAEReport(wave, specFlux, IESdata, lampType,range(i2), Uniformity ,mountHeight(i1),RoomLength, RoomWidth,calcSpace);
         IrrOut{i1,i2} = sort(Irr(:));
         IrrArr{i1,i2} = Irr;
-        outTable = [outTable;historyTable];
         targetMin = range(i2)*Uniformity;
         compliantIrr = IrrOut{i1,i2}(IrrOut{i1,i2} >= targetMin);
         compliantPPF = compliantIrr* (calcSpace^2);
         PPF = sum(compliantPPF);
         coveragePercent = numel(compliantPPF)/numel(IrrOut{i1,i2});
         LSAE(i1,i2) = (PPF/(length(historyTable.count{:})*IESdata.InputWatts))*coveragePercent;
+        historyTable.LSAE = LSAE(i1,i2);
+        outTable = [outTable;historyTable];
+        
     end
 end
 delete(h);
