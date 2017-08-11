@@ -64,6 +64,7 @@ if isLinear
                     index = index+1;
                 end
             end
+             allCenters{1} = fixtureCenters;
         else
             maxPerTB = floor(longMountLength/maxDim); %how many fit on a run
             truss = trussLocs{3};

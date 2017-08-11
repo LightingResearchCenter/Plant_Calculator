@@ -2,239 +2,94 @@
 @import url(docpart_templates.css);
 
 * {
-	font-family: Arial;
-	padding: 0;
-	margin: 0;
+  font-family:     Arial, Helvetica, sans-serif;
 }
 
-body {
-    width: 8.5in;
-    height: 11in;
-    padding: 0;
-    margin: 0;
-}
 p {
-	font-size: 8pt;
-	padding:0;
-	margin:0;	
+  font-size:       8px;
 }
+
 h1 {
-    color: #000000;
-    font-size: 12pt;
-    font-weight: bold;
-	text-align:center;
-	vertical-align:baseline;
+  font-size:       12px;
+  text-align:      center;
+  font-weight:     bold;
 }
+
 h2 {
-    text-align:center;
-	vertical-align:baseline;
-    color: #000000;
-    font-size: 10pt;
-    font-weight: bold;
-	margin:0;
-	margin-top:5px;
-	white-space:preserve;
+  font-size:       10px;
+  text-align:      center;
+  font-weight:     bold;
 }
+
 h3 {
-	text-align:center;
-	vertical-align:baseline;
-    color: #000000;
-    font-size: 9pt;
-    font-weight: bold;
+  font-size:       8px;
+  font-weight:     bold;
 }
-table {
-    border: 0px;
-    font-size: 10px;
-	width:100%;
+table{
+  table-layout: fixed;
+  width:100%;
 }
-a {
-    color: #1a0dab;
-    text-decoration: underline;
-}
-li {
 
+td {
+  border-collapse: collapse;
+  border:          1px solid #000000;
 }
-.tableLeft {
-	border-top-style: none;
-	border-right-style: none;
-	border-left-style: none;
-	width: 16%;
-}
-.tableRow {
-    border-top-style: none;
-    border-right-style: none;
-}
-.tableBody {
-	vertical-align: text-bottom;
-	border-left-width: thin;
-	border-left-style: solid;
-	border-bottom-style: none;
-	width: 16%;
-}
-div{
-	
-}
-div.header {
-    width: 100%;
-    height: 1.1in;
-}
-div.centerBody {
-    width: 100%;
-}
-div.bottomBody {
-    width: 100%;
-	height:1in;
-}
-.centerBody .TopLeft {
-    width: 50%;
-    height: 4in;
-	width: 3.75in;
-}
-.centerBody .TopRight {
-    width: 50%;
-    height: 4in;
-	text-align:center;
-	vertical-align:baseline;
-	border-color:#FFF;
-}
-.centerBody .BottomLeft {
-	text-align:center;
-	vertical-align:baseline;
-    width: 50%;
-	height: 3.7in;
-}
-.centerBody .BottomRight {
-	vertical-align:baseline;
-	width: 3.75in;
 
-	height: 3.7in;
+th {
+  border-collapse: collapse;
+  border:          1px solid #000000;
 }
-.centerBody table{
-	text-align:center;
-	border-top-style: none;
-	border-right-style: none;
-	border-bottom-style: none;
-	border-left-style: none;
+
+.footer {
+  width:           100%;
 }
-table.Eco {
-	table-layout: fixed;
-	vertical-align: text-bottom;
-	text-align:center;
-	overflow:hidden;
-	margin: 0px;
-	padding: 0px;
-	border-collapse:collapse;
-	border:thin solid #000;
+
+.metrics {
+  height:          1in;
 }
-table.Eco td{
-	border-collapse:collapse;
-	border:thin solid #000;
+
+.metrics td {
+  width:           16.66%;
 }
-table.Eco th{
-	border-collapse:collapse;
-	border:thin solid #000;
-	text-align:center;
-}
-table.Eco .EcoLeft {
-	text-align: left;
-	
-}
-.bottomBody {
-	height:100%;
-	vertical-align:bottom;
-}
-table.Eco .EcoLeft p {
-	font-size:7pt;
-	vertical-align:baseline;
-	line-height:12px;
-}
-table.Eco .left p{
-	font-size:7pt;
-	text-align:left;
-	vertical-align:baseline;
-	line-height:12px;
-}
-.header table{
-	height: 1.1in;
-}
-.TableIMG {
-	text-align:center;
-	vertical-align:middle;
-}
-.data {
-	text-align:center;
-	border:1px solid #000;
-	font-size:6px;
-}
-.container td {
+.LSAETable{
+  width:           3.5in;
 }
 .LSAETable p{
-	font-size:7pt;
-	text-align: center;
-	vertical-align: baseline;
-	padding-top:3px;
-	padding-bottom:3px;
-	margin:0;
-	}
-.LSAETable {
-	border-collapse:collapse;
-	text-align:center;
-	width:100%;
-	border:	1 solid #000;
-	}
-.Notes{
-	text-align: left;
-	font-size:7pt;
-	vertical-align:baseline;
-	
-}.LSAETable tr th {
-	border: 1px solid #000;
+  text-align: center;
+  padding-top: 2px;
+  padding-bottom: 2px;
 }
-.footer td {
-	width:33%;
-	height:.5in;
+.body {
+  /* height:       8in;
+  width:           7.5in; */
 }
-.footer p{
-	text-align:center;
-	white-space:preserve;
+.bodyTableTop{
+  width:50%;
+  height:4in;
 }
-
-div.fullBody {
-    width: 100%;
-	height:9in;
+.bodyTableBot{
+  width:50%;
+  height:4.3in;
 }
-p.img{
-	text-align: left;
-
+.spdTable1 {
+  height:2.5in;
+  width:100%;
 }
-p.imgCenter{
-	text-align: center;
-
+.spdTable2 {
+  height:0.75in;
+  width:100%;
 }
-div.fullBody {
-	width:100%;	
+.EcoTable{
+  width:3.5in;
 }
-.page2 {
-	height:4in;
-	width:50%;
+.EcoTable td p{
+  text-align: center;
+  padding-top: 2px;
+  padding-bottom: 2px;
 }
-
-.fullBody table{
-	table-layout:fixed;	
-	white-space: pre-line;
-word-wrap: break-word;
+.EcoTable th p{
+  text-align: left;
 }
-.dataTable {
-height:1.1in;	
-}
-.inv {
-	color:#FFFFFF;	
-}
-.greyBack{
-	background-color:#CCCCCC;
-	
-}
-.LSAEMax{
-	background-color:#CCCCCC;
-	font-weight:bold;
+.ratio{
+  width:3.5in;
 }
