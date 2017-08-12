@@ -1,95 +1,133 @@
 @import url(hole.css);
 @import url(docpart_templates.css);
 
-* {
+*{
   font-family:     Arial, Helvetica, sans-serif;
 }
-
-p {
+.leftLine{
+  width:           16.66%;
+  border-left:     1px solid #000000;
+}
+p{
   font-size:       8px;
+  white-space:     pre-wrap;
 }
 
-h1 {
+h1{
   font-size:       12px;
   text-align:      center;
   font-weight:     bold;
+  white-space:     pre-wrap;
 }
 
-h2 {
+h2{
   font-size:       10px;
   text-align:      center;
   font-weight:     bold;
+  white-space:     pre-wrap;
 }
 
-h3 {
+h3{
   font-size:       8px;
   font-weight:     bold;
+  text-align:      center;
+  white-space:     pre-wrap;
 }
 table{
-  table-layout: fixed;
-  width:100%;
-}
-
-td {
   border-collapse: collapse;
-  border:          1px solid #000000;
+  table-layout:    fixed;
+  width:           100%;
+  border:          0;
 }
-
-th {
+tr{
   border-collapse: collapse;
-  border:          1px solid #000000;
+  border:          0;
+}
+td{
+  border-collapse: collapse;
 }
 
-.footer {
+th{
+  border-collapse: collapse;
+
+}
+
+.footer{
   width:           100%;
 }
-
-.metrics {
-  height:          1in;
+.footer td{
+  width:           33%;
+  height:          35pt;
+  text-align:      center;
+  white-space:     pre-wrap;
 }
 
-.metrics td {
-  width:           16.66%;
+div.metrics{
+  height:          72pt;
+}
+
+
+.body td{
+
 }
 .LSAETable{
-  width:           3.5in;
+  width:           100%;
 }
+.LSAETable td{
+  border:          1 solid #000000;
+}
+.LSAETable th{
+  border:          1 solid #000000;
+}
+
 .LSAETable p{
-  text-align: center;
-  padding-top: 2px;
-  padding-bottom: 2px;
-}
-.body {
-  /* height:       8in;
-  width:           7.5in; */
+  text-align:      center;
+  padding-top:     5px;
+  padding-bottom:  5px;
 }
 .bodyTableTop{
-  width:50%;
-  height:4in;
+  width:           50%;
+  height:          296pt;
 }
 .bodyTableBot{
-  width:50%;
-  height:4.3in;
+  width:           50%;
+  height:          296pt;
 }
-.spdTable1 {
-  height:2.5in;
-  width:100%;
+.spdTable1{
+  width:           100%;
+  height:          150pt;
 }
-.spdTable2 {
-  height:0.75in;
-  width:100%;
+.spdTable2{
+  width:           100%;
+  height:          72pt;
 }
 .EcoTable{
-  width:3.5in;
+
+  width:           100%;
+}
+.EcoTable td{
+  border:            1px solid #000000;
+}
+.EcoTable th{
+  border:          1px solid #000000;
 }
 .EcoTable td p{
-  text-align: center;
-  padding-top: 2px;
-  padding-bottom: 2px;
+  text-align:      center;
+  padding-top:     2px;
+  padding-bottom:  2px;
 }
 .EcoTable th p{
-  text-align: left;
+  text-align:      left;
+}
+.EcoTable .fixture{
+  width:           15%;
 }
 .ratio{
-  width:3.5in;
+  width:           100%
+}
+.ratio td{
+  border:            1px solid #000000;
+}
+.ratio th{
+  border:            1px solid #000000;
 }
