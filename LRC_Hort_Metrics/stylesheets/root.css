@@ -14,21 +14,21 @@ p{
 }
 
 h1{
+  font-size:       14px;
+  text-align:      center;
+  font-weight:     bold;
+  white-space:     pre-wrap;
+}
+
+.header{
   font-size:       12px;
   text-align:      center;
   font-weight:     bold;
   white-space:     pre-wrap;
 }
 
-h2{
-  font-size:       10px;
-  text-align:      center;
-  font-weight:     bold;
-  white-space:     pre-wrap;
-}
-
 h3{
-  font-size:       8px;
+  font-size:       10px;
   font-weight:     bold;
   text-align:      center;
   white-space:     pre-wrap;
@@ -66,10 +66,6 @@ div.metrics{
   height:          72pt;
 }
 
-
-.body td{
-
-}
 .LSAETable{
   width:           100%;
 }
@@ -102,7 +98,6 @@ div.metrics{
   height:          72pt;
 }
 .EcoTable{
-
   width:           100%;
 }
 .EcoTable td{
@@ -110,6 +105,7 @@ div.metrics{
 }
 .EcoTable th{
   border:          1px solid #000000;
+  vertical-align: middle;
 }
 .EcoTable td p{
   text-align:      center;
@@ -118,16 +114,31 @@ div.metrics{
 }
 .EcoTable th p{
   text-align:      left;
+  padding:0;
+  
 }
 .EcoTable .fixture{
   width:           15%;
 }
+.page2{
+  height:215pt;
+}
 .ratio{
   width:           100%
+}
+.ratio p{
+  padding-top: 5px;
+  padding-bottom: 5px;
+  text-align: center;
 }
 .ratio td{
   border:            1px solid #000000;
 }
 .ratio th{
   border:            1px solid #000000;
+}
+.footNotes{
+  font-size: 6pt;
+  line-height: 9;
+  vertical-align: text-bottom;
 }
