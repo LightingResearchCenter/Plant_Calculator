@@ -4,13 +4,20 @@
 *{
   font-family:     Arial, Helvetica, sans-serif;
 }
+body{
+  counter-reset:   reff;    
+}
 .leftLine{
   width:           16.66%;
   border-left:     1px solid #000000;
+
+}
+.leftLine p {
+font-size:         9pt;
 }
 p{
   font-size:       8px;
-  white-space:     pre-wrap;
+  white-space:     normal;
 }
 
 h1{
@@ -21,7 +28,7 @@ h1{
 }
 
 .header{
-  font-size:       12px;
+  font-size:       14px;
   text-align:      center;
   font-weight:     bold;
   white-space:     pre-wrap;
@@ -71,7 +78,7 @@ div.metrics{
   height:          72pt;
 }
 .metrics p {
-  margin-left:    5px;
+  margin-left:     5px;
 }
 .LSAETable{
   width:           100%;
@@ -121,7 +128,7 @@ div.metrics{
 }
 .EcoTable th p{
   text-align:      left;
-  padding:         0;
+  padding-left:    5px;
   
 }
 .EcoTable .fixture{
@@ -129,7 +136,7 @@ div.metrics{
 }
 .page2{
   height:          215pt;
-  width:50%;
+  width:           50%;
 }
 .ratio{
   width:           100%
