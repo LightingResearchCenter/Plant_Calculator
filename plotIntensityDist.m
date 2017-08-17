@@ -1,6 +1,6 @@
 function plotIntensityDist(IESdata,varargin)
 LRCBlue = [ 30,  63, 134]/255;
-IntenPlot = figure('units','inches', 'Position',[0 0 3 4]);
+IntenPlot = figure('units','inches');
 set(IntenPlot,'Renderer','painters');
 set(IntenPlot,'Resize','off');
 axe = polaraxes(IntenPlot);
@@ -36,21 +36,14 @@ axe.GridColor = 'k';
 axe.GridAlpha = .25;
 axe.LineWidth =1;
 hold off
-legend({'Horizontal Cone through max intensity','Vertical Plane through max intensity'},'Position',[0.01 .1 .98 0.01]);
+legend({'Horizontal Cone through max intensity','Vertical Plane through max intensity'},'Location','southoutside');
 legend('boxoff');
-outerpos = axe.OuterPosition;
-ti = axe.TightInset;
-left = outerpos(1) + ti(1);
-bottom = outerpos(2) + ti(2);
-ax_width = outerpos(3) - ti(1) - ti(3);
-ax_height = outerpos(4) - ti(2) - ti(4);
-axe.Position = [left bottom ax_width ax_height];
-fig = gcf;
-fig.PaperPositionMode = 'auto';
-fig_pos = fig.PaperPosition;
-fig.PaperSize = [fig_pos(3) fig_pos(4)];
-align([IntenPlot,axe],'center','top')
 if numel(varargin)==1
+    
+    pos = get(IntenPlot,'InnerPosition');
+    set(IntenPlot,'InnerPosition',[pos(1),pos(2),3.25, 4])
+    set(axe,'units', 'normalized','outerPosition',[.01 .01 .99 .99],'fontsize',8)
+    drawnow;
     saveas(IntenPlot, varargin{1})
     RemoveWhiteSpace([], 'file', varargin{1});
     close(IntenPlot);

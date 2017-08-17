@@ -1,162 +1,206 @@
 @import url(hole.css);
 @import url(docpart_templates.css);
 
-*{
+* {
   font-family:     Arial, Helvetica, sans-serif;
 }
-body{
-  counter-reset:   reff;    
-}
-.leftLine{
+
+.leftLine {
   width:           16.66%;
   border-left:     1px solid #000000;
+}
 
-}
 .leftLine p {
-font-size:         9pt;
+  font-size:       7pt;
 }
-p{
+
+p {
   font-size:       8px;
   white-space:     normal;
 }
 
-h1{
+h1 {
   font-size:       14px;
   text-align:      center;
   font-weight:     bold;
   white-space:     pre-wrap;
 }
 
-.header{
-  font-size:       14px;
-  text-align:      center;
-  font-weight:     bold;
-  white-space:     pre-wrap;
-}
-h2{
+.header {
   font-size:       12px;
   text-align:      center;
   font-weight:     bold;
   white-space:     pre-wrap;
 }
-h3{
+
+h2 {
+  font-size:       12px;
+  text-align:      center;
+  font-weight:     bold;
+  white-space:     pre-wrap;
+}
+
+h3 {
   font-size:       10px;
   font-weight:     bold;
   text-align:      center;
   white-space:     pre-wrap;
 }
-table{
+
+table {
   border-collapse: collapse;
   table-layout:    fixed;
   width:           100%;
   border:          0;
 }
-tr{
+
+tr {
   border-collapse: collapse;
   border:          0;
 }
-td{
+
+td {
   border-collapse: collapse;
 }
 
-th{
+th {
   border-collapse: collapse;
-
 }
 
-.footer{
+a {
+  font-style:      italic;
+}
+
+.footer {
   width:           100%;
 }
-.footer td{
+
+.footer td {
   width:           33%;
   height:          35pt;
   text-align:      center;
   white-space:     pre-wrap;
 }
 
-div.metrics{
+div.metrics {
   height:          72pt;
 }
+
 .metrics p {
   margin-left:     5px;
 }
-.LSAETable{
+
+.LSAETable {
   width:           100%;
 }
-.LSAETable td{
-  border:          1 solid #000000;
-}
-.LSAETable th{
+
+.LSAETable td {
   border:          1 solid #000000;
 }
 
-.LSAETable p{
+.LSAETable th {
+  border:          1 solid #000000;
+}
+
+.LSAETable p {
   text-align:      center;
   padding-top:     5px;
   padding-bottom:  5px;
 }
-.bodyTableTop{
+
+.bodyTableTop {
+  width:           50%;
+  height:          280pt;
+}
+
+.bodyTableBot {
   width:           50%;
   height:          296pt;
 }
-.bodyTableBot{
-  width:           50%;
-  height:          296pt;
-}
-.spdTable1{
+
+.spdTable1 {
   width:           100%;
   height:          150pt;
 }
-.spdTable2{
+
+.spdTable2 {
   width:           100%;
-  height:          72pt;
+  height:          65pt;
 }
-.EcoTable{
+
+.EcoTable {
   width:           100%;
 }
-.EcoTable td{
+
+.EcoTable td {
   border:          1px solid #000000;
 }
-.EcoTable th{
+
+.EcoTable th {
   border:          1px solid #000000;
   vertical-align:  middle;
 }
-.EcoTable td p{
+
+.EcoTable td p {
   text-align:      center;
   padding-top:     2px;
   padding-bottom:  2px;
 }
-.EcoTable th p{
+
+.EcoTable th p {
   text-align:      left;
   padding-left:    5px;
-  
 }
-.EcoTable .fixture{
+
+.EcoTable .fixture {
   width:           15%;
 }
-.page2{
+
+.CostPlots {
+  width:           100%;
+}
+
+.CostPlots td {
+  width:           100%;
+  height:          149pt;
+}
+
+.page2 {
   height:          215pt;
   width:           50%;
 }
-.ratio{
-  width:           100%
+
+.ratio {
+  width:           100%;
 }
-.ratio p{
+
+.ratio p {
   padding-top:     5px;
   padding-bottom:  5px;
   text-align:      center;
 }
-.inv{
-  color:           #FFFFFF;
+
+.inv {
+  color:           #ffffff;
 }
-.ratio td{
+
+.ratio td {
   border:          1px solid #000000;
 }
-.ratio th{
+
+.ratio th {
   border:          1px solid #000000;
 }
-.footNotes{
+
+.footNotes {
   font-size:       6pt;
   line-height:     9;
   vertical-align:  text-bottom;
+}
+.img {
+  text-align: center; 
+}
+
+.Cata {
+  
 }

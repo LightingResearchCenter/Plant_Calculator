@@ -14,8 +14,6 @@ while ~strcmp(rpt.CurrentHoleId,'#end#')
             append(rpt,'need');
         case 'PPF'
             %append(rpt,'need');
-        case 'YPF'
-            append(rpt,'need');
         case 'PSS'
             append(rpt,'need');
         case 'FixtureImg'
@@ -25,10 +23,6 @@ while ~strcmp(rpt.CurrentHoleId,'#end#')
         case 'Power'
             append(rpt,'need');
         case 'PPFperW'
-            append(rpt,'need');
-        case 'YPFperW'
-            append(rpt,'need');
-        case 'RCR'
             append(rpt,'need');
         case 'Brand3'
             append(rpt,'need');
@@ -75,7 +69,6 @@ while ~strcmp(rpt.CurrentHoleId,'#end#')
                     moveToNextHole(pageFooter);
                 end
             end
-            
         case '#sect2#'
             sect = rpt.CurrentPageLayout;
             for i = 1:numel(sect.PageFooters)
@@ -91,7 +84,6 @@ while ~strcmp(rpt.CurrentHoleId,'#end#')
                     moveToNextHole(pageFooter);
                 end
             end
-            
         case 'Eco01'
             EcoIndex = 1;
             append(rpt,EcoIndex);
@@ -112,8 +104,7 @@ while ~strcmp(rpt.CurrentHoleId,'#end#')
                 append(rpt,lsaeIndex);
                 moveToNextHole(rpt);
                 append(rpt,lsaeIndex);
-                lsaeIndex =lsaeIndex +1;
-                
+                lsaeIndex =lsaeIndex +1; 
             end
         case 'ratio11'
             ratioIndex = 1;
@@ -123,7 +114,6 @@ while ~strcmp(rpt.CurrentHoleId,'#end#')
                 moveToNextHole(rpt);
                 append(rpt,ratioIndex);
                 ratioIndex =ratioIndex +1;
-                
             end
         otherwise
             disp(rpt.CurrentHoleId);

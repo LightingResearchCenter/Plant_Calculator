@@ -15,11 +15,11 @@
 		<pnumber format="1"></pnumber>
 	</layout>
 	<div class="metrics">
-		<p class="header"><hole id="Manufac">Manufac</hole> <hole id="Product">Product</hole></p>
+		<p class="header"><hole id="Brand">Brand</hole> <hole id="Product">Product</hole></p>
 		<table>
 			<tr>
 				<td>
-					<p><hole id="Brand1">Brand1</hole><sup class="inv">.</sup></p>
+					<p class="Cata"><hole id="Catalog1">Catalog1</hole><sup class="inv">.</sup></p>
 				</td>
 				<td class="leftLine" rowspan="2">
 					<p>Voltage = <hole id="Voltage">Voltage</hole> V<sup class="inv">.</sup></p>
@@ -31,20 +31,20 @@
 					<p>PPF<a href="#note1"><sup>1</sup></a> = <hole id="PPF">PPF</hole> µmol*s<sup>-1</sup></p>
 				</td>
 				<td class="leftLine" rowspan="2">
-					<p>PPF%<sup>3</sup> = <hole id="PPFper">PPFper</hole> %</p>
+					<p>PPF%<a href="#note2"><sup>2</sup></a> = <hole id="PPFper">PPFper</hole> %</p>
 				</td>
 				<td class="leftLine" rowspan="4">
-					<p><hole id="FixtureImg">FixtureImg</hole></p>
+					<p class="img"><hole id="FixtureImg">FixtureImg</hole></p>
 				</td>
 			</tr>
 			<tr>
 				<td>
-					<p><hole id="Brand2">Brand2</hole><sup class="inv">.</sup></p>
+					<p class="Cata"><hole id="Catalog2">Catalog2</hole><sup class="inv">.</sup></p>
 				</td>
 			</tr>
 			<tr>
 				<td>
-					<p><hole id="Brand3">Brand3</hole><sup class="inv">.</sup></p>
+					<p class="Cata"><hole id="Catalog3">Catalog3</hole><sup class="inv">.</sup></p>
 				</td>
 				<td class="leftLine" rowspan="2">
 					<p>Power = <hole id="Power">Power</hole> W<sup class="inv">.</sup></p>
@@ -53,15 +53,15 @@
 					<p>THD = <hole id="THD">THD</hole><sup class="inv">.</sup></p>
 				</td>
 				<td class="leftLine" rowspan="2">
-					<p>PPF% = <hole id="PPFperW">PPFperW</hole>µmol*J<sup>-1</sup></p>
+					<p>PPF/W = <hole id="PPFperW">PPFperW</hole>µmol*J<sup>-1</sup></p>
 				</td>
 				<td class="leftLine" rowspan="2">
-					<p></p>
+					<p>PSS<a href="#note3"><sup>3</sup></a> = <hole id="PSS">PSS</hole></p>
 				</td>
 			</tr>
 			<tr>
 				<td>
-					<p><hole id="Brand4">Brand4</hole><sup class="inv">.</sup></p>
+					<p class="Cata"><hole id="Catalog4">Catalog4</hole><sup class="inv">.</sup></p>
 				</td>
 			</tr>
 		</table>
@@ -483,19 +483,19 @@
 						<tr>
 							<td class="spdTable1">
 								<h2>Spectral Power Distribution<sup>10</sup></h2>
-								<p><hole id="SPDpic">SPDpic</hole></p>
+								<p class="img"><hole id="SPDpic">SPDpic</hole></p>
 							</td>
 						</tr>
 						<tr>
 							<td class="spdTable2">
-								<h2>Photosythetic Photon Flux (PPF) Comparison<sup>11</sup></h2>
-								<p><hole id="PPFRank">PPFRank</hole></p>
+								<h2>Photosythetic Photon Flux (µmol*s<sup>-1</sup>) Comparison<sup>11</sup></h2>
+								<p class="img"><hole id="PPFRank">PPFRank</hole></p>
 							</td>
 						</tr>
 						<tr>
 							<td class="spdTable2">
-								<h2>Photosythetic Photon Flux (PPF) Comparison<sup>12</sup></h2>
-								<p><hole id="PPFDRank">PPFDRank</hole></p>
+								<h2>Photosythetic Photon Flux Per Watt (µmol*J<sup>-1</sup>) Comparison<sup>12</sup></h2>
+								<p class="img"><hole id="PPFDRank">PPFDRank</hole></p>
 							</td>
 						</tr>
 					</table>
@@ -747,9 +747,21 @@
 					<p>Note: All calculations assume a 36 ft x 30 ft (1080 ft<sup>-2</sup>) growing area.</p>
 				</td>
 				<td class="bodyTableBot">
-					<h2>Cumulative Costs Over 20 Years<sup>10</sup></h2>
-					<p><hole id="Costpic1">Costpic1</hole></p>
-				</td>
+					<table class="CostPlots">
+						<tr>
+							<td>
+								<h2>Cumulative Costs Over 20 Years At $0.10/kWh<sup>10</sup></h2>
+								<p class="img"><hole id="Costpic1">Costpic1</hole></p>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<h2>Cumulative Costs Over 20 YearsAt $0.20/kWh<sup>10</sup></h2>
+								<p class="img"><hole id="Costpic2">Costpic2</hole></p>
+							</td>
+						</tr>
+					</table>
+					</td>
 			</tr>
 		</table>
 	</div>
@@ -760,12 +772,12 @@
 		<table>
 			<tr>
 				<td class="page2">
-					<h2>Iso-PPFD Contours (MH = <hole id="MountHeight">MountHeight</hole> m)<sup>11</sup></h2>
-					<p><hole id="ISOPPFDpic">ISOPPFDpic</hole></p>
+					<h2>Iso-PPFD Contours (MH = <hole id="MountHeight">MountHeight</hole> ft)<sup>11</sup></h2>
+					<p class="img"><hole id="ISOPPFDpic">ISOPPFDpic</hole></p>
 				</td>
 				<td class="page2">
 					<h2>Luminous Intensity Distribution (cd)<sup>14</sup></h2>
-					<p><hole id="IntenDistImg">IntenDistImg</hole></p>
+					<p class="img"><hole id="IntenDistImg">IntenDistImg</hole></p>
 				</td>
 			</tr>
 			<tr>
@@ -937,7 +949,7 @@
 				</td>
 				<td class="page2">
 					<h2>Relative SPD At Varying Vertical Angles</h2>
-					<p><hole id="SPDTheataPlot">SPDTheataPlot</hole></p>
+					<p class="img"><hole id="SPDTheataPlot">SPDTheataPlot</hole></p>
 				</td>
 			</tr>
 		</table>
@@ -947,7 +959,8 @@
 		radiation (PAR) which assumes equal weighting for electromagentic radiation between 400 and 700 nanometers (nm). PPF is
 		calculated by multiplying the luminaire SPD by the photon-weighted ideal PPF action spectrum and summing the total. It
 		is analogous to luminaire lumens.</p>
-	<p class="footNotes"><a name="note2"></a><b>2.</b> PPF is typically calculated in quantum units (µmol*s<sup>-1</sup>), rather than units of radiant power.</p>
+	<p class="footNotes"><a name="note2"></a><b>2.</b> PPF is typically calculated in quantum units (µmol*s<sup>-1</sup>), rather than units of radiant
+		power.</p>
 	<p class="footNotes"><a name="note3"></a><b>3.</b> PPF%: The percentage of the measured SPD in the PAR range (400 - 700 nm).</p>
 	<p class="footNotes"><a name="note4"></a><b>4.</b> Yield photon flux (YPF) is a photon-weighted measure of PAR which weights electromagentic
 		radiation between 400 and 700 nm according to McCree's (1972a) relative quantum efficiency (RQE) action spectrum. YPF is
@@ -957,8 +970,8 @@
 		(Sager 1988). A higher value indicates that the SPD will stimulate more of the red form of phytochrome (Pr) than the far-red
 		form (Pfr). PSS is calculated by multiplying the SPD by the ratio of Pr /(Pr+ Pfr) at each wavelength and summing the total.</p>
 	<p class="footNotes"><a name="note6"></a><b>6.</b> Relative cycling rate (RCR) is a measure of the SPD's impact on the interconversion of Pr
-		and Pfr for a given irradiance (Sager 1988). The assumed irradiance in our calculation is %s µmol/ m<sup>-2</sup> sec. RCR
-		is given in Hertz (Hz).</p>
+		and Pfr for a given irradiance (Sager 1988). The assumed irradiance in our calculation is %s µmol/ m<sup>-2</sup> sec.
+		RCR is given in Hertz (Hz).</p>
 	<p class="footNotes"><a name="note7"></a>7. A 1000 W HPS luminaire from P.L. Light Systems, at a 2 m mounting height, was used for the cost analysis
 		(Med NXT LP 1000W Beta).</p>
 	<p class="footNotes"><a name="note8"></a><b>8.</b> A 600 W HPS luminaire from P.L. Light Systems (tested in 2013), at a 2 m mounting height,

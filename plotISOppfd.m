@@ -3,11 +3,11 @@ ISOPlot =figure('units','inches');
 set(ISOPlot,'Renderer','painters');
 
 ConversionFactor = PPF_Conversion_Factor_05Apr2016(Spectrum(:,1),Spectrum(:,2));
-calcSpacing = 0.25;
+calcSpacing = 0.125;
 plotMin = 0;
-CalcMax = plotMax*unitsratio('m','ft');
+CalcMax = plotMax*unitsratio('m','ft')+2*calcSpacing;
 CalcMount = mount*unitsratio('m','ft');
-centers(:,1:2) = centers(:,1:2)*unitsratio('m','ft');
+centers(:,1:2) = centers(:,1:2)*unitsratio('m','ft')+calcSpacing;
 [Irr,~,~,~] = PPFCalculator(IESdata,...
                             'MountHeight',          CalcMount,...
                             'Length',               CalcMax(1),...
@@ -17,40 +17,43 @@ centers(:,1:2) = centers(:,1:2)*unitsratio('m','ft');
                             'calcSpacing',          calcSpacing,...
                             'Multiplier',           round(ConversionFactor,1),...
                             'fixtureOrientation',   centers(1,3));
-plotXLabels = {strip(sprintf('%0.2f',(plotMax(end)/2)*-1),'right','0');...
-               strip(sprintf('%0.2f',(plotMax(end)/2)*(-2/3)),'right','0');...
-               strip(sprintf('%0.2f',(plotMax(end)/2)*(-1/3)),'right','0');...
-               strip(sprintf('%0.2f',(plotMax(end)/2)*(0)),'right','0');...
-               strip(sprintf('%0.2f',(plotMax(end)/2)*(1/3)),'right','0');...
-               strip(sprintf('%0.2f',(plotMax(end)/2)*(2/3)),'right','0');...
-               strip(sprintf('%0.2f',(plotMax(end)/2)*(1)),'right','0')};
-plotYLabels = {strip(sprintf('%0.2f',(plotMax(1)/2)*-1),'right','0');...
-               strip(sprintf('%0.2f',(plotMax(1)/2)*(-2/3)),'right','0');...
-               strip(sprintf('%0.2f',(plotMax(1)/2)*(-1/3)),'right','0');...
-               strip(sprintf('%0.2f',(plotMax(1)/2)*(0)),'right','0');...
-               strip(sprintf('%0.2f',(plotMax(1)/2)*(1/3)),'right','0');...
-               strip(sprintf('%0.2f',(plotMax(1)/2)*(2/3)),'right','0');...
-               strip(sprintf('%0.2f',(plotMax(1)/2)*(1)),'right','0')};
-myfunc = @(x) strip(x,'right','.');
-plotXLabels = cellfun(myfunc,plotXLabels,'UniformOutput',0); 
-plotYLabels = cellfun(myfunc,plotYLabels,'UniformOutput',0);
-plotSplits = size(plotYLabels,1)-1;
-calcSpacing =calcSpacing*unitsratio('ft','m');
-rowStart = (plotMax(end)-(calcSpacing*floor(plotMax(end)/calcSpacing)))/2;
-colStart = (plotMax(1)-(calcSpacing*floor(plotMax(1)/calcSpacing)))/2;
-X= (rowStart:calcSpacing:plotMax(end))';
-Y = (colStart:calcSpacing:plotMax(1));
+plotXLabels = {sprintf('%0.2f',(plotMax(end)/2)*-1);...
+               sprintf('%0.2f',(plotMax(end)/2)*(-2/3));...
+               sprintf('%0.2f',(plotMax(end)/2)*(-1/3));...
+               sprintf('%0.2f',(plotMax(end)/2)*(0));...
+               sprintf('%0.2f',(plotMax(end)/2)*(1/3));...
+               sprintf('%0.2f',(plotMax(end)/2)*(2/3));...
+               sprintf('%0.2f',(plotMax(end)/2)*(1))};
+plotYLabels = {sprintf('%0.2f',(plotMax(1)/2)*-1);...
+               sprintf('%0.2f',(plotMax(1)/2)*(-2/3));...
+               sprintf('%0.2f',(plotMax(1)/2)*(-1/3));...
+               sprintf('%0.2f',(plotMax(1)/2)*(0));...
+               sprintf('%0.2f',(plotMax(1)/2)*(1/3));...
+               sprintf('%0.2f',(plotMax(1)/2)*(2/3));...
+               sprintf('%0.2f',(plotMax(1)/2)*(1))};
 
+myfunc1 = @(x) strip(x,'right','0');
+myfunc2 = @(x) strip(x,'right','.');
+plotXLabels = cellfun(myfunc1,plotXLabels,'UniformOutput',0); 
+plotYLabels = cellfun(myfunc1,plotYLabels,'UniformOutput',0);
+plotXLabels = cellfun(myfunc2,plotXLabels,'UniformOutput',0); 
+plotYLabels = cellfun(myfunc2,plotYLabels,'UniformOutput',0);
+
+plotSplits = size(plotYLabels,1)-1;
+rowStart = (CalcMax(end)-(calcSpacing*floor(CalcMax(end)/calcSpacing)))/2;
+colStart = (CalcMax(1)-(calcSpacing*floor(CalcMax(1)/calcSpacing)))/2;
+X= (rowStart:calcSpacing:CalcMax(end))';
+Y = (colStart:calcSpacing:CalcMax(1));
 ISOaxes = axes(ISOPlot);
 
-[C,h] = contour(ISOaxes,X,Y,Irr,[25,50,100:100:500]);
+[C,h] = contourf(ISOaxes,X,Y,Irr,[25,50,100:100:500]);
 
-ISOaxes.XTick =[plotMin,(plotMax(end))/plotSplits:(plotMax(end))/plotSplits:plotMax(end)-((plotMax(end))/plotSplits),plotMax(end)];
+ISOaxes.XTick =[X(1),(X(end))/plotSplits:(X(end))/plotSplits:X(end)-((X(end))/plotSplits),X(end)];
 ISOaxes.YTickLabel = plotYLabels;
-ISOaxes.YTick = [plotMin,(plotMax(1))/plotSplits:(plotMax(1))/plotSplits:plotMax(1)-((plotMax(1))/plotSplits),plotMax(1)];
+ISOaxes.YTick = [Y(1),(Y(end))/plotSplits:(Y(end))/plotSplits:Y(end)-((Y(end))/plotSplits),Y(end)];
 ISOaxes.XTickLabel = plotXLabels;
-ISOaxes.YLim = [plotMin,plotMax(1)];
-ISOaxes.XLim = [plotMin,plotMax(end)];
+ISOaxes.YLim = [Y(1),Y(end)];
+ISOaxes.XLim = [X(1),X(end)];
 ax = ISOaxes;
 ax.FontSize = 8;
 clabel(C,h,'FontSize',8);
@@ -65,24 +68,9 @@ caxis([0 500]);
 align([ISOPlot,ISOaxes],'center','top');
 
 if numel(varargin)==1
-    set(gcf,'Position',[0,0,5,4]);
-    fixX = (plotMax(1)/2)-(IESdata.WidthFt*0.5);
-    fixY = (plotMax(end)/2)-(IESdata.LengthFt*0.5);
-    fixW = IESdata.WidthFt;
-    fixH = IESdata.LengthFt;
-    rectangle('Position',[fixX,fixY,fixW,fixH],'LineWidth',2);
-    ax = gca;
-    outerpos = ax.OuterPosition;
-    ti = ax.TightInset;
-    left = outerpos(1) + ti(1);
-    bottom = outerpos(2) + ti(2)+ (.1*ti(2));
-    ax_width = outerpos(3) - ti(1) - ti(3);
-    ax_height = outerpos(4) - ti(2) - ti(4)- (.2*ti(2));
-    ax.Position = [left bottom ax_width ax_height];
-    fig = gcf;
-    fig.PaperPositionMode = 'auto';
-    fig_pos = fig.PaperPosition;
-    fig.PaperSize = [fig_pos(3) fig_pos(4)];
+    pos = get(ISOPlot,'InnerPosition');
+    set(ISOPlot,'InnerPosition',[pos(1),pos(2),5,3]);
+    set(gca,'units', 'normalized','outerPosition',[.01 .01 .99 .99],'fontsize',8)
     saveas(ISOPlot,varargin{1});
     RemoveWhiteSpace([], 'file',varargin{1});
     close(ISOPlot);

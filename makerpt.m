@@ -1,106 +1,82 @@
-function rpt = makerpt(Data,rptname,rpttemplate)
+function rpt = makerpt(Data,rptname)
 clc
 import mlreportgen.dom.*
-rpt = Document(rptname,'pdf',rpttemplate);
+rpt = Document(rptname,'pdf','LRC_Hort_Metrics.pdftx');
 open(rpt);
-%% Format Catalog and Cost
-[outputArr] = formatCatalogCost(Data);
-%% Calculate LSAE
-minMount = 1*unitsratio('m','ft');
-maxMount = 8*unitsratio('m','ft');
-stepMount = 1*unitsratio('m','ft');
-targetMounts = minMount:stepMount:maxMount;
-minPPFD = 100;
-maxPPFD = 500;
-stepPPFD = 100;
-targetPPFDs = [minPPFD:stepPPFD:maxPPFD,1000];
-targetUni = .8;
-roomLength = unitsratio('m','ft')*36;%feet
-roomWidth = unitsratio('m','ft')*30;%feet
-calcSpacing = .25;
-[~,Data.outTable,Data.LSAE] = fullLSAE(Data.spd,Data.ies,targetMounts,targetPPFDs,targetUni,roomLength,roomWidth,calcSpacing);
-%% generate economic section
-% [Data] = CalculateEconomics(Data);
-%% Plot SPD
-plotSPD(Data.Spectrum,fullfile('images','SPDPlotPic.tif'));
-%% Plot Iso-PPFD contour Plot
-LSAEcol = reshape(Data.LSAE,[],1);
-[~,ind] = max(LSAEcol);
-if mod(ind,8) == 0
-    mount = 8*unitsratio('m','ft');
-else
-    mount = mod(ind,8)*unitsratio('m','ft');
-end
-PlotWidth = 4; %ft
-plotISOppfd(Data.Spectrum,Data.IESdata,mount,PlotWidth,fullfile('images','ISOPlotPic.tif'));
-%% Color Uniformity Plot
-plotColorUni(Data.Spectrum,Data.IESfiles,fullfile('images','ColorPlotPic.tif'));
-%% Plot Intensity Distribution
-plotIntensityDist(Data.IESfiles,fullfile('images','IntentPlotPic.tif'));
-%% PlotPPFD
-plotPPDF(Data)
-%% PlotPPFDperW
-plotPPDFperW(Data)
-%% input to PDF
-sect = rpt.CurrentPageLayout;
 while ~strcmp(rpt.CurrentHoleId,'#end#')
     switch rpt.CurrentHoleId
-        case 'Manufac'
-            append(rpt,'need');
+        case 'Brand'
+            append(rpt,Data.Brand);
         case 'Product'
-            append(rpt,'need');
-        case 'Brand1'
-            append(rpt,'need');
+            append(rpt,Data.Product);
+        case 'Catalog1'
+            append(rpt,Data.CatalogArr{1});
         case 'Voltage'
-            append(rpt,'need');
+            append(rpt,sprintf('%d',round(Data.Volts)));
         case 'PPF'
-            %append(rpt,'need');
-        case 'YPF'
-            append(rpt,'need');
+            append(rpt,sprintf('%0.1f',Data.PPF));
         case 'PSS'
-            append(rpt,'need');
+            append(rpt,sprintf('%0.2f',Data.PSS));
         case 'FixtureImg'
-            append(rpt,'need');
-        case 'Brand2'
-            append(rpt,'need');
+            img = Image(Data.Image);
+            img.Style = {Height('0.6in')};
+            append(rpt,img);
+        case 'Catalog2'
+            append(rpt,Data.CatalogArr{2});
         case 'Power'
-            append(rpt,'need');
+            append(rpt,sprintf('%d',round(Data.Wattage)));
         case 'PPFperW'
-            append(rpt,'need');
-        case 'YPFperW'
-            append(rpt,'need');
-        case 'RCR'
-            append(rpt,'need');
-        case 'Brand3'
-            append(rpt,'need');
+            append(rpt,sprintf('%0.2f',Data.PPFperW));
+        case 'Catalog3'
+            append(rpt,Data.CatalogArr{3});
         case 'PF'
-            append(rpt,'need');
+            append(rpt,sprintf('%0.3f',Data.PPFperW));
         case 'PPFper'
-            append(rpt,'need');
-        case 'Brand4'
-            append(rpt,'need');
+            append(rpt,sprintf('%0.2f',Data.PPFofTotal));
+        case 'Catalog4'
+            append(rpt,Data.CatalogArr{4});
         case 'THD'
-            append(rpt,'need');
+            append(rpt,sprintf('%0.3f',Data.THD));
         case 'PPFRank'
-            append(rpt,'need');
+            img = Image(Data.PPFRank);
+            img.Style = {Width('3.25in')};
+            append(rpt,img);
         case 'PPFDRank'
-            append(rpt,'need');
+            img = Image(Data.PPFperWRank);
+            img.Style = {Width('3.25in')};
+            append(rpt,img);
         case 'Lamp2'
-            append(rpt,'need');
+            append(rpt,Data.Source);
         case 'MountHeight'
-            append(rpt,'need');
+            append(rpt,sprintf('%d',round(Data.mount)));
         case 'ISOPPFDpic'
-            append(rpt,'need');
+            img = Image(Data.ISOPlot);
+            img.Style = {Width('3.25in')};
+            append(rpt,img);
         case 'IntenDistImg'
-            append(rpt,'need');
+            img = Image(Data.IntensityDistplot);
+            img.Style = {Height('2.5in')};
+            append(rpt,img);
         case 'SPDpic'
-            append(rpt,'need');
-        case 'SPDpic2'
-            append(rpt,'need');
+            img = Image(Data.SPDPlot);
+            img.Style = {Width('3.25in')};
+            append(rpt,img);
         case 'SPDTheataPlot'
-            append(rpt,'need');
+            if exist(Data.SPDthetaPlot,'file')
+                img = Image(Data.SPDthetaPlot);
+                img.Style = {Width('3.25in')};
+                append(rpt,img);
+            else
+                append(rpt,'Not Available with the Data Provided');
+            end
         case 'Costpic1'
-            append(rpt,'need');
+            img = Image(Data.LCCA10Plot);
+            img.Style = {Height('1.75in')};
+            append(rpt,img);
+        case 'Costpic2'
+            img = Image(Data.LCCA20Plot);
+            img.Style = {Height('1.75in')};
+            append(rpt,img);
         case '#start#'
             sect = rpt.CurrentPageLayout;
             for i = 1:numel(sect.PageFooters)
@@ -116,7 +92,6 @@ while ~strcmp(rpt.CurrentHoleId,'#end#')
                     moveToNextHole(pageFooter);
                 end
             end
-            
         case '#sect2#'
             sect = rpt.CurrentPageLayout;
             for i = 1:numel(sect.PageFooters)
@@ -132,7 +107,6 @@ while ~strcmp(rpt.CurrentHoleId,'#end#')
                     moveToNextHole(pageFooter);
                 end
             end
-            
         case 'Eco01'
             EcoIndex = 1;
             append(rpt,EcoIndex);
@@ -144,57 +118,51 @@ while ~strcmp(rpt.CurrentHoleId,'#end#')
             end
         case 'LSAE101'
             lsaeIndex = 1;
-            append(rpt,lsaeIndex);
+            append(rpt,sprintf('%0.2f',Data.outTable.LSAE(lsaeIndex)));
             moveToNextHole(rpt);
-            append(rpt,lsaeIndex);
+            append(rpt,sprintf('%d',round(size(Data.outTable.count{lsaeIndex},1))));
             lsaeIndex =lsaeIndex +1;
             while lsaeIndex<49
                 moveToNextHole(rpt);
-                append(rpt,lsaeIndex);
+                append(rpt,sprintf('%0.2f',Data.outTable.LSAE(lsaeIndex)));
                 moveToNextHole(rpt);
-                append(rpt,lsaeIndex);
-                lsaeIndex =lsaeIndex +1;
-                
+                append(rpt,sprintf('%d',round(size(Data.outTable.count{lsaeIndex},1))));
+                lsaeIndex =lsaeIndex +1; 
             end
         case 'ratio11'
             ratioIndex = 1;
-            append(rpt,ratioIndex);
+            append(rpt,sprintf('%0.2f',Data.UVaPer(ratioIndex)));
+            moveToNextHole(rpt);
+            append(rpt,sprintf('%0.2f',Data.bluePer(ratioIndex)));
+            moveToNextHole(rpt);
+            append(rpt,sprintf('%0.2f',Data.redPer(ratioIndex)));
+            moveToNextHole(rpt);
+            append(rpt,sprintf('%0.2f',Data.FRPer(ratioIndex)));
+            moveToNextHole(rpt);
+            append(rpt,sprintf('%0.2f',Data.blueRed(ratioIndex)));
+            moveToNextHole(rpt);
+            append(rpt,sprintf('%0.2f',Data.redFR(ratioIndex)));
             ratioIndex =ratioIndex +1;
-            while ratioIndex<37
+            while ratioIndex<=6
                 moveToNextHole(rpt);
-                append(rpt,ratioIndex);
+                append(rpt,sprintf('%0.2f',Data.UVaPer(ratioIndex)));
+                moveToNextHole(rpt);
+                append(rpt,sprintf('%0.2f',Data.bluePer(ratioIndex)));
+                moveToNextHole(rpt);
+                append(rpt,sprintf('%0.2f',Data.redPer(ratioIndex)));
+                moveToNextHole(rpt);
+                append(rpt,sprintf('%0.2f',Data.FRPer(ratioIndex)));
+                moveToNextHole(rpt);
+                append(rpt,sprintf('%0.2f',Data.blueRed(ratioIndex)));
+                moveToNextHole(rpt);
+                append(rpt,sprintf('%0.2f',Data.redFR(ratioIndex)));
                 ratioIndex =ratioIndex +1;
-                
             end
         otherwise
             disp(rpt.CurrentHoleId);
     end
     moveToNextHole(rpt);
 end
-    close(rpt);
-    rptview(rpt.OutputPath);
+close(rpt);
+rptview(rpt.OutputPath);
 end
-%% internal functions
-    function [outputArr] = formatCatalogCost(Data)
-        str = Data.Catalog;
-        words_in_str = textscan(str,'%s');
-        strArr = words_in_str{1};
-        outputArr = cell(4,1);
-        wordIndex = 1;
-        for i=1:length(strArr)
-            if wordIndex<=3
-                if (length(outputArr{wordIndex})+length(strArr{i})) > 20
-                    index = wordIndex+1;
-                    outputArr{wordIndex} = [strArr{i},' '];
-                else
-                    outputArr{wordIndex} = [ outputArr{wordIndex}, strArr{i},' '];
-                end
-            end
-        end
-        outputArr{index+1} = ['$',num2str(round(Data.Cost))];
-        outputArr(cellfun('isempty',outputArr))={' '};
-    end
-
-
-
-

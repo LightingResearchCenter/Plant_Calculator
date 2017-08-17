@@ -1,6 +1,7 @@
-function plotSPDtheta(angleSPD)
-spdTable = readtable(angleSPD);
-spdTable.Properties.VariableNames(strcmp('Var1',spdTable.Properties.VariableNames))={'wavelength'};
+function Data = plotSPDtheta(Data,varargin)
+spdTable = readtable(Data.angularSPD,'HeaderLines',1);
+spdTable.Properties.VariableNames= [{'wavelength'},{'L90_V0'},{'L90_V15'},{'L90_V30'},{'L90_V45'},{'L90_V60'},{'L90_V75'}];
+
 % UV (200 - 400 nm)
 q1 = find(spdTable.wavelength>=200,1,'first');
 q2 = find(spdTable.wavelength<=400,1,'last');
@@ -67,9 +68,14 @@ spdInterpTable.L90_V15 = interp1(spdTable.wavelength, spdTable.L90_V15 ,ceil(min
 spdInterpTable.L90_V0  = interp1(spdTable.wavelength, spdTable.L90_V0 ,ceil(min(spdTable.wavelength)):floor(max(spdTable.wavelength)),'linear',0)';
 
 spdInterpTable = struct2table(spdInterpTable);
-SPDplot = figure;
+SPDplot = figure('units','inches');
 spdAxes = axes(SPDplot);
-colors = [213,62,79;252,141,89;254,224,139;230,245,152;153,213,148;50,136,189]/255;
+colors = [213,  62,     79;...
+          252,  141,    89;...
+          254,  224,    139;...
+          230,  245,    152;...
+          153,  213,    148;...
+          50,   136,    189]/255;
 p1 = plot(spdAxes,spdInterpTable.wavelength,spdInterpTable.L90_V0, 'DisplayName',sprintf('SPD@ 0°'), 'Color',colors(1,:),'LineWidth',2);
 hold on
 p2 = plot(spdAxes,spdInterpTable.wavelength,spdInterpTable.L90_V15,'DisplayName',sprintf('SPD@ 15°'),'Color',colors(2,:),'LineWidth',2);
@@ -84,12 +90,25 @@ uistack(p4,'top');
 uistack(p3,'top');
 uistack(p2,'top');
 uistack(p1,'top');
-hold off;
+hold on;
+xlabel('Wavelength','FontWeight','Bold','FontSize',8);
+ylabel('Relative Power','FontWeight','Bold','FontSize',8);
 
-UVaPer = ratio(1,:)'./ratio(5,:)';
-bluePer = ratio(2,:)'./ratio(5,:)';
-redPer = ratio(3,:)'./ratio(5,:)';
-FRPer = ratio(4,:)'./ratio(5,:)';
-blueRed = ratio(2,:)'./ratio(3,:)';
-redFR = ratio(4,:)'./ratio(3,:)';
+spdAxes.Visible = 'on';
+spdAxes.FontSize = 8;
+
+if numel(varargin) == 1
+    pos = get(SPDplot,'InnerPosition');
+    set(SPDplot,'InnerPosition',[pos(1),pos(2),5,3.5])
+    set(gca,'units', 'normalized','outerPosition',[.01 .01 .99 .99],'fontsize',8)
+    saveas(SPDplot,varargin{1})
+    RemoveWhiteSpace([], 'file', varargin{1});
+    close(SPDplot);
+end
+Data.UVaPer = ratio(1,:)'./ratio(5,:)';
+Data.bluePer = ratio(2,:)'./ratio(5,:)';
+Data.redPer = ratio(3,:)'./ratio(5,:)';
+Data.FRPer = ratio(4,:)'./ratio(5,:)';
+Data.blueRed = ratio(2,:)'./ratio(3,:)';
+Data.redFR = ratio(4,:)'./ratio(3,:)';
 end
