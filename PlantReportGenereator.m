@@ -23,17 +23,19 @@ tempTable = struct2table(tempTable);
 if ~exist(fullfile(loc,'Plant Reports'),'dir')
         mkdir(fullfile(loc,'Plant Reports'));
 end
-PPFmax = max(tempTable.PPF);
-PPFmin = min(tempTable.PPF);
-PPFperWmax = max(tempTable.PPFperW);
-PPFperWmin = min(tempTable.PPFperW);
+% PPFmax = max(tempTable.PPF);
+% PPFmin = min(tempTable.PPF);
+% PPFperWmax = max(tempTable.PPFperW);
+% PPFperWmin = min(tempTable.PPFperW);
+
+load('ppfdata.mat')
 save('datatable.mat','tempTable');
 for i = 1:height(tempTable)
     Data =table2struct(tempTable(i,:));
     index = (Data.spectrum(:,1)<700)&(Data.spectrum(:,1)>400);
     Data.PPFofTotal = (sum(Data.spectrum(index,2))/sum(Data.spectrum(:,2)))*100;
-    Data.PPFRank = fullfile('images',[sprintf('%d',Data.LRCID),'PPFPlotPic.tif']);
-    Data.PPFperWRank = fullfile('images',[sprintf('%d',Data.LRCID),'PPFperWPlotPic.tif']);
+    Data.PPFRank = fullfile('images',[sprintf('%d',Data.LRCID),'PPFPlotPic.png']);
+    Data.PPFperWRank = fullfile('images',[sprintf('%d',Data.LRCID),'PPFperWPlotPic.png']);
     plotRank(Data.PPF,PPFmax,PPFmin,Data.PPFRank);
     plotRank(Data.PPFperW,PPFperWmax,PPFperWmin,Data.PPFperWRank);
     
@@ -122,28 +124,22 @@ end
     targetMounts,targetPPFDs,targetUni,roomLengthM,roomWidthM,calcSpacing,Data.LampType);
 % generate economic section
 
-Data.LCCA10Plot = fullfile('images',[sprintf('%d',Data.LRCID),'LCCA10.tif']);
-Data.LCCA20Plot= fullfile('images',[sprintf('%d',Data.LRCID),'LCCA20.tif']);
+Data.LCCA10Plot = fullfile('images',[sprintf('%d',Data.LRCID),'LCCA10.png']);
+Data.LCCA20Plot= fullfile('images',[sprintf('%d',Data.LRCID),'LCCA20.png']);
 [Data] = calculateEconomics(Data,roomLength,roomWidth, Data.LCCA10Plot, Data.LCCA20Plot);
 % Plot SPD
-Data.SPDPlot = fullfile('images',[sprintf('%d',Data.LRCID),'SPDPlotPic.tif']);
+Data.SPDPlot = fullfile('images',[sprintf('%d',Data.LRCID),'SPDPlotPic.png']);
 if ~isempty(Data.spectrum)
     plotSPD(Data.spectrum, Data.SPDPlot);
 end
 % Plot Iso-PPFD contour Plot
-LSAEcol = reshape(Data.LSAE,[],1);
-[~,ind] = max(LSAEcol);
-if mod(ind,8) == 0
-    Data.mount = 8;
-else
-    Data.mount = mod(ind,8);
-end
+[~,Data.mount] = max(Data.outTable.LSAE(Data.outTable.targetPPFD(:)==300));
 PlotWidth = 4; %ft
-Data.ISOPlot = fullfile('images',[sprintf('%d',Data.LRCID),'ISOPlotPic.tif']);
+Data.ISOPlot = fullfile('images',[sprintf('%d',Data.LRCID),'ISOPlotPic.png']);
 centers = [PlotWidth/2,PlotWidth/2,0];
 plotISOppfd(Data.spectrum,Data.IESdata,PlotWidth,Data.mount,centers,LLF(Data.LampType),Data.ISOPlot);
 % Color Uniformity Plot
-Data.SPDthetaPlot = fullfile('images',[sprintf('%d',Data.LRCID),'SPDTheta.tif']);
+Data.SPDthetaPlot = fullfile('images',[sprintf('%d',Data.LRCID),'SPDTheta.png']);
 if ~isempty(Data.angularSPD)
     Data = plotSPDtheta(Data,Data.SPDthetaPlot);
 else
@@ -155,7 +151,7 @@ else
     Data.redFR = zeros(1,6);
 end
 % Plot Intensity Distribution
-Data.IntensityDistplot = fullfile('images',[sprintf('%d',Data.LRCID),'IntentPlotPic.tif']);
+Data.IntensityDistplot = fullfile('images',[sprintf('%d',Data.LRCID),'IntentPlotPic.png']);
 if ~isempty(Data.IESdata)
     plotIntensityDist(Data.IESdata,Data.IntensityDistplot);
 end

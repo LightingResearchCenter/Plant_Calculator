@@ -69,6 +69,7 @@ spdInterpTable.L90_V0  = interp1(spdTable.wavelength, spdTable.L90_V0 ,ceil(min(
 
 spdInterpTable = struct2table(spdInterpTable);
 SPDplot = figure('units','inches');
+set(SPDplot,'Renderer','painters');
 spdAxes = axes(SPDplot);
 colors = [213,  62,     79;...
           252,  141,    89;...
@@ -92,7 +93,7 @@ uistack(p2,'top');
 uistack(p1,'top');
 hold on;
 xlabel('Wavelength','FontWeight','Bold','FontSize',8);
-ylabel('Relative Power','FontWeight','Bold','FontSize',8);
+ylabel('Relative Spectrum (Arbitrary Units)','FontWeight','Bold','FontSize',8);
 
 spdAxes.Visible = 'on';
 spdAxes.FontSize = 8;

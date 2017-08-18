@@ -11,7 +11,7 @@
 }
 
 .leftLine p {
-  font-size:       7pt;
+  font-size:       8pt;
 }
 
 p {
@@ -98,16 +98,36 @@ div.metrics {
   border:          1 solid #000000;
 }
 
-.LSAETable th {
+.LSAEhead{
   border:          1 solid #000000;
+  font-weight:     bold;
+  text-align:      center;
+  vertical-align:  middle;
 }
 
-.LSAETable p {
+.LSAETable th {
+  border:          1 solid #000000;
+  font-weight:     bold;
+  text-align:      center;
+  vertical-align:  bottom;
+}
+.LSAETable td p {
+  text-align:      center;
+}
+
+.LSAETable tr>th p {
   text-align:      center;
   padding-top:     5px;
   padding-bottom:  5px;
 }
 
+.maxAll {
+  background:      #888888;
+  font-weight:     bold;
+}
+.max {
+  font-weight:     bold;
+}
 .bodyTableTop {
   width:           50%;
   height:          280pt;
@@ -198,7 +218,7 @@ div.metrics {
   vertical-align:  text-bottom;
 }
 .img {
-  text-align: center; 
+  text-align:      center; 
 }
 
 .Cata {

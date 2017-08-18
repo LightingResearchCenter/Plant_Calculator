@@ -160,6 +160,7 @@ Eco.HPS600.RORHigh = mean(Eco.HPS600.CFHigh(2:end,:),1)/Eco.fix.Init;
 %% add to data for output
 Data.Eco = Eco;
 hLow = figure('units','in');
+set(hLow,'Renderer','painters');
 aLow = axes(hLow);
 hold on
 plot(aLow,0:20,Eco.fix.TotPayLow(:,1),'LineWidth',2,'Color',[166,206,227]/255);
@@ -170,6 +171,7 @@ hold off
 
 hHigh = figure('units','inches');
 aHigh = axes(hHigh);
+set(hHigh,'Renderer','painters');
 hold on
 plot(aHigh,0:20,Eco.fix.TotPayHigh(:,1),'LineWidth',2,'Color',[166,206,227]/255);
 plot(aHigh,0:20,Eco.fix.TotPayHigh(:,2),'LineStyle','--','LineWidth',2,'Color',[31,120,180]/255);
@@ -179,31 +181,31 @@ hold off
 set(aLow,'YLim',get(aHigh,'YLim'))
 Formatfunc = @(x) sprintf('$%d K',x/1000);
 set(aLow,'YTickLabel',arrayfun(Formatfunc, get(aLow,'YTick').', 'UniformOutput',0))
-lgnd = legend(aLow,'LED(1% Failure at year 10)','LED(25% Failure at year 10)','600 W HPS','1000 W HPS','Location','northwest');
+lgnd = legend(aLow,'LED(1% Failure at year 10)','LED(25% Failure at year 10)','600 W HPS','1000 W HPS','Location','best');
 set(lgnd,'FontSize',6);
 xlabel(aLow,'Years','FontSize',8,'FontWeight','Bold')
-ylabel(aLow,sprintf('Total Payments (US $)\n(Lower is better)'),'FontSize',8,'FontWeight','Bold')
+ylabel(aLow,sprintf('Total Payments (US $)'),'FontSize',8,'FontWeight','Bold')
 set(aLow,'xGrid','on')
 set(aLow,'yGrid','on')
 set(aLow,'xMinorGrid','on')
 set(aHigh,'YTickLabel',arrayfun(Formatfunc, get(aHigh,'YTick').', 'UniformOutput',0))
-lgnd = legend(aHigh,'LED(1% Failure at year 10)','LED(25% Failure at year 10)','600 W HPS','1000 W HPS','Location','northwest');
+lgnd = legend(aHigh,'LED(1% Failure at year 10)','LED(25% Failure at year 10)','600 W HPS','1000 W HPS','Location','best');
 set(lgnd,'FontSize',6);
 xlabel(aHigh,'Years','FontSize',8,'FontWeight','Bold')
-ylabel(aHigh,sprintf('Total Payments (US $)\n(Lower is better)'),'FontSize',8,'FontWeight','Bold')
+ylabel(aHigh,sprintf('Total Payments (US $)'),'FontSize',8,'FontWeight','Bold')
 set(aHigh,'xGrid','on')
 set(aHigh,'yGrid','on')
 set(aHigh,'xMinorGrid','on')
 if numel(varargin)==2
     pos = get(hLow,'InnerPosition');
     set(hLow,'InnerPosition',[pos(1),pos(2),3.5,2])
-    set(gca,'units', 'normalized','outerPosition',[.01 .01 .99 .99],'fontsize',8)
+    set(aLow,'units', 'normalized','outerPosition',[0 0 1 1],'fontsize',8)
     saveas(hLow, varargin{1})
     RemoveWhiteSpace([], 'file', varargin{1});
     close(hLow);
     pos = get(hHigh,'InnerPosition');
     set(hHigh,'InnerPosition',[pos(1),pos(2),3.5,2])
-    set(gca,'units', 'normalized','outerPosition',[.01 .01 .99 .99],'fontsize',8)
+    set(aHigh,'units', 'normalized','outerPosition',[0 0 1 1],'fontsize',8)
     saveas(hHigh, varargin{2})
     RemoveWhiteSpace([], 'file', varargin{2});
     close(hHigh);
