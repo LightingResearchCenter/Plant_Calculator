@@ -1,4 +1,4 @@
-function plotRank(num,numMax,numMin,varargin)
+function plotRank(num,numMax,numMin,title,varargin)
 rankPlot =figure('units','inches');
 rankAxes = axes(rankPlot);
 set(rankPlot,'Renderer','painters');
@@ -22,13 +22,13 @@ if num>((numMax - numMin)*.75)+numMin
 else
     text(num,1,sprintf(' %0.1f',num),'FontSize',6);
 end
+xlabel(title);
 if numel(varargin) == 1
     pos = get(rankPlot,'InnerPosition');
-    set(rankPlot,'InnerPosition',[pos(1),pos(2),3.5, .4]);
+    set(rankPlot,'InnerPosition',[pos(1),pos(2),3.5, .5]);
     set(gca,'units', 'normalized','outerPosition',[0 0 1 1],'fontsize',6)
-    set(rankPlot,'Renderer','painters');
     set(rankPlot,'Resize','off');
-    saveas(rankPlot,varargin{1});
+    print(rankPlot,'-dpng', varargin{1},'-r600');
     RemoveWhiteSpace([], 'file',varargin{1});
     close(rankPlot)
 else

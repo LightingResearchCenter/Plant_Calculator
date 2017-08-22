@@ -30,13 +30,13 @@ while ~strcmp(rpt.CurrentHoleId,'#end#')
         case 'Catalog3'
             append(rpt,Data.CatalogArr{3});
         case 'PF'
-            append(rpt,sprintf('%0.3f',Data.PF));
+            append(rpt,sprintf('%0.2f',Data.PF));
         case 'PPFper'
             append(rpt,sprintf('%0.1f',Data.PPFofTotal));
         case 'Catalog4'
             append(rpt,Data.CatalogArr{4});
         case 'THD'
-            append(rpt,sprintf('%0.2f',Data.THD));
+            append(rpt,sprintf('%0.1f',Data.THD));
         case 'PPFRank'
             img = Image(Data.PPFRank);
             img.Style = {Width('3.25in')};
@@ -70,13 +70,29 @@ while ~strcmp(rpt.CurrentHoleId,'#end#')
                 append(rpt,'Not Available with the Data Provided');
             end
         case 'Costpic1'
-            img = Image(Data.LCCA10Plot);
-            img.Style = {Height('1.75in')};
-            append(rpt,img);
+            if exist(Data.LCCA10Plot,'file')
+                img = Image(Data.LCCA10Plot);
+                img.Style = {Height('105pt')};
+                append(rpt,img);
+            else
+                append(rpt,'Not Available with the Data Provided');
+            end
         case 'Costpic2'
-            img = Image(Data.LCCA20Plot);
-            img.Style = {Height('1.75in')};
-            append(rpt,img);
+            if exist(Data.LCCALgnd,'file')
+                img = Image(Data.LCCA20Plot);
+                img.Style = {Height('105pt')};
+                append(rpt,img);
+            else
+                append(rpt,'Not Available with the Data Provided');
+            end
+        case 'CostLgnd'
+            if exist(Data.LCCA20Plot,'file')
+                img = Image(Data.LCCALgnd);
+                img.Style = {Width('1.5in')};
+                append(rpt,img);
+            else
+                append(rpt,'Not Available with the Data Provided');
+            end
         case '#start#'
             sect = rpt.CurrentPageLayout;
             for i = 1:numel(sect.PageFooters)
@@ -84,7 +100,7 @@ while ~strcmp(rpt.CurrentHoleId,'#end#')
                 while ~strcmp(pageFooter.CurrentHoleId,'#end#')
                     switch pageFooter.CurrentHoleId
                         case 'GenTime'
-                            date = datestr(now,'yyyy/mm/dd');
+                            date = datestr(now,'yyyy-mm-dd');
                             append(pageFooter,date);
                         otherwise
                             disp(pageFooter.CurrentHoleId);
@@ -99,7 +115,7 @@ while ~strcmp(rpt.CurrentHoleId,'#end#')
                 while ~strcmp(pageFooter.CurrentHoleId,'#end#')
                     switch pageFooter.CurrentHoleId
                         case 'GenTime'
-                            date = datestr(now,'yyyy mmmm dd');
+                            date = datestr(now,'yyyy-mm-dd');
                             append(pageFooter,date);
                         otherwise
                             disp(pageFooter.CurrentHoleId);
@@ -180,13 +196,33 @@ while ~strcmp(rpt.CurrentHoleId,'#end#')
             moveToNextHole(rpt);
             append(rpt,sprintf('(%s)',numberFormatter(Data.Eco.fix.CostmHigh,',###.00')));%Current Lamp Energy Cost High
             moveToNextHole(rpt);
-            append(rpt,sprintf('%s%%',numberFormatter(Data.Eco.HPS1000.RORLow(1)*100,',###.0')));%1000W HPS ROR Low
+            payYear1000Low = find(Data.Eco.HPS1000.CumCFLow(2:end,1)>0,1);
+            if ~isempty(payYear1000Low)
+                append(rpt,sprintf('%s%% Payback at year %d.',numberFormatter(Data.Eco.HPS1000.RORLow(1)*100,',###.0'),payYear1000Low));%1000W HPS ROR Low
+            else
+                append(rpt,sprintf('%s%% No Payback within 20 years.',numberFormatter(Data.Eco.HPS1000.RORLow(1)*100,',###.0')));%1000W HPS ROR Low
+            end
             moveToNextHole(rpt);
-            append(rpt,sprintf('%s%%',numberFormatter(Data.Eco.HPS1000.RORHigh(1)*100,',###.0')));%1000W HPS ROR Low
+            payYear1000High = find(Data.Eco.HPS1000.CumCFHigh(2:end,1)>0,1);
+            if ~isempty(payYear1000High)
+                append(rpt,sprintf('%s%% Payback at year %d.',numberFormatter(Data.Eco.HPS1000.RORHigh(1)*100,',###.0'),payYear1000High));
+            else
+                append(rpt,sprintf('%s%% No Payback within 20 years.',numberFormatter(Data.Eco.HPS1000.RORHigh(1)*100,',###.0')));%1000W HPS ROR High
+            end
             moveToNextHole(rpt);
-            append(rpt,sprintf('%s%%',numberFormatter(Data.Eco.HPS600.RORLow(1)*100,',###.0')));%600W HPS ROR Low
+            payYear600Low = find(Data.Eco.HPS600.CumCFLow(2:end,1)>0,1);
+            if ~isempty(payYear600Low)
+                append(rpt,sprintf('%s%% Payback at year %d.',numberFormatter(Data.Eco.HPS600.RORLow(1)*100,',###.0'),payYear600Low));
+            else
+                append(rpt,sprintf('%s%% No Payback within 20 years.',numberFormatter(Data.Eco.HPS600.RORLow(1)*100,',###.0')));%600W HPS ROR Low
+            end
             moveToNextHole(rpt);
-            append(rpt,sprintf('%s%%',numberFormatter(Data.Eco.HPS600.RORHigh(1)*100,',###.0')));%600W HPS ROR Low
+            payYear600High = find(Data.Eco.HPS600.CumCFHigh(2:end,1)>0,1);
+            if ~isempty(payYear600High)
+                append(rpt,sprintf('%s%% Payback at year %d.',numberFormatter(Data.Eco.HPS600.RORHigh(1)*100,',###.0'),payYear600High));
+            else
+                append(rpt,sprintf('%s%% No Payback within 20 years.',numberFormatter(Data.Eco.HPS600.RORHigh(1)*100,',###.0')));%600W HPS ROR High
+            end
             moveToNextHole(rpt);
             append(rpt,sprintf('$%s',numberFormatter(Data.Eco.HPS1000.TotPayLow(end),',###')));%1000W HPS Present Worth Low
             moveToNextHole(rpt);
@@ -200,6 +236,8 @@ while ~strcmp(rpt.CurrentHoleId,'#end#')
             moveToNextHole(rpt);
             append(rpt,sprintf('$%s',numberFormatter(Data.Eco.fix.TotPayHigh(end),',###')));%Current Lamp Present Worth High
         case 'LSAE101'
+            
+            printstr = @(x,y) sprintf('%0.2f%s',x,y);
             lsaeIndex = 1;
             maxVal = max(Data.outTable.LSAE);
             LSAEmax(1) = max(Data.outTable.LSAE(Data.outTable.targetPPFD(:)==100));
@@ -208,25 +246,64 @@ while ~strcmp(rpt.CurrentHoleId,'#end#')
             LSAEmax(4) = max(Data.outTable.LSAE(Data.outTable.targetPPFD(:)==400));
             LSAEmax(5) = max(Data.outTable.LSAE(Data.outTable.targetPPFD(:)==500));
             LSAEmax(6) = max(Data.outTable.LSAE(Data.outTable.targetPPFD(:)==1000));
+            outstr = [];
             if Data.outTable.LSAE(lsaeIndex) == maxVal
-                obj=append(rpt,sprintf('%0.2f',Data.outTable.LSAE(lsaeIndex)),'maxAll');
+                if Data.outTable.MinToAvg(lsaeIndex) <= Data.outTable.targetUniform(lsaeIndex)
+                    outstr = [outstr,'* '];
+                end
+                if Data.outTable.Avg(lsaeIndex) <= Data.outTable.targetPPFD(lsaeIndex)
+                    outstr = [outstr,'**'];
+                end
+                append(rpt,printstr(Data.outTable.LSAE(lsaeIndex),outstr),'maxAll');
             elseif any(Data.outTable.LSAE(lsaeIndex) == LSAEmax)
-                append(rpt,sprintf('%0.2f',Data.outTable.LSAE(lsaeIndex)),'max');
+                if Data.outTable.MinToAvg(lsaeIndex) <= Data.outTable.targetUniform(lsaeIndex)
+                    outstr = [outstr,'* '];
+                end
+                if Data.outTable.Avg(lsaeIndex) <= Data.outTable.targetPPFD(lsaeIndex)
+                    outstr = [outstr,'**'];
+                end
+                append(rpt,printstr(Data.outTable.LSAE(lsaeIndex),outstr),'max');
             else
-                append(rpt,sprintf('%0.2f',Data.outTable.LSAE(lsaeIndex)));
+                if Data.outTable.MinToAvg(lsaeIndex) <= Data.outTable.targetUniform(lsaeIndex)
+                    outstr = [outstr,'* '];
+                end
+                if Data.outTable.Avg(lsaeIndex) <= Data.outTable.targetPPFD(lsaeIndex)
+                    outstr = [outstr,'**'];
+                end
+                append(rpt,printstr(Data.outTable.LSAE(lsaeIndex),outstr));
             end
+            outstr=[];
             moveToNextHole(rpt);
             append(rpt,sprintf('%d',round(size(Data.outTable.count{lsaeIndex},1))));
             lsaeIndex =lsaeIndex +1;
             while lsaeIndex<49
                 moveToNextHole(rpt);
                 if Data.outTable.LSAE(lsaeIndex) == maxVal
-                    append(rpt,sprintf('%0.2f',Data.outTable.LSAE(lsaeIndex)),'maxAll');
+                    if Data.outTable.MinToAvg(lsaeIndex) <= Data.outTable.targetUniform(lsaeIndex)
+                        outstr = [outstr,'* '];
+                    end
+                    if Data.outTable.Avg(lsaeIndex) <= Data.outTable.targetPPFD(lsaeIndex)
+                        outstr = [outstr,'**'];
+                    end
+                    append(rpt,printstr(Data.outTable.LSAE(lsaeIndex),outstr),'maxAll');
                 elseif any(Data.outTable.LSAE(lsaeIndex) == LSAEmax)
-                    append(rpt,sprintf('%0.2f',Data.outTable.LSAE(lsaeIndex)),'max');
+                    if Data.outTable.MinToAvg(lsaeIndex) <= Data.outTable.targetUniform(lsaeIndex)
+                        outstr = [outstr,'* '];
+                    end
+                    if Data.outTable.Avg(lsaeIndex) <= Data.outTable.targetPPFD(lsaeIndex)
+                        outstr = [outstr,'**'];
+                    end
+                    append(rpt,printstr(Data.outTable.LSAE(lsaeIndex),outstr),'max');
                 else
-                    append(rpt,sprintf('%0.2f',Data.outTable.LSAE(lsaeIndex)));
+                    if Data.outTable.MinToAvg(lsaeIndex) <= Data.outTable.targetUniform(lsaeIndex)
+                        outstr = [outstr,'* '];
+                    end
+                    if Data.outTable.Avg(lsaeIndex) <= Data.outTable.targetPPFD(lsaeIndex)
+                        outstr = [outstr,'**'];
+                    end
+                    append(rpt,printstr(Data.outTable.LSAE(lsaeIndex),outstr));
                 end
+                outstr=[];
                 moveToNextHole(rpt);
                 append(rpt,sprintf('%d',round(size(Data.outTable.count{lsaeIndex},1))));
                 lsaeIndex =lsaeIndex +1; 

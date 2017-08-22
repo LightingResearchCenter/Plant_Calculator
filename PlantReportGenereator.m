@@ -5,10 +5,9 @@ tbl.Properties.VariableNames{4} = 'Catalog';
 tbl.Properties.VariableNames{5} = 'Product';
 tbl.Properties.VariableNames{8} = 'Wattage';
 tbl.Properties.VariableNames{13} = 'IES';
-if ~exist(fullfile('images'),'dir')
-    mkdir(fullfile('images'));
+if ~exist(fullfile(pwd,'images'),'dir')
+    mkdir(fullfile(pwd,'images'));
 end
-tbl = flipud(tbl);
 for i = 1:height(tbl)
     Data = table2struct(tbl(i,:));
     Data.spectrum = load(Data.SPD);
@@ -36,8 +35,8 @@ for i = 1:height(tempTable)
     Data.PPFofTotal = (sum(Data.spectrum(index,2))/sum(Data.spectrum(:,2)))*100;
     Data.PPFRank = fullfile('images',[sprintf('%d',Data.LRCID),'PPFPlotPic.png']);
     Data.PPFperWRank = fullfile('images',[sprintf('%d',Data.LRCID),'PPFperWPlotPic.png']);
-    plotRank(Data.PPF,PPFmax,PPFmin,Data.PPFRank);
-    plotRank(Data.PPFperW,PPFperWmax,PPFperWmin,Data.PPFperWRank);
+    plotRank(Data.PPF,PPFmax,PPFmin,'{\it\phi_{p}} Range of Tested Horticultural Luminaires',Data.PPFRank);
+    plotRank(Data.PPFperW,PPFperWmax,PPFperWmin,'{\itK_{p}} Range of Tested Horticultural Luminaires',Data.PPFperWRank);
     
     Data.PlantReportFile = fullfile(loc,'Plant Reports',[sprintf('%d',Data.LRCID),'.pdf']);
     makerpt(Data, Data.PlantReportFile);
@@ -126,7 +125,8 @@ end
 
 Data.LCCA10Plot = fullfile('images',[sprintf('%d',Data.LRCID),'LCCA10.png']);
 Data.LCCA20Plot= fullfile('images',[sprintf('%d',Data.LRCID),'LCCA20.png']);
-[Data] = calculateEconomics(Data,roomLength,roomWidth, Data.LCCA10Plot, Data.LCCA20Plot);
+Data.LCCALgnd = fullfile('images',[sprintf('%d',Data.LRCID),'LCCALgnd.png']);
+[Data] = calculateEconomics(Data,roomLength,roomWidth, Data.LCCA10Plot, Data.LCCA20Plot, Data.LCCALgnd);
 % Plot SPD
 Data.SPDPlot = fullfile('images',[sprintf('%d',Data.LRCID),'SPDPlotPic.png']);
 if ~isempty(Data.spectrum)
@@ -153,27 +153,48 @@ end
 % Plot Intensity Distribution
 Data.IntensityDistplot = fullfile('images',[sprintf('%d',Data.LRCID),'IntentPlotPic.png']);
 if ~isempty(Data.IESdata)
-    plotIntensityDist(Data.IESdata,Data.IntensityDistplot);
+    plotIntensityDist(Data.IESdata,Data.multiplier,Data.IntensityDistplot);
 end
 end
 
 function Data = formatCatalogCost(Data)
+if Data.LRCID==110106
+    disp(110106)
+end
 str = Data.Catalog;
 words_in_str = textscan(str,'%s');
 strArr = words_in_str{:};
 outputArr = cell(4,1);
 wordIndex = 1;
 for i=1:numel(strArr)
-    if wordIndex<=3
-        if (length(outputArr{wordIndex})+length(strArr{i})) > 30
-            wordIndex = wordIndex+1;
-            outputArr{wordIndex} = [strArr{i}];
-        else
-            outputArr{wordIndex} = [outputArr{wordIndex},' ', strArr{i}];
+    words_in_str = textscan(strArr{i},'%s','Delimiter',{'-'});
+    str2Arr = words_in_str{:};
+    for i2=1:numel(str2Arr)
+        if wordIndex<=3
+            if (length(outputArr{wordIndex})+length(str2Arr{i2})) > 25
+                wordIndex = wordIndex+1;
+                if numel(str2Arr)~=i2
+                    outputArr{wordIndex} = [str2Arr{i2},'-'];
+                else
+                    outputArr{wordIndex} = [str2Arr{i2}];
+                end
+            else
+                if numel(str2Arr)~=i2
+                    outputArr{wordIndex} = [outputArr{wordIndex}, str2Arr{i2},'-'];
+                else
+                    outputArr{wordIndex} = [outputArr{wordIndex}, str2Arr{i2}];
+                end
+            end
         end
     end
+    outputArr{wordIndex} = [outputArr{wordIndex}, ' '];
 end
 outputArr{wordIndex+1} = ['$',num2str(round(Data.Price))];
 outputArr(cellfun('isempty',outputArr))={' '};
+myfunc2 = @(x) strip(x,'right',' ');
+outputArr = cellfun(myfunc2,outputArr,'UniformOutput',0);
+outputArr(cellfun('isempty',outputArr))={' '};
+
 Data.CatalogArr = outputArr;
+
 end

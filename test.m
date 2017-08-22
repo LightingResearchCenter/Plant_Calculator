@@ -1,124 +1,28 @@
-clc
-import mlreportgen.dom.*
-rpt = Document('LRCHortReport.pdf','pdf','LRC_Hort_Metrics.pdftx');
-open(rpt);
-while ~strcmp(rpt.CurrentHoleId,'#end#')
-    switch rpt.CurrentHoleId
-        case 'Manufac'
-            append(rpt,'need');
-        case 'Product'
-            append(rpt,'need');
-        case 'Brand1'
-            append(rpt,'need');
-        case 'Voltage'
-            append(rpt,'need');
-        case 'PPF'
-            %append(rpt,'need');
-        case 'PSS'
-            append(rpt,'need');
-        case 'FixtureImg'
-            append(rpt,'need');
-        case 'Brand2'
-            append(rpt,'need');
-        case 'Power'
-            append(rpt,'need');
-        case 'PPFperW'
-            append(rpt,'need');
-        case 'Brand3'
-            append(rpt,'need');
-        case 'PF'
-            append(rpt,'need');
-        case 'PPFper'
-            append(rpt,'need');
-        case 'Brand4'
-            append(rpt,'need');
-        case 'THD'
-            append(rpt,'need');
-        case 'PPFRank'
-            append(rpt,'need');
-        case 'PPFDRank'
-            append(rpt,'need');
-        case 'Lamp2'
-            append(rpt,'need');
-        case 'MountHeight'
-            append(rpt,'need');
-        case 'ISOPPFDpic'
-            append(rpt,'need');
-        case 'IntenDistImg'
-            append(rpt,'need');
-        case 'SPDpic'
-            append(rpt,'need');
-        case 'SPDpic2'
-            append(rpt,'need');
-        case 'SPDTheataPlot'
-            append(rpt,'need');
-        case 'Costpic1'
-            append(rpt,'need');
-        case '#start#'
-            sect = rpt.CurrentPageLayout;
-            for i = 1:numel(sect.PageFooters)
-                pageFooter = sect.PageFooters(i);
-                while ~strcmp(pageFooter.CurrentHoleId,'#end#')
-                    switch pageFooter.CurrentHoleId
-                        case 'GenTime'
-                            date = datestr(now,'yyyy mmmm dd');
-                            append(pageFooter,date);
-                        otherwise
-                            disp(pageFooter.CurrentHoleId);
-                    end
-                    moveToNextHole(pageFooter);
-                end
-            end
-        case '#sect2#'
-            sect = rpt.CurrentPageLayout;
-            for i = 1:numel(sect.PageFooters)
-                pageFooter = sect.PageFooters(i);
-                while ~strcmp(pageFooter.CurrentHoleId,'#end#')
-                    switch pageFooter.CurrentHoleId
-                        case 'GenTime'
-                            date = datestr(now,'yyyy mmmm dd');
-                            append(pageFooter,date);
-                        otherwise
-                            disp(pageFooter.CurrentHoleId);
-                    end
-                    moveToNextHole(pageFooter);
-                end
-            end
-        case 'Eco01'
-            EcoIndex = 1;
-            append(rpt,EcoIndex);
-            EcoIndex =EcoIndex +1;
-            while EcoIndex<32
-                moveToNextHole(rpt);
-                append(rpt,EcoIndex);
-                EcoIndex =EcoIndex +1;
-            end
-        case 'LSAE101'
-            lsaeIndex = 1;
-            append(rpt,lsaeIndex);
-            moveToNextHole(rpt);
-            append(rpt,lsaeIndex);
-            lsaeIndex =lsaeIndex +1;
-            while lsaeIndex<49
-                moveToNextHole(rpt);
-                append(rpt,lsaeIndex);
-                moveToNextHole(rpt);
-                append(rpt,lsaeIndex);
-                lsaeIndex =lsaeIndex +1; 
-            end
-        case 'ratio11'
-            ratioIndex = 1;
-            append(rpt,ratioIndex);
-            ratioIndex =ratioIndex +1;
-            while ratioIndex<37
-                moveToNextHole(rpt);
-                append(rpt,ratioIndex);
-                ratioIndex =ratioIndex +1;
-            end
-        otherwise
-            disp(rpt.CurrentHoleId);
-    end
-    moveToNextHole(rpt);
-end
-close(rpt);
-rptview(rpt.OutputPath);
+h1 = plot(1:10, rand(2,10));
+lgnd = legend('show');
+axe = gca;
+h2 = figure;
+axe2 = axes(h2);
+lgnd2 = legend(axe2,[h1],lgnd.String{:});
+axe2.Visible= 'off';
+
+fn = 'plot';%filename
+l = 1:length(fn);
+fn = sprintf('%s_LEGEND',fn(l));%give it a separate filename
+
+a = get(gcf,'children');% link to ledgend is now a(1)
+b = get(gca,'children');% link to the data curve/s
+set(a(1),'AutoUpdate','off');
+set(a(2),'visible','off'); %hide axes etc...
+set(b,'visible','off'); %hide data...
+
+legfs = get(a(1),'Fontsize'); %get legend fontsize
+set(a(1),'Fontsize',legfs+1); %make legend appear larger
+
+%... print it...
+
+%reset everything to notmal plot:
+set(a,'visible','on');
+set(b,'visible','on');
+fn = fn(l);
+set(a(1),'visible','off'); %hide only legend from plot

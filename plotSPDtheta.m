@@ -92,9 +92,9 @@ uistack(p3,'top');
 uistack(p2,'top');
 uistack(p1,'top');
 hold on;
-xlabel('Wavelength','FontWeight','Bold','FontSize',8);
-ylabel('Relative Spectrum (Arbitrary Units)','FontWeight','Bold','FontSize',8);
-
+xlabel('Wavelength ({\itnm})','FontWeight','Bold','FontSize',8);
+ylabel('Relative Spectrum ({\itArbitrary Units})','FontWeight','Bold','FontSize',8);
+ylim([0,1]);
 spdAxes.Visible = 'on';
 spdAxes.FontSize = 8;
 
@@ -102,7 +102,7 @@ if numel(varargin) == 1
     pos = get(SPDplot,'InnerPosition');
     set(SPDplot,'InnerPosition',[pos(1),pos(2),5,3.5])
     set(gca,'units', 'normalized','outerPosition',[.01 .01 .99 .99],'fontsize',8)
-    saveas(SPDplot,varargin{1})
+    print(SPDplot,'-dpng', varargin{1},'-r600');
     RemoveWhiteSpace([], 'file', varargin{1});
     close(SPDplot);
 end

@@ -60,8 +60,8 @@ clabel(C,h,'FontSize',8);
 axis(ISOaxes,'square');
 ISOaxes.XGrid = 'on';
 ISOaxes.YGrid = 'on';
-ylabel(ISOaxes,'Feet','FontSize',8,'FontWeight','Bold')
-xlabel(ISOaxes,'Feet','FontSize',8,'FontWeight','Bold')
+ylabel(ISOaxes,'{\itFeet}','FontSize',8,'FontWeight','Bold')
+xlabel(ISOaxes,'{\itFeet}','FontSize',8,'FontWeight','Bold')
 colormap(ISOaxes,jet);
 colorbar(ISOaxes);
 caxis([0 500]);
@@ -71,7 +71,7 @@ if numel(varargin)==1
     pos = get(ISOPlot,'InnerPosition');
     set(ISOPlot,'InnerPosition',[pos(1),pos(2),5,3]);
     set(gca,'units', 'normalized','outerPosition',[.01 .01 .99 .99],'fontsize',8)
-    saveas(ISOPlot,varargin{1});
+    print(ISOPlot,'-dpng', varargin{1},'-r600');
     RemoveWhiteSpace([], 'file',varargin{1});
     close(ISOPlot);
 else

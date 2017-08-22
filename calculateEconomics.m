@@ -181,34 +181,44 @@ hold off
 set(aLow,'YLim',get(aHigh,'YLim'))
 Formatfunc = @(x) sprintf('$%d K',x/1000);
 set(aLow,'YTickLabel',arrayfun(Formatfunc, get(aLow,'YTick').', 'UniformOutput',0))
-lgnd = legend(aLow,'LED(1% Failure at year 10)','LED(25% Failure at year 10)','600 W HPS','1000 W HPS','Location','best');
-set(lgnd,'FontSize',6);
+lgndLow = legend(aLow,'LED(1% Failure at year 10)','LED(25% Failure at year 10)','600 W HPS','1000 W HPS','Location','best');
+set(lgndLow,'FontSize',6,'Visible','off');
 xlabel(aLow,'Years','FontSize',8,'FontWeight','Bold')
 ylabel(aLow,sprintf('Total Payments (US $)'),'FontSize',8,'FontWeight','Bold')
 set(aLow,'xGrid','on')
 set(aLow,'yGrid','on')
 set(aLow,'xMinorGrid','on')
 set(aHigh,'YTickLabel',arrayfun(Formatfunc, get(aHigh,'YTick').', 'UniformOutput',0))
-lgnd = legend(aHigh,'LED(1% Failure at year 10)','LED(25% Failure at year 10)','600 W HPS','1000 W HPS','Location','best');
-set(lgnd,'FontSize',6);
+lgndHigh = legend(aHigh,'LED(1% Failure at year 10)','LED(25% Failure at year 10)','600 W HPS','1000 W HPS','Location','best');
+set(lgndHigh,'FontSize',6,'Visible','off');
+
 xlabel(aHigh,'Years','FontSize',8,'FontWeight','Bold')
 ylabel(aHigh,sprintf('Total Payments (US $)'),'FontSize',8,'FontWeight','Bold')
 set(aHigh,'xGrid','on')
 set(aHigh,'yGrid','on')
 set(aHigh,'xMinorGrid','on')
-if numel(varargin)==2
+if numel(varargin)==3
+    lgndFig = figure;
+    axe2 = axes(lgndFig);
+    lgnd2 = legend(axe2,[aLow.Children],'1000 {\itW} HPS','600 {\itW} HPS','LED (25% Failure at year 10)','LED (1% Failure at year 10)');
+    axe2.Visible= 'off';
+    lgnd2.Location = 'north';
+    print(lgndFig,'-dpng', varargin{3},'-r600');
+    RemoveWhiteSpace([], 'file', varargin{3});
+    close(lgndFig);
     pos = get(hLow,'InnerPosition');
-    set(hLow,'InnerPosition',[pos(1),pos(2),3.5,2])
+    set(hLow,'InnerPosition',[pos(1),pos(2),3.5,1.5])
     set(aLow,'units', 'normalized','outerPosition',[0 0 1 1],'fontsize',8)
-    saveas(hLow, varargin{1})
+    print(hLow,'-dpng', varargin{1},'-r600');
     RemoveWhiteSpace([], 'file', varargin{1});
     close(hLow);
     pos = get(hHigh,'InnerPosition');
-    set(hHigh,'InnerPosition',[pos(1),pos(2),3.5,2])
+    set(hHigh,'InnerPosition',[pos(1),pos(2),3.5,1.5])
     set(aHigh,'units', 'normalized','outerPosition',[0 0 1 1],'fontsize',8)
-    saveas(hHigh, varargin{2})
+    print(hHigh,'-dpng', varargin{2},'-r600');
     RemoveWhiteSpace([], 'file', varargin{2});
     close(hHigh);
+    
 else
     title(aHigh,sprintf('LCCA  with $0.20/kWh Energy Rate \n(Present Worth Comparisons)'))
     title(aLow,sprintf('LCCA  with $0.10/kWh Energy Rate \n(Present Worth Comparisons)'))

@@ -1,24 +1,25 @@
-function plotIntensityDist(IESdata,varargin)
+function plotIntensityDist(IESdata,multiplier,varargin)
 LRCBlue = [ 30,  63, 134]/255;
 IntenPlot = figure('units','inches');
 set(IntenPlot,'Renderer','painters');
 set(IntenPlot,'Resize','off');
 axe = polaraxes(IntenPlot);
 axe.FontSize = 8;
-[~,ind2] = max(max(IESdata.photoTable,[],1));
-[~,ind1] = max(max(IESdata.photoTable,[],2));
-polarplot(axe,deg2rad(IESdata.HorizAngles),IESdata.photoTable(ind1,:),'LineWidth',1.5,'Color', [1 0 0]);
+PPFTable = IESdata.photoTable.*(multiplier./1000);
+[~,ind2] = max(max(PPFTable,[],1));
+[~,ind1] = max(max(PPFTable,[],2));
+polarplot(axe,deg2rad(IESdata.HorizAngles),PPFTable(ind1,:),'LineWidth',1.5,'Color', [1 0 0]);
 hold on
 degfirst = IESdata.VertAngles(ind2);
 degsecond = mod(mod(IESdata.VertAngles(ind2)+180,360),180);
 ind2nd = find(IESdata.VertAngles==degsecond);
 if degfirst  > degsecond
     
-    photoVect = [IESdata.photoTable(:,ind2);flipud(IESdata.photoTable(2:end,ind2nd))];
+    photoVect = [PPFTable(:,ind2);flipud(PPFTable(2:end,ind2nd))];
     degvect =  mod([IESdata.VertAngles(:);(IESdata.VertAngles(2:end)+180)]-90,360);
     
 else
-    photoVect = [IESdata.photoTable(:,ind2nd);flipud(IESdata.photoTable(2:end,ind2))]';
+    photoVect = [PPFTable(:,ind2nd);flipud(PPFTable(2:end,ind2))]';
     degvect =  mod([IESdata.VertAngles(:);(IESdata.VertAngles(2:end)+180)]-90,360);
 end
 polarplot(axe, deg2rad(degvect), photoVect, 'LineWidth', 1.5, 'Color', LRCBlue);
@@ -44,7 +45,7 @@ if numel(varargin)==1
     set(IntenPlot,'InnerPosition',[pos(1),pos(2),3.25, 4])
     set(axe,'units', 'normalized','outerPosition',[.01 .01 .99 .99],'fontsize',8)
     drawnow;
-    saveas(IntenPlot, varargin{1})
+    print(IntenPlot,'-dpng', varargin{1},'-r600');
     RemoveWhiteSpace([], 'file', varargin{1});
     close(IntenPlot);
 else
