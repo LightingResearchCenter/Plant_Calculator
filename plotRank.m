@@ -17,12 +17,12 @@ else
     set(rankAxes,'XTickLabel',numberFormatter([numMin ,((numMax - numMin)*.25)+numMin,((numMax - numMin)*.5)+numMin,...
         ((numMax - numMin)*.75)+numMin,numMax],'#'));
 end
-if num>((numMax - numMin)*.75)+numMin
+if num>((numMax - numMin)*.80)+numMin
     text(num,1,sprintf('%0.1f ',num),'Color','w', 'HorizontalAlignment','Right','FontSize',6);
 else
     text(num,1,sprintf(' %0.1f',num),'FontSize',6);
 end
-xlabel(title);
+xlabel(title,'FontWeight','Bold');
 if numel(varargin) == 1
     pos = get(rankPlot,'InnerPosition');
     set(rankPlot,'InnerPosition',[pos(1),pos(2),3.5, .5]);

@@ -1,5 +1,5 @@
 function Tc = CCT23Sep05(spd,varargin)
-% Calculates the correlated color temperature (CCT) of a spd. 
+% Calculates the correlated color temperature (CCT) of a spd.
 % CCT (Correlated Color Temperature)
 % Uses method by Allen Robertson as references in W&S (1982).
 % Needs file 'CIE31_1.mat' for CIE 1931 Std.Observer xbar,ybar and zbar data.
@@ -13,22 +13,25 @@ function Tc = CCT23Sep05(spd,varargin)
 % OR needs spd file with 2 columns [wavelength value] in any increment, regular or not.
 % When used with a 2-column spd arguement, startw, endw and increment arguements ar not used, but
 % place holder values, such as zeros, must be specified. e.g., Tc = CCT_1(spd,0,0,0)
-%% Input Error Check 
-if length(varargin)==0
-    [rows columns] = size(spd);
-    if columns > 2
+%% Input Error Check
+if isempty(varargin)
+    
+    if size(spd,1)==2
         error('Not column oriented data. Try transposing spd');
+    elseif size(spd,2) > 2
+        error('Incorect number of collumns');
     end
     wavelength_spd = spd(:,1);
-	spd = spd(:,2);
+    spd = spd(:,2);
 else
-    startw = varargin{1}
-    endw = varargin{2}
-    incrementw = varargin{3}
+    startw = varargin{1};
+    endw = varargin{2};
+    incrementw = varargin{3};
     wavelength_spd = (startw:incrementw:endw)';
-    [rows columns] = size(spd);
-    if columns > 1
-        error('Detected multiple columns of data. Try transposing spd');
+    if size(spd,1)==2
+        error('Not column oriented data. Try transposing spd');
+    elseif size(spd,2) > 2
+        error('Incorect number of collumns');
     end
 end
 %% Load CIE Data Files
@@ -65,18 +68,17 @@ n = length(T);
 index = 0;
 d1 = ((v-vt(1)) - tt(1)*(u-ut(1)))/sqrt(1+tt(1)*tt(1));
 for i=2:n
-	d2 = ((v-vt(i)) - tt(i)*(u-ut(i)))/sqrt(1+tt(i)*tt(i));
-	if (d1/d2 < 0)
-		index = i;
-		break;
-	else
-		d1 = d2;
-	end
+    d2 = ((v-vt(i)) - tt(i)*(u-ut(i)))/sqrt(1+tt(i)*tt(i));
+    if (d1/d2 < 0)
+        index = i;
+        break;
+    else
+        d1 = d2;
+    end
 end
 if index == 0
-	Tc = -1; % Not able to calculate CCT, u,v oordinates outside range.
-	return
+    Tc = -1; % Not able to calculate CCT, u,v oordinates outside range.
+else
+    Tc = 1/(1/T(index-1)+d1/(d1-d2)*(1/T(index)-1/T(index-1))); % Calculate CCT by interpolation between isotemperature lines
 end
-
-%% Calculate CCT by interpolation between isotemperature lines
-Tc = 1/(1/T(index-1)+d1/(d1-d2)*(1/T(index)-1/T(index-1)));
+end

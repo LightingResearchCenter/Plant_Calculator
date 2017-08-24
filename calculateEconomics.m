@@ -183,8 +183,8 @@ Formatfunc = @(x) sprintf('$%d K',x/1000);
 set(aLow,'YTickLabel',arrayfun(Formatfunc, get(aLow,'YTick').', 'UniformOutput',0))
 lgndLow = legend(aLow,'LED(1% Failure at year 10)','LED(25% Failure at year 10)','600 W HPS','1000 W HPS','Location','best');
 set(lgndLow,'FontSize',6,'Visible','off');
-xlabel(aLow,'Years','FontSize',8,'FontWeight','Bold')
-ylabel(aLow,sprintf('Total Payments (US $)'),'FontSize',8,'FontWeight','Bold')
+xlabel(aLow,'Years','FontSize',7,'FontWeight','Bold')
+ylabel(aLow,sprintf('Total Payments (US $)'),'FontSize',7,'FontWeight','Bold')
 set(aLow,'xGrid','on')
 set(aLow,'yGrid','on')
 set(aLow,'xMinorGrid','on')
@@ -192,8 +192,8 @@ set(aHigh,'YTickLabel',arrayfun(Formatfunc, get(aHigh,'YTick').', 'UniformOutput
 lgndHigh = legend(aHigh,'LED(1% Failure at year 10)','LED(25% Failure at year 10)','600 W HPS','1000 W HPS','Location','best');
 set(lgndHigh,'FontSize',6,'Visible','off');
 
-xlabel(aHigh,'Years','FontSize',8,'FontWeight','Bold')
-ylabel(aHigh,sprintf('Total Payments (US $)'),'FontSize',8,'FontWeight','Bold')
+xlabel(aHigh,'Years','FontSize',7,'FontWeight','Bold')
+ylabel(aHigh,sprintf('Total Payments (US $)'),'FontSize',7,'FontWeight','Bold')
 set(aHigh,'xGrid','on')
 set(aHigh,'yGrid','on')
 set(aHigh,'xMinorGrid','on')
@@ -208,13 +208,13 @@ if numel(varargin)==3
     close(lgndFig);
     pos = get(hLow,'InnerPosition');
     set(hLow,'InnerPosition',[pos(1),pos(2),3.5,1.5])
-    set(aLow,'units', 'normalized','outerPosition',[0 0 1 1],'fontsize',8)
+    set(aLow,'units', 'normalized','outerPosition',[0 0 1 1],'fontsize',6)
     print(hLow,'-dpng', varargin{1},'-r600');
     RemoveWhiteSpace([], 'file', varargin{1});
     close(hLow);
     pos = get(hHigh,'InnerPosition');
     set(hHigh,'InnerPosition',[pos(1),pos(2),3.5,1.5])
-    set(aHigh,'units', 'normalized','outerPosition',[0 0 1 1],'fontsize',8)
+    set(aHigh,'units', 'normalized','outerPosition',[0 0 1 1],'fontsize',6)
     print(hHigh,'-dpng', varargin{2},'-r600');
     RemoveWhiteSpace([], 'file', varargin{2});
     close(hHigh);

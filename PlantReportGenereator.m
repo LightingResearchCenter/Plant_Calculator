@@ -8,6 +8,11 @@ tbl.Properties.VariableNames{13} = 'IES';
 if ~exist(fullfile(pwd,'images'),'dir')
     mkdir(fullfile(pwd,'images'));
 end
+load('ppfdata.mat')
+
+if ~exist(fullfile(loc,'Plant Reports'),'dir')
+        mkdir(fullfile(loc,'Plant Reports'));
+end
 for i = 1:height(tbl)
     Data = table2struct(tbl(i,:));
     Data.spectrum = load(Data.SPD);
@@ -16,33 +21,43 @@ for i = 1:height(tbl)
     Data.IESdata = IESFile(Data.IES);
     Data = calcAllMetrics(Data);
     Data = formatCatalogCost(Data);
-    tempTable(i) = Data;
-end
-tempTable = struct2table(tempTable);
-if ~exist(fullfile(loc,'Plant Reports'),'dir')
-        mkdir(fullfile(loc,'Plant Reports'));
-end
-% PPFmax = max(tempTable.PPF);
-% PPFmin = min(tempTable.PPF);
-% PPFperWmax = max(tempTable.PPFperW);
-% PPFperWmin = min(tempTable.PPFperW);
 
-load('ppfdata.mat')
-save('datatable.mat','tempTable');
-for i = 1:height(tempTable)
-    Data =table2struct(tempTable(i,:));
     index = (Data.spectrum(:,1)<700)&(Data.spectrum(:,1)>400);
     Data.PPFofTotal = (sum(Data.spectrum(index,2))/sum(Data.spectrum(:,2)))*100;
     Data.PPFRank = fullfile('images',[sprintf('%d',Data.LRCID),'PPFPlotPic.png']);
     Data.PPFperWRank = fullfile('images',[sprintf('%d',Data.LRCID),'PPFperWPlotPic.png']);
     plotRank(Data.PPF,PPFmax,PPFmin,'{\it\phi_{p}} Range of Tested Horticultural Luminaires',Data.PPFRank);
-    plotRank(Data.PPFperW,PPFperWmax,PPFperWmin,'{\itK_{p}} Range of Tested Horticultural Luminaires',Data.PPFperWRank);
-    
+    plotRank(Data.PPFperW,PPFperWmax,PPFperWmin,'{\itK_{p}} Range of Tested Horticultural Luminaires',Data.PPFperWRank);    
     Data.PlantReportFile = fullfile(loc,'Plant Reports',[sprintf('%d',Data.LRCID),'.pdf']);
     makerpt(Data, Data.PlantReportFile);
     filledTable(i) = Data;
 end
+%     tempTable(i) = Data;
+% end
+% tempTable = struct2table(tempTable);
+% 
+% % PPFmax = max(tempTable.PPF);
+% % PPFmin = min(tempTable.PPF);
+% % PPFperWmax = max(tempTable.PPFperW);
+% % PPFperWmin = min(tempTable.PPFperW);
+% 
+% 
+% for i = 1:height(tempTable)
+%     Data =table2struct(tempTable(i,:));
+%     index = (Data.spectrum(:,1)<700)&(Data.spectrum(:,1)>400);
+%     Data.PPFofTotal = (sum(Data.spectrum(index,2))/sum(Data.spectrum(:,2)))*100;
+%     Data.PPFRank = fullfile('images',[sprintf('%d',Data.LRCID),'PPFPlotPic.png']);
+%     Data.PPFperWRank = fullfile('images',[sprintf('%d',Data.LRCID),'PPFperWPlotPic.png']);
+%     plotRank(Data.PPF,PPFmax,PPFmin,'{\it\phi_{p}} Range of Tested Horticultural Luminaires',Data.PPFRank);
+%     plotRank(Data.PPFperW,PPFperWmax,PPFperWmin,'{\itK_{p}} Range of Tested Horticultural Luminaires',Data.PPFperWRank);    
+%     Data.PlantReportFile = fullfile(loc,'Plant Reports',[sprintf('%d',Data.LRCID),'.pdf']);
+%     makerpt(Data, Data.PlantReportFile);
+%     Data.PlantReportFile = fullfile(loc,'Plant Reports',[sprintf('%d',Data.LRCID),'.pdf']);
+%     makerpt(Data, Data.PlantReportFile);
+%     filledTable(i) = Data;
+% end
 filledTable = struct2table(filledTable);
+save('datatable.mat','filledTable');
 end
 
 function Data = calcAllMetrics(Data)
@@ -102,7 +117,7 @@ minPPFD = 100;
 maxPPFD = 500;
 stepPPFD = 100;
 targetPPFDs = [minPPFD:stepPPFD:maxPPFD,1000];
-targetUni = .8;
+targetUni = .6;
 roomLength = 36;
 roomWidth = 30;
 roomLengthM = unitsratio('m','ft')*roomLength;%feet
@@ -171,7 +186,7 @@ for i=1:numel(strArr)
     str2Arr = words_in_str{:};
     for i2=1:numel(str2Arr)
         if wordIndex<=3
-            if (length(outputArr{wordIndex})+length(str2Arr{i2})) > 25
+            if (length(outputArr{wordIndex})+length(str2Arr{i2})) > 23
                 wordIndex = wordIndex+1;
                 if numel(str2Arr)~=i2
                     outputArr{wordIndex} = [str2Arr{i2},'-'];

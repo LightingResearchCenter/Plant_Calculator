@@ -19,14 +19,14 @@ while ~strcmp(rpt.CurrentHoleId,'#end#')
             append(rpt,sprintf('%0.2f',Data.PSS));
         case 'FixtureImg'
             img = Image(Data.Image);
-            img.Style = {Height('0.6in')};
+            img.Style = {Height('0.8in')};
             append(rpt,img);
         case 'Catalog2'
             append(rpt,Data.CatalogArr{2});
         case 'Power'
             append(rpt,sprintf('%d',round(Data.Wattage)));
         case 'PPFperW'
-            append(rpt,sprintf('%0.2f',Data.PPFperW));
+            append(rpt,sprintf('%0.1f',Data.PPFperW));
         case 'Catalog3'
             append(rpt,Data.CatalogArr{3});
         case 'PF'
@@ -172,29 +172,29 @@ while ~strcmp(rpt.CurrentHoleId,'#end#')
             moveToNextHole(rpt);
             append(rpt,sprintf('(%s)',numberFormatter(Data.Eco.fix.kWmYr,',###')));%Current Lamp Yr Energy
             moveToNextHole(rpt);
-            append(rpt,sprintf('%s',numberFormatter(Data.Eco.HPS1000.CostFtLow,',###.00')));%1000W HPS Energy Cost Low
+            append(rpt,sprintf('%s',numberFormatter(Data.Eco.HPS1000.CostFtLow,',###.00')));%1000W HPS Energy Cost Low per ft
             moveToNextHole(rpt);
-            append(rpt,sprintf('(%s)',numberFormatter(Data.Eco.HPS1000.CostmLow,',###.00')));%1000W HPS Energy Cost Low
+            append(rpt,sprintf('(%s)',numberFormatter(Data.Eco.HPS1000.CostmLow,',###.00')));%1000W HPS Energy Cost Low per m
             moveToNextHole(rpt);
-            append(rpt,sprintf('%s',numberFormatter(Data.Eco.HPS600.CostFtLow,',###.00')));%600W HPS Energy Cost Low
+            append(rpt,sprintf('%s',numberFormatter(Data.Eco.HPS600.CostFtLow,',###.00')));%600W HPS Energy Cost Low per ft
             moveToNextHole(rpt);
-            append(rpt,sprintf('(%s)',numberFormatter(Data.Eco.HPS600.CostmLow,',###.00')));%600W HPS Energy Cost Low
+            append(rpt,sprintf('(%s)',numberFormatter(Data.Eco.HPS600.CostmLow,',###.00')));%600W HPS Energy Cost Low per m 
             moveToNextHole(rpt);
-            append(rpt,sprintf('%s',numberFormatter(Data.Eco.fix.CostFtLow,',###.00')));%Current Lamp Energy Cost Low
+            append(rpt,sprintf('%s',numberFormatter(Data.Eco.fix.CostFtLow,',###.00')));%Current Lamp Energy Cost Low per ft
             moveToNextHole(rpt);
-            append(rpt,sprintf('(%s)',numberFormatter(Data.Eco.fix.CostmLow,',###.00')));%Current Lamp Energy Cost Low
+            append(rpt,sprintf('(%s)',numberFormatter(Data.Eco.fix.CostmLow,',###.00')));%Current Lamp Energy Cost Low per m
             moveToNextHole(rpt);
-            append(rpt,sprintf('%s',numberFormatter(Data.Eco.HPS1000.CostFtHigh,',###.00')));%1000W HPS Energy Cost High
+            append(rpt,sprintf('%s',numberFormatter(Data.Eco.HPS1000.CostFtHigh,',###.00')));%1000W HPS Energy Cost High per ft
             moveToNextHole(rpt);
-            append(rpt,sprintf('(%s)',numberFormatter(Data.Eco.HPS1000.CostmHigh,',###.00')));%1000W HPS Energy Cost High
+            append(rpt,sprintf('(%s)',numberFormatter(Data.Eco.HPS1000.CostmHigh,',###.00')));%1000W HPS Energy Cost High per m
             moveToNextHole(rpt);
-            append(rpt,sprintf('%s',numberFormatter(Data.Eco.HPS600.CostFtLow,',###.00')));%600W HPS Energy Cost High
+            append(rpt,sprintf('%s',numberFormatter(Data.Eco.HPS600.CostFtLow,',###.00')));%600W HPS Energy Cost High per ft
             moveToNextHole(rpt);
-            append(rpt,sprintf('(%s)',numberFormatter(Data.Eco.HPS600.CostmLow,',###.00')));%600W HPS Energy Cost High
+            append(rpt,sprintf('(%s)',numberFormatter(Data.Eco.HPS600.CostmLow,',###.00')));%600W HPS Energy Cost High per m
             moveToNextHole(rpt);
-            append(rpt,sprintf('%s',numberFormatter(Data.Eco.fix.CostFtHigh,',###.00')));%Current Lamp Energy Cost High
+            append(rpt,sprintf('%s',numberFormatter(Data.Eco.fix.CostFtHigh,',###.00')));%Current Lamp Energy Cost High per ft
             moveToNextHole(rpt);
-            append(rpt,sprintf('(%s)',numberFormatter(Data.Eco.fix.CostmHigh,',###.00')));%Current Lamp Energy Cost High
+            append(rpt,sprintf('(%s)',numberFormatter(Data.Eco.fix.CostmHigh,',###.00')));%Current Lamp Energy Cost High per m
             moveToNextHole(rpt);
             payYear1000Low = find(Data.Eco.HPS1000.CumCFLow(2:end,1)>0,1);
             if ~isempty(payYear1000Low)
@@ -249,28 +249,31 @@ while ~strcmp(rpt.CurrentHoleId,'#end#')
             outstr = [];
             if Data.outTable.LSAE(lsaeIndex) == maxVal
                 if Data.outTable.MinToAvg(lsaeIndex) <= Data.outTable.targetUniform(lsaeIndex)
-                    outstr = [outstr,'* '];
+                    outstr = [outstr,'*'];
                 end
                 if Data.outTable.Avg(lsaeIndex) <= Data.outTable.targetPPFD(lsaeIndex)
-                    outstr = [outstr,'**'];
+                    append(rpt,printstr(Data.outTable.LSAE(lsaeIndex),outstr),'maxAllRed');
+                else
+                    append(rpt,printstr(Data.outTable.LSAE(lsaeIndex),outstr),'maxAll');
                 end
-                append(rpt,printstr(Data.outTable.LSAE(lsaeIndex),outstr),'maxAll');
             elseif any(Data.outTable.LSAE(lsaeIndex) == LSAEmax)
                 if Data.outTable.MinToAvg(lsaeIndex) <= Data.outTable.targetUniform(lsaeIndex)
-                    outstr = [outstr,'* '];
+                    outstr = [outstr,'*'];
                 end
                 if Data.outTable.Avg(lsaeIndex) <= Data.outTable.targetPPFD(lsaeIndex)
-                    outstr = [outstr,'**'];
+                    append(rpt,printstr(Data.outTable.LSAE(lsaeIndex),outstr),'maxRed');
+                else
+                    append(rpt,printstr(Data.outTable.LSAE(lsaeIndex),outstr),'max');
                 end
-                append(rpt,printstr(Data.outTable.LSAE(lsaeIndex),outstr),'max');
             else
                 if Data.outTable.MinToAvg(lsaeIndex) <= Data.outTable.targetUniform(lsaeIndex)
-                    outstr = [outstr,'* '];
+                    outstr = [outstr,'*'];
                 end
-                if Data.outTable.Avg(lsaeIndex) <= Data.outTable.targetPPFD(lsaeIndex)
-                    outstr = [outstr,'**'];
+                 if Data.outTable.Avg(lsaeIndex) <= Data.outTable.targetPPFD(lsaeIndex)
+                    append(rpt,printstr(Data.outTable.LSAE(lsaeIndex),outstr),'Red');
+                else
+                    append(rpt,printstr(Data.outTable.LSAE(lsaeIndex),outstr));
                 end
-                append(rpt,printstr(Data.outTable.LSAE(lsaeIndex),outstr));
             end
             outstr=[];
             moveToNextHole(rpt);
@@ -283,25 +286,28 @@ while ~strcmp(rpt.CurrentHoleId,'#end#')
                         outstr = [outstr,'* '];
                     end
                     if Data.outTable.Avg(lsaeIndex) <= Data.outTable.targetPPFD(lsaeIndex)
-                        outstr = [outstr,'**'];
-                    end
+                    append(rpt,printstr(Data.outTable.LSAE(lsaeIndex),outstr),'maxAllRed');
+                else
                     append(rpt,printstr(Data.outTable.LSAE(lsaeIndex),outstr),'maxAll');
+                end
                 elseif any(Data.outTable.LSAE(lsaeIndex) == LSAEmax)
                     if Data.outTable.MinToAvg(lsaeIndex) <= Data.outTable.targetUniform(lsaeIndex)
                         outstr = [outstr,'* '];
                     end
                     if Data.outTable.Avg(lsaeIndex) <= Data.outTable.targetPPFD(lsaeIndex)
-                        outstr = [outstr,'**'];
+                        append(rpt,printstr(Data.outTable.LSAE(lsaeIndex),outstr),'maxRed');
+                    else
+                        append(rpt,printstr(Data.outTable.LSAE(lsaeIndex),outstr),'max');
                     end
-                    append(rpt,printstr(Data.outTable.LSAE(lsaeIndex),outstr),'max');
                 else
                     if Data.outTable.MinToAvg(lsaeIndex) <= Data.outTable.targetUniform(lsaeIndex)
                         outstr = [outstr,'* '];
                     end
                     if Data.outTable.Avg(lsaeIndex) <= Data.outTable.targetPPFD(lsaeIndex)
-                        outstr = [outstr,'**'];
+                        append(rpt,printstr(Data.outTable.LSAE(lsaeIndex),outstr),'Red');
+                    else
+                        append(rpt,printstr(Data.outTable.LSAE(lsaeIndex),outstr));
                     end
-                    append(rpt,printstr(Data.outTable.LSAE(lsaeIndex),outstr));
                 end
                 outstr=[];
                 moveToNextHole(rpt);

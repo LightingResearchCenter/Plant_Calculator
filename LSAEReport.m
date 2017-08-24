@@ -12,8 +12,7 @@ spacing = 1;
 [IrrOut,AvgOut,MaxOut, MinOut,MinToAvgOut,placement]=deal(cell(1,1));
 while found ==false
     [newCountArr, orrientation] = findArrangement(IESdata,numLuminaire,spacing,unitsratio('ft','m')*roomLength,unitsratio('ft','m')*roomWidth);
-    [Irr,Avg,Max, Min,MinToAvg]=deal(cell(length(newCountArr),1));
-    avgDiffUni = zeros(length(newCountArr),1);
+    
     newOrien = cell(length(newCountArr),1);
     ind = 1;
     for i = 1:size(newCountArr,1)
@@ -34,6 +33,8 @@ while found ==false
        end
     end
     testOrien = cell(0,1);
+    [Irr]=deal(cell(length(newCenters),1));
+    [avgDiffUni,Avg,Max,Min,MinToAvg,perDif]= deal(zeros(length(newCenters),1));
     for i = 1:size(newCenters,1)
         testLoc = newCenters{i};
         isnew = true;
@@ -47,7 +48,7 @@ while found ==false
             end
         end
         if isnew
-            [Irr{ind,1},Avg{ind,1},Max{ind,1},Min{ind,1}] = PPFCalculator(IESdata,...
+            [Irr{ind,1},Avg(ind,1),Max(ind,1),Min(ind,1)] = PPFCalculator(IESdata,...
                 'Centers',unitsratio('m','ft')*newCenters{i}(:,1:2),...
                 'MountHeight',mountHeight,...
                 'Length',roomLength,...
@@ -57,9 +58,9 @@ while found ==false
                 'fixtureOrientation',newCenters{i}(1,3),...
                 'calcSpacing',calcSpace);
             testOrien{ind,1} = newCenters{i};
-            MinToAvg{ind,1} = Min{ind}/Avg{ind};
-            avgDiffUni(ind,1) = MinToAvg{ind} - targetUniform;
-            perDif(ind,1) = ((Avg{ind}-targetPPFD)/targetPPFD);
+            MinToAvg(ind,1) = Min(ind,1)/Avg(ind,1);
+            avgDiffUni(ind,1) = MinToAvg(ind,1) - targetUniform;
+            perDif(ind,1) = ((Avg(ind,1)-targetPPFD)/targetPPFD);
             ind = ind+1;
         end
     end
@@ -78,9 +79,12 @@ while found ==false
         MinOut = [MinOut;Min];
         MinToAvgOut = [MinToAvgOut;MinToAvg];
     end
-    if (max(avgDiffUni)<=0) && (spacing<1.5)
+    if abs(spacing-1.5)>0.01
         spacing = spacing + 0.1;
-    else
+    end
+    testUni = MinToAvgOut;
+    testUni(AvgOut-targetPPFD<0) =-1;
+    if (max(testUni)>targetUniform)
         found = true;
         placement(cellfun(@isempty,placement)) = [];
         IrrOut(cellfun(@isempty,IrrOut)) = [];
@@ -89,17 +93,35 @@ while found ==false
         MinOut(cellfun(@isempty,MinOut)) = [];
         MinToAvgOut(cellfun(@isempty,MinToAvgOut)) = [];
         if size(placement,1)>1
-            [~,index] = max([MinToAvgOut{:}]);
+            [~,index] = max(testUni);
+        else
+            index= 1;
+        end
+    elseif abs(spacing-1.6)<0.1
+        found = true;
+        placement(cellfun(@isempty,placement)) = [];
+        IrrOut(cellfun(@isempty,IrrOut)) = [];
+        AvgOut(arrayfun(@(x)x==0,AvgOut)) = [];
+        MaxOut(arrayfun(@(x)x==0,MaxOut)) = [];
+        MinOut(arrayfun(@(x)x==0,MinOut)) = [];
+        MinToAvgOut(arrayfun(@(x)x==0,MinToAvgOut)) = [];
+        if size(placement,1)>1
+            testUni = MinToAvgOut;
+            testUni(AvgOut-targetPPFD<0) =-1;
+            [~,index] = max(testUni);
+            if testUni(index)==-1
+                [~,index] = max(MinToAvgOut);
+            end
         else
             index= 1;
         end
     end
 end
 Irr = IrrOut{index};
-Avg = AvgOut{index};
-Max = MaxOut{index};
-Min = MinOut{index};
-MinToAvg = MinToAvgOut{index};
+Avg = AvgOut(index);
+Max = MaxOut(index);
+Min = MinOut(index);
+MinToAvg = MinToAvgOut(index);
 maxToMin = Max/Min;
 count = placement(index);
 perDif = ((Avg-targetPPFD)/targetPPFD);

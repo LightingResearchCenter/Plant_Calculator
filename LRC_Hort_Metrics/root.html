@@ -17,8 +17,14 @@
 	<div class="metrics">
 		<table>
 			<tr>
-				<td colspan="6" valign="middle" >
-					<p class="header"><hole id="Brand">Brand</hole> <hole id="Product">Product</hole></p>
+				<td>
+					<p></p>
+				</td>
+				<td colspan="4" valign="middle">
+					<p class="header"><hole id="Brand">Brand</hole> - <hole id="Product">Product</hole></p>
+				</td>
+				<td class="leftLine" rowspan="5" valign="middle">
+					<p class="img"><hole id="FixtureImg">FixtureImg</hole></p>
 				</td>
 			</tr>
 			<tr>
@@ -32,13 +38,10 @@
 					<p>PF = <hole id="PF">PF</hole><sup class="inv">.</sup></p>
 				</td>
 				<td class="leftLine" rowspan="2" valign="middle">
-					<p>PPF<a href="#note1"><sup>1</sup></a> = <hole id="PPF">PPF</hole> <i>Φ<sub>p</sub></i></p>
+					<p><i>Φ<sub>p</sub></i><a href="#note1"><sup>1</sup></a> = <hole id="PPF">PPF</hole> µmol*s<sup>-1</sup></p>
 				</td>
 				<td class="leftLine" rowspan="2" valign="middle">
-					<p>PPF%<a href="#note2"><sup>2</sup></a> = <hole id="PPFper">PPFper</hole> <i>%</i></p>
-				</td>
-				<td class="leftLine" rowspan="4" valign="middle">
-					<p class="img"><hole id="FixtureImg">FixtureImg</hole></p>
+					<p><i>Φ<sub>p</sub></i>%<a href="#note2"><sup>2</sup></a> = <hole id="PPFper">PPFper</hole> <i>%</i></p>
 				</td>
 			</tr>
 			<tr>
@@ -57,7 +60,7 @@
 					<p>THD = <hole id="THD">THD</hole><sup class="inv">.</sup></p>
 				</td>
 				<td class="leftLine" rowspan="2" valign="middle">
-					<p>PPF/W = <hole id="PPFperW">PPFperW</hole> <i>K<sub>p</sub></i><sup class="inv">.</sup></p>
+					<p><i>K<sub>p</sub></i> = <hole id="PPFperW">PPFperW</hole> µmol*J<sup>-1</sup><sup class="inv">.</sup></p>
 				</td>
 				<td class="leftLine" rowspan="2" valign="middle">
 					<p>PSS<a href="#note3"><sup>3</sup></a> = <hole id="PSS">PSS</hole></p>
@@ -105,40 +108,40 @@
 							<td scope="row" valign="middle" class="LSAEhead">
 								<p>(<i>ft</i>)</p>
 							</td>
-							<td scope="row" valign="middle" class="LSAEhead">
+							<td scope="row" valign="middle" class="LSAEhead" width="10%">
 								<p><i>K<sub>p</sub></i></p>
 							</td>
-							<td scope="row" valign="middle" class="LSAEhead">
+							<td scope="row" valign="middle" class="LSAEhead" width="5%">
 								<p>QTY</p>
 							</td>
-							<td scope="row" valign="middle" class="LSAEhead">
+							<td scope="row" valign="middle" class="LSAEhead" width="10%">
 								<p><i>K<sub>p</sub></i></p>
 							</td>
-							<td scope="row" valign="middle" class="LSAEhead">
+							<td scope="row" valign="middle" class="LSAEhead" width="5%">
 								<p>QTY</p>
 							</td>
-							<td scope="row" valign="middle" class="LSAEhead">
+							<td scope="row" valign="middle" class="LSAEhead" width="10%">
 								<p><i>K<sub>p</sub></i></p>
 							</td>
-							<td scope="row" valign="middle" class="LSAEhead">
+							<td scope="row" valign="middle" class="LSAEhead" width="5%">
 								<p>QTY</p>
 							</td>
-							<td scope="row" valign="middle" class="LSAEhead">
+							<td scope="row" valign="middle" class="LSAEhead" width="10%">
 								<p><i>K<sub>p</sub></i></p>
 							</td>
-							<td scope="row" valign="middle" class="LSAEhead">
+							<td scope="row" valign="middle" class="LSAEhead" width="5%">
 								<p>QTY</p>
 							</td>
-							<td scope="row" valign="middle" class="LSAEhead">
+							<td scope="row" valign="middle" class="LSAEhead" width="10%">
 								<p><i>K<sub>p</sub></i></p>
 							</td>
-							<td scope="row" valign="middle" class="LSAEhead">
+							<td scope="row" valign="middle" class="LSAEhead" width="5%">
 								<p>QTY</p>
 							</td>
-							<td scope="row" valign="middle" class="LSAEhead">
+							<td scope="row" valign="middle" class="LSAEhead" width="10%">
 								<p><i>K<sub>p</sub></i></p>
 							</td>
-							<td scope="row" valign="middle" class="LSAEhead">
+							<td scope="row" valign="middle" class="LSAEhead" width="5%">
 								<p>QTY</p>
 							</td>
 						</tr>
@@ -471,10 +474,10 @@
 							</td>
 						</tr>
 					</table>
-					<p>Highlighted Cells: Highest LASE for all mounting heights and PPFD combinations.</p>
-					<p>Bolded Text: Highest LSAE for target PPFD.</p>
+					<p>Bolded Text: Highest LASE for all mounting heights and PPFD combinations.</p>
+					<p>Italicized Text: Highest LSAE for target PPFD.</p>
 					<p>Note: LSAE is for a 36 <i>ft</i> x 30 <i>ft</i> (1080 <i>ft<sup>2</sup></i>) growing area with a target min:average
-						uniformity &lt; 0.8.</p>
+						uniformity &lt; 0.6.</p>
 					<p>* - Combination could not meet target uniformity, the best uniformity of the tested arrangements was chosen.</p>
 					<p>** - No arrangement could reach target illuminance, the best uniformity of the tested arrangements was chosen.</p>
 				</td>
@@ -515,15 +518,13 @@
 								<p>Units</p>
 							</td>
 							<td class="fixture">
-								<p>1000 <i>W</i></p>
-								<p>HPS<sup>7</sup></p>
+								<p>1000 <i>W</i><br/>HPS<a href="#note8"><sup>8</sup></a></p>
 							</td>
 							<td class="fixture">
-								<p>600 <i>W</i></p>
-								<p>HPS<sup>8</sup></p>
+								<p>600 <i>W</i><br/>HPS<a href="#note9"><sup>9</sup></a></p>
 							</td>
 							<td class="fixture">
-								<p><hole id="Lamp2">Lamp</hole><sup>9</sup></p>
+								<p><hole id="Lamp2">Lamp</hole><a href="#note10"><sup>10</sup></a></p>
 							</td>
 						</tr>
 						<tr>
@@ -762,13 +763,13 @@
 					<table class="CostPlots">
 						<tr>
 							<td class="data">
-								<h2>Estimated Cumulative Costs Over 20 Years At $0.10/<i>kWh</i><a href="#note8"><sup>8</sup></a></h2>
+								<h2>Estimated Cumulative Costs Over 20 Years At $0.10/<i>kWh</i><a href="#note11"><sup>11</sup></a></h2>
 								<p class="img"><hole id="Costpic1">Costpic1</hole></p>
 							</td>
 						</tr>
 						<tr>
 							<td class="data">
-								<h2>Estimated Cumulative Costs Over 20 Years At $0.20/<i>kWh</i><a href="#note9"><sup>9</sup></a></h2>
+								<h2>Estimated Cumulative Costs Over 20 Years At $0.20/<i>kWh</i><a href="#note12"><sup>12</sup></a></h2>
 								<p class="img"><hole id="Costpic2">Costpic2</hole></p>
 							</td>
 						</tr>
@@ -789,40 +790,40 @@
 		<table>
 			<tr>
 				<td class="page2">
-					<h2>Iso-<i>PPFD</i> Contours (MH = <hole id="MountHeight">MountHeight</hole> <i>ft</i>)<a href="#note10"><sup>10</sup></a></h2>
+					<h2>Iso-<i>PPFD</i> Contours (MH = <hole id="MountHeight">MountHeight</hole> <i>ft</i>)<a href="#note13"><sup>13</sup></a></h2>
 					<p class="img"><hole id="ISOPPFDpic">ISOPPFDpic</hole></p>
 				</td>
 				<td class="page2">
-					<h2>Photosythetic Photon Intensity Distribution (<i>I<sub>p</sub></i>)<a href="#note11"><sup>11</sup></a></h2>
+					<h2>Photosythetic Photon Intensity Distribution (<i>I<sub>p</sub></i>)<a href="#note14"><sup>14</sup></a></h2>
 					<p class="img"><hole id="IntenDistImg">IntenDistImg</hole></p>
 				</td>
 			</tr>
 			<tr>
 				<td class="page2">
-					<h2>Percentage of Radiant Flux at Different Vertical Angles<a href="#note12"><sup>12</sup></a></h2>
+					<h2>Percentage of Radiant Flux at Different Vertical Angles<a href="#note15"><sup>15</sup></a></h2>
 					<table class="ratio">
 						<tr>
-							<th scope="col">
-								<p>Angle From Nadir</p>
+							<th scope="row">
+								<p>Angle From<br/>Nadir</p>
 							</th>
-							<th scope="col">
+							<td width="14%">
 								<p>UV<i>%</i></p>
-							</th>
-							<th scope="col">
+							</td>
+							<td width="14%">
 								<p>Blue<i>%</i></p>
-							</th>
-							<th scope="col">
+							</td>
+							<td width="14%">
 								<p>Red<i>%</i></p>
-							</th>
-							<th scope="col">
+							</td>
+							<td width="14%">
 								<p>Far-Red<i>%</i></p>
-							</th>
-							<th scope="col">
-								<p>Blue:Red Ratio</p>
-							</th>
-							<th scope="col">
-								<p>Red:Far-Red Ratio</p>
-							</th>
+							</td>
+							<td>
+								<p>Blue:Red<br/>Ratio</p>
+							</td>
+							<td>
+								<p>Red:Far-<br/>Red Ratio</p>
+							</td>
 						</tr>
 						<tr>
 							<th scope="row">
@@ -965,57 +966,62 @@
 					</table>
 				</td>
 				<td class="page2">
-					<h2>Relative SPD At Different Vertical Angles<a href="#note13"><sup>13</sup></a></h2>
+					<h2>Relative SPD At Different Vertical Angles<a href="#note15"><sup>15</sup></a></h2>
 					<p class="img"><hole id="SPDTheataPlot">SPDTheataPlot</hole></p>
 				</td>
 			</tr>
 		</table>
 	</div>
 	<h1>Notes</h1>
-	<p class="footNotes"><a name="note1"></a><b>1</b>. Photosythetic photon flux (PPF) is a photon-weighted measure of photosynthetically active
-		radiation (PAR) which assumes equal weighting for electromagentic radiation between 400 and 700 nanometers (nm). PPF is
+	<p class="footNotes"><a name="note1"></a><b>1.</b> Photosythetic photon flux (PPF) is a photon-weighted measure of photosynthetically active
 		calculated by multiplying the luminaire SPD by the photon-weighted ideal PPF action spectrum and summing the total. It
 		is analogous to luminaire lumens.</p>
-	<p class="footNotes"><a name="note2"></a><b>2.</b> PPF is typically calculated in quantum units (µmol*s<sup>-1</sup>), rather than units of radiant
-		power.</p>
-	<p class="footNotes"><a name="note3"></a><b>3.</b> PPF%: The percentage of the measured SPD in the PAR range (400 - 700 nm).</p>
-	<p class="footNotes"><a name="note4"></a><b>4.</b> Yield photon flux (YPF) is a photon-weighted measure of PAR which weights electromagentic
+	<!--<p class="footNotes"><a name="note2"></a><b>2.</b> PPF is typically calculated in quantum units (µmol*s<sup>-1</sup>), rather than units of radiant
+		power.</p>-->
+	<p class="footNotes"><a name="note2"></a><b>2.</b> PPF%: The percentage of the measured SPD in the PAR range (400 - 700 nm).</p>
+	<!--<p class="footNotes"><a name="note4"></a><b>4.</b> Yield photon flux (YPF) is a photon-weighted measure of PAR which weights electromagentic
 		radiation between 400 and 700 nm according to McCree's (1972a) relative quantum efficiency (RQE) action spectrum. YPF is
-		calculated by multiplying the luminaire SPD by the photon-weighted YPF action spectrum and summing the total.</p>
-	<p class="footNotes"><a name="note5"></a><b>5.</b> Phytochrome photostationary state (PSS) is a measure of the SPD's impact on phytochrome, a
+		calculated by multiplying the luminaire SPD by the photon-weighted YPF action spectrum and summing the total.</p>-->
+	<p class="footNotes"><a name="note3"></a><b>3.</b> Phytochrome photostationary state (PSS) is a measure of the SPD's impact on phytochrome, a
 		photoreversible plant protein which regulates photomorphogenic responses, seed germination, flowering, and photosynthesis
 		(Sager 1988). A higher value indicates that the SPD will stimulate more of the red form of phytochrome (Pr) than the far-red
 		form (Pfr). PSS is calculated by multiplying the SPD by the ratio of Pr /(Pr+ Pfr) at each wavelength and summing the total.</p>
-	<p class="footNotes"><a name="note6"></a><b>6.</b> Relative cycling rate (RCR) is a measure of the SPD's impact on the interconversion of Pr
+	<!--<p class="footNotes"><a name="note6"></a><b>6.</b> Relative cycling rate (RCR) is a measure of the SPD's impact on the interconversion of Pr
 		and Pfr for a given irradiance (Sager 1988). The assumed irradiance in our calculation is %s µmol/ m<sup>-2</sup> sec.
-		RCR is given in Hertz (Hz).</p>
-	<p class="footNotes"><a name="note7"></a><b>7.</b> A 1000 W HPS luminaire from P.L. Light Systems, at a 2 m mounting height, was used for the
-		cost analysis (Med NXT LP 1000W Beta).</p>
-	<p class="footNotes"><a name="note8"></a><b>8.</b> A 600 W HPS luminaire from P.L. Light Systems (tested in 2013), at a 2 m mounting height,
-		was used for the cost analysis (PL2000 HPS 600W 240V with SON-T PIA lamp).</p>
-	<p class="footNotes"><a name="note9"></a><b>9.</b> For the LED cost analysis, the number of LED luminaires is based on the mounting height that
-		results in the highest LSAE for a target PPFD of 300 µmol/ m<sup>-2</sup> sec.</p>
-	<p class="footNotes"><a name="note10"></a><b>10.</b> The spectral power distribution (SPD) shows the absolute radiant power at each wavelength
+		RCR is given in Hertz (Hz).</p>-->
+	<p class="footNotes"><a name="note4"></a><b>4.</b> The spectral power distribution (SPD) shows the absolute radiant power at each wavelength
 		from 380 nm to 830 nm.</p>
-	<p class="footNotes"><a name="note11"></a><b>11.</b> The ISO-PPFD contours shows the photosynthetic photon flux density (PPFD, µmol/ m<sup>-2</sup>		sec) isolines at fixed intervals from a single luminaire. The luminaire is mounted at the given mounting height (based
-		on the maximum LSAE value) and the PPFD is calculated at 0.12 m increments on the workplane. PPFD is analogous to lux.</p>
-	<p class="footNotes"><a name="note12"></a><b>12.</b> The luminaire system application efficacy (LSAE) metric is calculated by computing the PPFD
+	<p class="footNotes"><a name="note5"></a><b>5.</b>Photosythetic Photon Flux (<i>Φ<sub>p</sub></i>) Comparison</p>
+	<p class="footNotes"><a name="note6"></a><b>6.</b>Photosythetic Photon Flux Per Watt (<i>K<sub>p</sub></i>) Comparison</p>
+	<p class="footNotes"><a name="note7"></a><b>7.</b> The luminaire system application efficacy (LSAE) metric is calculated by computing the PPFD
 		at 0.12 m increments for a range of luminaire mounting heights (MH) in a 10 m by 10 m area. Luminaires are arranged in
 		a rectangular array within the growing area, with the luminaire quantity based on the target PPFD level. PPFD values that
 		fall within the target average PPFD range (e.g. 100 µmol/ m<sup>-2</sup> sec) and an assumed average-to-minimum uniformity
 		ratio (&lt; 4:1)are used to compute the LSAE (sum application PPF / input power from all luminaires).</p>
-	<p class="footNotes"><a name="note13"></a><b>13.</b> The spatial color distibution image shows the color unifomity of a single luminaire illuminating
+	<p class="footNotes"><a name="note8"></a><b>8.</b> A 1000 W HPS luminaire from P.L. Light Systems, at a 2 m mounting height, was used for the
+		cost analysis (Med NXT LP 1000W Beta).</p>
+	<p class="footNotes"><a name="note9"></a><b>9.</b> A 600 W HPS luminaire from P.L. Light Systems (tested in 2013), at a 2 m mounting height,
+		was used for the cost analysis (PL2000 HPS 600W 240V with SON-T PIA lamp).</p>
+	<p class="footNotes"><a name="note10"></a><b>10.</b> For the LED cost analysis, the number of LED luminaires is based on the mounting height
+		that results in the highest LSAE for a target PPFD of 300 µmol/ m<sup>-2</sup> sec.</p>
+	<p class="footNotes"><a name="note11"></a><b>11.</b>Estimated Cumulative Cost over 20 years at $0.10/kWh</p>
+	<p class="footNotes"><a name="note12"></a><b>12.</b>Estimated Cumulative Cost over 20 years at $0.20/kWh</p>
+	<p class="footNotes"><a name="note13"></a><b>13.</b> The ISO-PPFD contours shows the photosynthetic photon flux density (PPFD, µmol/ m<sup>-2</sup>	
+		sec) isolines at fixed intervals from a single luminaire. The luminaire is mounted at the given mounting height (based
+		on the maximum LSAE value) and the PPFD is calculated at 0.12 m increments on the workplane. PPFD is analogous to lux.</p>
+	<p class="footNotes"><a name="note14"></a><b>14.</b> The luminous intensity distibution shows the spatial distribution using two dimensional
+		planes (in units of candelas). The red line shows a horizontal slice through the vertical angles where the maximum candela
+		value occurs. The blue line represents the vertical slice through the luminaire's center at the horizontal angle with the
+		maximum candela angle. Each of the four rings in the polar diagram represents a 25% change in luminous intensity, with
+		the maximum candela value represented by the outer ring. Each radiating line repesents a 10 degree angular increment.</p>
+	<p class="footNotes"><a name="note15"></a><b>15.</b>Percentage of Radiant Flux at Differnet Vertical Angles</p>
+	<p class="footNotes"><a name="note16"></a><b>16.</b> The spatial color distibution image shows the color unifomity of a single luminaire illuminating
 		a 3 m x 3 m work plane. The luminaire was measured using an imaging goniophotometer, resulting in a spatial color distribution
 		for each tristimulus value - X, Y and Z (CIE 1931 color-matching functions). The spatial color distributions were overlayed
 		at the same mounting height (2 m) and used to illuminate a set of points on the work plane, located at 0.06 m intervals,
 		corresponding to the XYZ values at each point. The matlab function 'xyz2rgb' was used to convert each XYZ value into an
 		RGB value for plotting. For HID luminaires, the spatial color distribution is estimated by using the color matching values
 		for the tested HID lamp and weighting the brightness of the value at each point by the luminous intensity distribution.</p>
-	<p class="footNotes"><a name="note14"></a><b>14.</b> The luminous intensity distibution shows the spatial distribution using two dimensional
-		planes (in units of candelas). The red line shows a horizontal slice through the vertical angles where the maximum candela
-		value occurs. The blue line represents the vertical slice through the luminaire's center at the horizontal angle with the
-		maximum candela angle. Each of the four rings in the polar diagram represents a 25% change in luminous intensity, with
-		the maximum candela value represented by the outer ring. Each radiating line repesents a 10 degree angular increment.</p>
 </body>
 
 </html>

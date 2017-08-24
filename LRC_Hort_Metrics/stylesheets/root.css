@@ -5,43 +5,34 @@
   font-family:      Arial, Helvetica, sans-serif;
 }
 
-.leftLine {
-  width:            16.66%;
-  border-left:      1px solid #000000;
-}
-
-.leftLine p {
-  font-size:        9pt;
-}
-
 p {
-  font-size:        8px;
+  font-size:        6pt;
   white-space:      normal;
 }
 
 h1 {
-  font-size:        14px;
+  font-size:        11pt;
   text-align:       center;
   font-weight:      bold;
   white-space:      pre-wrap;
 }
 
 .header {
-  font-size:        12px;
+  font-size:        9pt;
   text-align:       center;
   font-weight:      bold;
   white-space:      pre-wrap;
 }
 
 h2 {
-  font-size:        12px;
+  font-size:        9pt;
   text-align:       center;
   font-weight:      bold;
   white-space:      pre-wrap;
 }
 
 h3 {
-  font-size:        10px;
+  font-size:        8pt;
   font-weight:      bold;
   text-align:       center;
   white-space:      pre-wrap;
@@ -61,6 +52,7 @@ tr {
 
 td {
   border-collapse:  collapse;
+  padding:          0;
 }
 
 th {
@@ -91,6 +83,21 @@ div.metrics {
   vertical-align:   baseline;
 }
 
+.leftLine {
+  width:            16.66%;
+  border-left:      1px solid #000000;
+}
+
+.leftLine p {
+  font-size:        8pt;
+}
+
+.Cata {
+  font-size:        7pt;
+  padding:          0px;
+  margin:           0px;
+}
+
 .LSAETable {
   width:            100%;
 }
@@ -99,7 +106,7 @@ div.metrics {
   border:           1 solid #000000;
 }
 
-.LSAEhead{
+.LSAEhead {
   border:           1 solid #000000;
   font-weight:      bold;
   text-align:       center;
@@ -112,24 +119,40 @@ div.metrics {
   text-align:       center;
   vertical-align:   bottom;
 }
+
 .LSAETable td p {
   text-align:       center;
 }
 
-.LSAETable tr>th p {
+.LSAETable tr > th p {
   text-align:       center;
   padding-top:      5px;
   padding-bottom:   5px;
 }
 
 .maxAll {
-  background-color: #AAAAAA;
+  font-weight:      bold;
+}
+
+.maxAllRed {
   padding:          5px;
+  background-color: #FB9A99;
   font-weight:      bold;
 }
+
 .max {
-  font-weight:      bold;
+  font-style:       italic;
 }
+.maxRed {
+  padding:          5px;
+  background-color: #FB9A99;
+  font-style:       italic;
+}
+.Red {
+  padding:          5px;
+  background-color: #FB9A99;
+}
+
 .bodyTableTop {
   width:            50%;
   height:           280pt;
@@ -169,7 +192,7 @@ div.metrics {
   padding-bottom:   2px;
 }
 
-.EcoTable tr>th>p{
+.EcoTable tr > th > p {
   padding-left:     5px;
 }
 
@@ -182,7 +205,10 @@ div.metrics {
   width:            15%;
   font-weight:      bold;
 }
-.EcoTable .header{
+.EcoTable .fixture p {
+white-space:      pre-wrap;
+}
+.EcoTable .header {
   font-weight:      bold;
 }
 
@@ -208,6 +234,7 @@ div.metrics {
   padding-top:      5px;
   padding-bottom:   5px;
   text-align:       center;
+  white-space:      pre-wrap;
 }
 
 .inv {
@@ -227,10 +254,7 @@ div.metrics {
   line-height:      9;
   vertical-align:   text-bottom;
 }
-.img {
-  text-align:       center; 
-}
 
-.Cata {
-  
+.img {
+  text-align:       center;
 }

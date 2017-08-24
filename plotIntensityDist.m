@@ -1,11 +1,14 @@
 function plotIntensityDist(IESdata,multiplier,varargin)
+if nargin == 1
+    multiplier = 1/1000;
+end
 LRCBlue = [ 30,  63, 134]/255;
 IntenPlot = figure('units','inches');
 set(IntenPlot,'Renderer','painters');
 set(IntenPlot,'Resize','off');
 axe = polaraxes(IntenPlot);
 axe.FontSize = 8;
-PPFTable = IESdata.photoTable.*(multiplier./1000);
+PPFTable = IESdata.photoTable.*(multiplier);%.*1000;
 [~,ind2] = max(max(PPFTable,[],1));
 [~,ind1] = max(max(PPFTable,[],2));
 polarplot(axe,deg2rad(IESdata.HorizAngles),PPFTable(ind1,:),'LineWidth',1.5,'Color', [1 0 0]);
@@ -32,6 +35,7 @@ axe.ThetaTickLabel = {sprintf('  0\x00B0'),'','','','','','','','',...
     sprintf('270\x00B0'),'','','','','','','','',''};
 axe.RTick = [0, round(max(photoVect)/4), round((max(photoVect)/4)*2), round((max(photoVect)/4)*3), round(max(photoVect))];
 axe.RTickLabel = {'0', num2str(round(max(photoVect)/4)),num2str(round((max(photoVect)/4)*2)),num2str(round((max(photoVect)/4)*3)),num2str(round(max(photoVect)))};
+celldisp(axe.RTickLabel);
 axe.ThetaColorMode = 'manual';
 axe.GridColor = 'k';
 axe.GridAlpha = .25;
