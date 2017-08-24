@@ -29,7 +29,7 @@
 			</tr>
 			<tr>
 				<td valign="middle" height="12pt">
-					<p class="Cata"><hole id="Catalog1">Catalog1</hole><sup class="inv">.</sup></p>
+					<p class="Cata"><hole id="Catalog1">Catalog1</hole></p>
 				</td>
 				<td class="leftLine" rowspan="2" valign="middle">
 					<p>Voltage = <hole id="Voltage">Voltage</hole> <i>V</i><sup class="inv">.</sup></p>
@@ -46,12 +46,12 @@
 			</tr>
 			<tr>
 				<td valign="middle" height="12pt">
-					<p class="Cata"><hole id="Catalog2">Catalog2</hole><sup class="inv">.</sup></p>
+					<p class="Cata"><hole id="Catalog2">Catalog2</hole></p>
 				</td>
 			</tr>
 			<tr>
 				<td valign="middle" height="12pt">
-					<p class="Cata"><hole id="Catalog3">Catalog3</hole><sup class="inv">.</sup></p>
+					<p class="Cata"><hole id="Catalog3">Catalog3</hole></p>
 				</td>
 				<td class="leftLine" rowspan="2" valign="middle">
 					<p>Power = <hole id="Power">Power</hole> <i>W</i><sup class="inv">.</sup></p>
@@ -68,7 +68,7 @@
 			</tr>
 			<tr>
 				<td valign="middle" height="12pt">
-					<p class="Cata"><hole id="Catalog4">Catalog4</hole><sup class="inv">.</sup></p>
+					<p class="Cata"><hole id="Catalog4">Catalog4</hole></p>
 				</td>
 			</tr>
 		</table>
@@ -474,12 +474,14 @@
 							</td>
 						</tr>
 					</table>
-					<p>Bolded Text: Highest LASE for all mounting heights and PPFD combinations.</p>
-					<p>Italicized Text: Highest LSAE for target PPFD.</p>
-					<p>Note: LSAE is for a 36 <i>ft</i> x 30 <i>ft</i> (1080 <i>ft<sup>2</sup></i>) growing area with a target min:average
+					<p style="hyphenation:none;">Note: LSAE is for a 36 <i>ft</i> x 30 <i>ft</i> (1080 <i>ft<sup>2</sup></i>) growing area with a target min:average
 						uniformity &lt; 0.6.</p>
-					<p>* - Combination could not meet target uniformity, the best uniformity of the tested arrangements was chosen.</p>
-					<p>** - No arrangement could reach target illuminance, the best uniformity of the tested arrangements was chosen.</p>
+					<p style="hyphenation:none;">Bolded Text: Highest LASE for all mounting heights and PPFD combinations.</p>
+					<p style="hyphenation:none;">Italicized Text: Highest LSAE for target PPFD.</p>
+					<p style="hyphenation:none;">* - Combination could not meet target uniformity (min:average &lt;= 0.6), the best uniformity of the tested arrangements
+						was chosen.</p>
+					<p style="hyphenation:none;">Red Highlight - No arrangement could reach target average illuminance, the best uniformity of the tested arrangements
+						was chosen.</p>
 				</td>
 				<td class="bodyTableTop">
 					<table>
@@ -509,11 +511,11 @@
 					<h2>Life Cycle Cost Analysis(LCCA)<a href="#note7"><sup>7</sup></a></h2>
 					<table class="EcoTable">
 						<tr>
-							<th scope="row" colspan="2">
+							<td colspan="2" class="left">
 								<p><b>Summary</b></p>
-								<p>(assuming target <i>PPDF</i> of</p>
+								<p>(Assuming target <i>PPDF</i> of</p>
 								<p>300 <i>PPDF</i>)</p>
-							</th>
+							</td>
 							<td class="header">
 								<p>Units</p>
 							</td>
@@ -528,9 +530,9 @@
 							</td>
 						</tr>
 						<tr>
-							<th scope="row" colspan="2">
-								<p><b>Quantity</b><sup class="inv">.</sup></p>
-							</th>
+							<td colspan="2" valign="middle" class="left">
+								<p><b>Quantity</b></p>
+							</td>
 							<td>
 								<p></p>
 							</td>
@@ -545,11 +547,11 @@
 							</td>
 						</tr>
 						<tr>
-							<th scope="row" colspan="2">
-								<p><b>Initial Install Cost</b><sup class="inv">.</sup></p>
-							</th>
-							<td>
-								<p>US$<sup class="inv">.</sup></p>
+							<td colspan="2" valign="middle" class="left">
+								<p><b>Initial Install Cost</b></p>
+							</td>
+							<td valign="middle">
+								<p>US$</p>
 							</td>
 							<td>
 								<p><hole id="Eco04">Eco04</hole><sup class="inv">.</sup></p>
@@ -562,10 +564,10 @@
 							</td>
 						</tr>
 						<tr>
-							<th scope="row" colspan="2">
-								<p><b>Initial Install per Area</b><sup class="inv">.</sup></p>
-							</th>
-							<td>
+							<td colspan="2" valign="middle" class="left">
+								<p><b>Initial Install per Area</b></p>
+							</td>
+							<td valign="middle">
 								<p>US$/<i>ft<sup>2</sup></i></p>
 								<p>(US$/<i>m<sup>2</sup></i> )</p>
 							</td>
@@ -583,10 +585,10 @@
 							</td>
 						</tr>
 						<tr>
-							<th scope="row" colspan="2">
-								<p><b>Lighting Power Density</b><sup class="inv">.</sup></p>
-							</th>
-							<td>
+							<td colspan="2" valign="middle" class="left">
+								<p><b>Lighting Power Density</b></p>
+							</td>
+							<td valign="middle">
 								<p><i>W</i>/<i>ft<sup>2</sup></i></p>
 								<p>(<i>W</i>/<i>m<sup>2</sup></i> )</p>
 							</td>
@@ -604,11 +606,11 @@
 							</td>
 						</tr>
 						<tr>
-							<th scope="row" colspan="2">
-								<p><b>Annual Energy<sup class="inv">.</sup></b></p>
-								<p><b>Use per Area</b><sup class="inv">.</sup></p>
-							</th>
-							<td>
+							<td colspan="2" valign="middle" class="left">
+								<p><b>Annual Energy</b></p>
+								<p><b>Use per Area</b></p>
+							</td>
+							<td valign="middle">
 								<p><i>kWh</i>/<i>ft<sup>2</sup> yr</i></p>
 								<p>(<i>kWh</i>/<i>m<sup>2</sup> yr</i>)</p>
 							</td>
@@ -626,12 +628,12 @@
 							</td>
 						</tr>
 						<tr>
-							<th scope="row" rowspan="2">
-								<p><b>Annual Energy</b><sup class="inv">.</sup></p>
-								<p><b>Cost per Area</b><sup class="inv">.</sup></p>
-							</th>
+							<td rowspan="2" valign="middle" class="left">
+								<p><b>Annual Energy</b></p>
+								<p><b>Cost per Area</b></p>
+							</td>
 							<td valign="middle">
-								<p>$.10/<i>kWh</i><sup class="inv">.</sup></p>
+								<p>$.10/<i>kWh</i></p>
 							</td>
 							<td rowspan="2" valign="middle">
 								<p>US$/<i>ft<sup>2</sup> yr</i></p>
@@ -652,7 +654,7 @@
 						</tr>
 						<tr>
 							<td valign="middle">
-								<p>$.20/<i>kWh</i><sup class="inv">.</sup></p>
+								<p>$.20/<i>kWh</i></p>
 							</td>
 							<td>
 								<p><hole id="Eco19">Eco20</hole><sup class="inv">.</sup></p>
@@ -668,67 +670,67 @@
 							</td>
 						</tr>
 						<tr>
-							<th scope="row" rowspan="2">
-								<p><b>Rate of Return</b><sup class="inv">.</sup></p>
-								<p>1000 <i>W</i> HPS<sup class="inv">.</sup></p>
-							</th>
-							<td>
-								<p>$.10/<i>kWh</i><sup class="inv">.</sup></p>
+							<td rowspan="2" valign="middle" class="left">
+								<p><b>Rate of Return</b></p>
+								<p>1000 <i>W</i> HPS</p>
 							</td>
-							<td>
-								<p><i>%</i><sup class="inv">.</sup></p>
+							<td valign="middle">
+								<p>$.10/<i>kWh</i></p>
+							</td>
+							<td valign="middle">
+								<p><i>%</i></p>
 							</td>
 							<td colspan="3">
 								<p><hole id="Eco22">Eco22</hole><sup class="inv">.</sup></p>
 							</td>
 						</tr>
 						<tr>
-							<td>
-								<p>$.20/<i>kWh</i><sup class="inv">.</sup></p>
+							<td valign="middle">
+								<p>$.20/<i>kWh</i></p>
 							</td>
-							<td>
-								<p><i>%</i><sup class="inv">.</sup></p>
+							<td valign="middle">
+								<p><i>%</i></p>
 							</td>
 							<td colspan="3">
 								<p><hole id="Eco23">Eco23</hole><sup class="inv">.</sup></p>
 							</td>
 						</tr>
 						<tr>
-							<th rowspan="2">
-								<p><b>Rate of Return</b><sup class="inv">.</sup></p>
-								<p>600 <i>W</i> HPS<sup class="inv">.</sup></p>
-							</th>
-							<td>
-								<p>$.10/<i>kWh</i><sup class="inv">.</sup></p>
+							<td rowspan="2" valign="middle" class="left">
+								<p><b>Rate of Return</b></p>
+								<p>600 <i>W</i> HPS</p>
 							</td>
-							<td>
-								<p><i>%</i><sup class="inv">.</sup></p>
+							<td valign="middle">
+								<p>$.10/<i>kWh</i></p>
+							</td>
+							<td valign="middle">
+								<p><i>%</i></p>
 							</td>
 							<td colspan="3">
 								<p><hole id="Eco24">Eco24</hole><sup class="inv">.</sup></p>
 							</td>
 						</tr>
 						<tr>
-							<td>
-								<p>$.20/<i>kWh</i><sup class="inv">.</sup></p>
+							<td valign="middle">
+								<p>$.20/<i>kWh</i></p>
 							</td>
-							<td>
-								<p><i>%</i><sup class="inv">.</sup></p>
+							<td valign="middle">
+								<p><i>%</i></p>
 							</td>
 							<td colspan="3">
 								<p><hole id="Eco25">Eco25</hole><sup class="inv">.</sup></p>
 							</td>
 						</tr>
 						<tr>
-							<th scope="row" rowspan="2">
-								<p><b>Total Payment:</b><sup class="inv">.</sup></p>
-								<p>20 years<sup class="inv">.</sup></p>
-							</th>
-							<td>
-								<p>$.10/<i>kWh</i><sup class="inv">.</sup></p>
+							<td rowspan="2" valign="middle" class="left">
+								<p><b>Total Payments</b></p>
+								<p>20 years</p>
 							</td>
-							<td rowspan="2">
-								<p>US$<sup class="inv">.</sup></p>
+							<td valign="middle">
+								<p>$.10/<i>kWh</i></p>
+							</td>
+							<td rowspan="2" valign="middle">
+								<p>US$</p>
 								<p>(Present Worth)</p>
 							</td>
 							<td>
@@ -742,8 +744,8 @@
 							</td>
 						</tr>
 						<tr>
-							<td>
-								<p>$.20/<i>kWh</i><sup class="inv">.</sup></p>
+							<td valign="middle">
+								<p>$.20/<i>kWh</i></p>
 							</td>
 							<td>
 								<p><hole id="Eco30">Eco30</hole><sup class="inv">.</sup></p>
@@ -1006,8 +1008,7 @@
 		that results in the highest LSAE for a target PPFD of 300 µmol/ m<sup>-2</sup> sec.</p>
 	<p class="footNotes"><a name="note11"></a><b>11.</b>Estimated Cumulative Cost over 20 years at $0.10/kWh</p>
 	<p class="footNotes"><a name="note12"></a><b>12.</b>Estimated Cumulative Cost over 20 years at $0.20/kWh</p>
-	<p class="footNotes"><a name="note13"></a><b>13.</b> The ISO-PPFD contours shows the photosynthetic photon flux density (PPFD, µmol/ m<sup>-2</sup>	
-		sec) isolines at fixed intervals from a single luminaire. The luminaire is mounted at the given mounting height (based
+	<p class="footNotes"><a name="note13"></a><b>13.</b> The ISO-PPFD contours shows the photosynthetic photon flux density (PPFD, µmol/ m<sup>-2</sup>		sec) isolines at fixed intervals from a single luminaire. The luminaire is mounted at the given mounting height (based
 		on the maximum LSAE value) and the PPFD is calculated at 0.12 m increments on the workplane. PPFD is analogous to lux.</p>
 	<p class="footNotes"><a name="note14"></a><b>14.</b> The luminous intensity distibution shows the spatial distribution using two dimensional
 		planes (in units of candelas). The red line shows a horizontal slice through the vertical angles where the maximum candela

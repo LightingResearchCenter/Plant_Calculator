@@ -1,5 +1,4 @@
 function rpt = makerpt(Data,rptname)
-clc
 import mlreportgen.dom.*
 rpt = Document(rptname,'pdf','LRC_Hort_Metrics.pdftx');
 open(rpt);

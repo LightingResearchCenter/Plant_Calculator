@@ -1,4 +1,5 @@
 function filledTable =PlantReportGenereator(loc,path)
+makeDOMCompilable(); 
 tbl = readtable(fullfile(loc,path));
 tbl.Properties.VariableNames{1} = 'LRCID';
 tbl.Properties.VariableNames{4} = 'Catalog';
@@ -90,7 +91,7 @@ if multiplier == 1
 end
 Data.multiplier = multiplier;
 Data.specFluxRelative = Data.specFlux/Data.multiplier;
-
+Data.PPFconvert= PPF_Conversion_Factor_05Apr2016(Data.spectrum(:,1),Data.spectrum(:,2));
 q1 = find(Data.wave>=400,1,'first');
 q2 = find(Data.wave<=700,1,'last');
 
@@ -168,7 +169,7 @@ end
 % Plot Intensity Distribution
 Data.IntensityDistplot = fullfile('images',[sprintf('%d',Data.LRCID),'IntentPlotPic.png']);
 if ~isempty(Data.IESdata)
-    plotIntensityDist(Data.IESdata,Data.multiplier,Data.IntensityDistplot);
+    plotIntensityDist(Data.IESdata,Data.PPFconvert,Data.IntensityDistplot);
 end
 end
 

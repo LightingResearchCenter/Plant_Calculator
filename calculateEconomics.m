@@ -185,18 +185,14 @@ lgndLow = legend(aLow,'LED(1% Failure at year 10)','LED(25% Failure at year 10)'
 set(lgndLow,'FontSize',6,'Visible','off');
 xlabel(aLow,'Years','FontSize',7,'FontWeight','Bold')
 ylabel(aLow,sprintf('Total Payments (US $)'),'FontSize',7,'FontWeight','Bold')
-set(aLow,'xGrid','on')
-set(aLow,'yGrid','on')
-set(aLow,'xMinorGrid','on')
+set(aLow,'xGrid','on','yGrid','on','xMinorGrid','on','Box','on')
 set(aHigh,'YTickLabel',arrayfun(Formatfunc, get(aHigh,'YTick').', 'UniformOutput',0))
 lgndHigh = legend(aHigh,'LED(1% Failure at year 10)','LED(25% Failure at year 10)','600 W HPS','1000 W HPS','Location','best');
 set(lgndHigh,'FontSize',6,'Visible','off');
 
 xlabel(aHigh,'Years','FontSize',7,'FontWeight','Bold')
 ylabel(aHigh,sprintf('Total Payments (US $)'),'FontSize',7,'FontWeight','Bold')
-set(aHigh,'xGrid','on')
-set(aHigh,'yGrid','on')
-set(aHigh,'xMinorGrid','on')
+set(aHigh,'xGrid','on','yGrid','on','xMinorGrid','on','Box','on')
 if numel(varargin)==3
     lgndFig = figure;
     axe2 = axes(lgndFig);

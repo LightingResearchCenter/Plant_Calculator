@@ -74,7 +74,7 @@ thetaPtall = atand(r/p.Results.MountHeight);
         
 Ipt = interp2(newIES.HorizAngles, newIES.VertAngles,newIES.photoTable,  ...
             phiPtall, thetaPtall,'linear');
-Irr = (Ipt.*cosd(thetaPtall)./dsqall).*p.Results.LLF.*(p.Results.Multiplier./1000);
+Irr = ((Ipt.*p.Results.LLF.*(p.Results.Multiplier./1000)).*cosd(thetaPtall)./dsqall);
 Irr = sum(Irr,3)';
 Avg = mean2(Irr);
 Max = max(max(Irr));

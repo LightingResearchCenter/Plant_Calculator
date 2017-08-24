@@ -95,9 +95,10 @@ hold on;
 xlabel('Wavelength ({\itnm})','FontWeight','Bold','FontSize',8);
 ylabel('Relative Spectrum ({\itArbitrary Units})','FontWeight','Bold','FontSize',8);
 ylim([0,1]);
+yticks(0:.2:1)
 spdAxes.Visible = 'on';
 spdAxes.FontSize = 8;
-
+spdAxes.YGrid = 'On';
 if numel(varargin) == 1
     pos = get(SPDplot,'InnerPosition');
     set(SPDplot,'InnerPosition',[pos(1),pos(2),5,3.5])
