@@ -1,0 +1,46 @@
+// cSpell Settings
+{
+    // Version of the setting file.  Always 0.1
+    "version": "0.1",
+    // language - current active spelling language
+    "language": "en",
+    // words - list of words to be always considered correct
+    "words": [
+        "Costpic",
+        "Dpic",
+        "Ehead",
+        "Fper",
+        "ISOPPF",
+        "Inten",
+        "LCCA",
+        "LSAE",
+        "Lgnd",
+        "Luminaire",
+        "Luminaires",
+        "PPFD",
+        "Phytochrome",
+        "SPD's",
+        "SPDpic",
+        "SPDs",
+        "candela",
+        "effiacies",
+        "interconversion",
+        "isolines",
+        "luminaire's",
+        "pfooter",
+        "photomorphogenic",
+        "photoreversible",
+        "pnumber",
+        "repesents",
+        "rowspan",
+        "valign",
+        "workplane",
+        "µmol"
+    ],
+    // flagWords - list of words to be always considered incorrect
+    // This is useful for offensive words and common spelling errors.
+    // For example "hte" should be "the"
+    "flagWords": [
+        "hte"
+    ]
+}

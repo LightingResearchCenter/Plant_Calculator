@@ -50,7 +50,7 @@ if numel(varargin)==1
     
     pos = get(IntenPlot,'InnerPosition');
     set(IntenPlot,'InnerPosition',[pos(1),pos(2),3.25, 4])
-    set(axe,'units', 'normalized','outerPosition',[.01 .01 .99 .99],'fontsize',8)
+    set(axe,'units', 'normalized','outerPosition',[.01 .01 .99 .99],'fontsize',10)
     drawnow;
     print(IntenPlot,'-dpng', varargin{1},'-r600');
     RemoveWhiteSpace([], 'file', varargin{1});

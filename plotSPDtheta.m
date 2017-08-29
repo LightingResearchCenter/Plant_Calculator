@@ -77,13 +77,13 @@ colors = [213,  62,     79;...
           230,  245,    152;...
           153,  213,    148;...
           50,   136,    189]/255;
-p1 = plot(spdAxes,spdInterpTable.wavelength,spdInterpTable.L90_V0, 'DisplayName',sprintf('SPD@ 0°'), 'Color',colors(1,:),'LineWidth',2);
+p1 = plot(spdAxes,spdInterpTable.wavelength,spdInterpTable.L90_V0, 'DisplayName',sprintf('0°'), 'Color',colors(1,:),'LineWidth',1);
 hold on
-p2 = plot(spdAxes,spdInterpTable.wavelength,spdInterpTable.L90_V15,'DisplayName',sprintf('SPD@ 15°'),'Color',colors(2,:),'LineWidth',2);
-p3 = plot(spdAxes,spdInterpTable.wavelength,spdInterpTable.L90_V30,'DisplayName',sprintf('SPD@ 30°'),'Color',colors(3,:),'LineWidth',2);
-p4 = plot(spdAxes,spdInterpTable.wavelength,spdInterpTable.L90_V45,'DisplayName',sprintf('SPD@ 45°'),'Color',colors(4,:),'LineWidth',2);
-p5 = plot(spdAxes,spdInterpTable.wavelength,spdInterpTable.L90_V60,'DisplayName',sprintf('SPD@ 60°'),'Color',colors(5,:),'LineWidth',2);
-p6 = plot(spdAxes,spdInterpTable.wavelength,spdInterpTable.L90_V75,'DisplayName',sprintf('SPD@ 75°'),'Color',colors(6,:),'LineWidth',2);
+p2 = plot(spdAxes,spdInterpTable.wavelength,spdInterpTable.L90_V15,'DisplayName',sprintf('15°'),'Color',colors(2,:),'LineWidth',1);
+p3 = plot(spdAxes,spdInterpTable.wavelength,spdInterpTable.L90_V30,'DisplayName',sprintf('30°'),'Color',colors(3,:),'LineWidth',1);
+p4 = plot(spdAxes,spdInterpTable.wavelength,spdInterpTable.L90_V45,'DisplayName',sprintf('45°'),'Color',colors(4,:),'LineWidth',1);
+p5 = plot(spdAxes,spdInterpTable.wavelength,spdInterpTable.L90_V60,'DisplayName',sprintf('60°'),'Color',colors(5,:),'LineWidth',1);
+p6 = plot(spdAxes,spdInterpTable.wavelength,spdInterpTable.L90_V75,'DisplayName',sprintf('75°'),'Color',colors(6,:),'LineWidth',1);
 legend('show','Location','best','AutoUpdate','off');
 uistack(p6,'bottom');
 uistack(p5,'top');
@@ -92,17 +92,17 @@ uistack(p3,'top');
 uistack(p2,'top');
 uistack(p1,'top');
 hold on;
-xlabel('Wavelength ({\itnm})','FontWeight','Bold','FontSize',8);
-ylabel('Relative Spectrum ({\itArbitrary Units})','FontWeight','Bold','FontSize',8);
+xlabel('Wavelength ({\itnm})','FontWeight','Bold','FontSize',7);
+ylabel('Relative Spectrum ({\itArbitrary Units})','FontWeight','Bold','FontSize',7);
 ylim([0,1]);
 yticks(0:.2:1)
 spdAxes.Visible = 'on';
-spdAxes.FontSize = 8;
+spdAxes.FontSize = 7;
 spdAxes.YGrid = 'On';
 if numel(varargin) == 1
     pos = get(SPDplot,'InnerPosition');
-    set(SPDplot,'InnerPosition',[pos(1),pos(2),5,3.5])
-    set(gca,'units', 'normalized','outerPosition',[.01 .01 .99 .99],'fontsize',8)
+    set(SPDplot,'InnerPosition',[pos(1),pos(2),4,2])
+    set(gca,'units', 'normalized','outerPosition',[.01 .01 .99 .99],'fontsize',7)
     print(SPDplot,'-dpng', varargin{1},'-r600');
     RemoveWhiteSpace([], 'file', varargin{1});
     close(SPDplot);

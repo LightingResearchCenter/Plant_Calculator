@@ -1,11 +1,7 @@
 function filledTable =PlantReportGenereator(loc,path)
 makeDOMCompilable(); 
-tbl = readtable(fullfile(loc,path));
-tbl.Properties.VariableNames{1} = 'LRCID';
-tbl.Properties.VariableNames{4} = 'Catalog';
-tbl.Properties.VariableNames{5} = 'Product';
-tbl.Properties.VariableNames{8} = 'Wattage';
-tbl.Properties.VariableNames{13} = 'IES';
+tbl = readtable(fullfile(loc,path),'TreatAsEmpty','N/A');
+
 if ~exist(fullfile(pwd,'images'),'dir')
     mkdir(fullfile(pwd,'images'));
 end
@@ -21,14 +17,13 @@ for i = 1:height(tbl)
     Data.specFlux = Data.spectrum(:,2);
     Data.IESdata = IESFile(Data.IES);
     Data = calcAllMetrics(Data);
-    Data = formatCatalogCost(Data);
 
     index = (Data.spectrum(:,1)<700)&(Data.spectrum(:,1)>400);
     Data.PPFofTotal = (sum(Data.spectrum(index,2))/sum(Data.spectrum(:,2)))*100;
     Data.PPFRank = fullfile('images',[sprintf('%d',Data.LRCID),'PPFPlotPic.png']);
     Data.PPFperWRank = fullfile('images',[sprintf('%d',Data.LRCID),'PPFperWPlotPic.png']);
-    plotRank(Data.PPF,PPFmax,PPFmin,'{\it\phi_{p}} Range of Tested Horticultural Luminaires',Data.PPFRank);
-    plotRank(Data.PPFperW,PPFperWmax,PPFperWmin,'{\itK_{p}} Range of Tested Horticultural Luminaires',Data.PPFperWRank);    
+    plotRank(Data.PPF,PPFmax,PPFmin,'{\it\phi_{p}} Range of Tested Horticultural Luminaires (n=13)',Data.PPFRank);
+    plotRank(Data.PPFperW,PPFperWmax,PPFperWmin,'{\itK_{p}} Range of Tested Horticultural Luminaires (n=13)',Data.PPFperWRank);    
     Data.PlantReportFile = fullfile(loc,'Plant Reports',[sprintf('%d',Data.LRCID),'.pdf']);
     makerpt(Data, Data.PlantReportFile);
     filledTable(i) = Data;
@@ -171,46 +166,4 @@ Data.IntensityDistplot = fullfile('images',[sprintf('%d',Data.LRCID),'IntentPlot
 if ~isempty(Data.IESdata)
     plotIntensityDist(Data.IESdata,Data.PPFconvert,Data.IntensityDistplot);
 end
-end
-
-function Data = formatCatalogCost(Data)
-if Data.LRCID==110106
-    disp(110106)
-end
-str = Data.Catalog;
-words_in_str = textscan(str,'%s');
-strArr = words_in_str{:};
-outputArr = cell(4,1);
-wordIndex = 1;
-for i=1:numel(strArr)
-    words_in_str = textscan(strArr{i},'%s','Delimiter',{'-'});
-    str2Arr = words_in_str{:};
-    for i2=1:numel(str2Arr)
-        if wordIndex<=3
-            if (length(outputArr{wordIndex})+length(str2Arr{i2})) > 23
-                wordIndex = wordIndex+1;
-                if numel(str2Arr)~=i2
-                    outputArr{wordIndex} = [str2Arr{i2},'-'];
-                else
-                    outputArr{wordIndex} = [str2Arr{i2}];
-                end
-            else
-                if numel(str2Arr)~=i2
-                    outputArr{wordIndex} = [outputArr{wordIndex}, str2Arr{i2},'-'];
-                else
-                    outputArr{wordIndex} = [outputArr{wordIndex}, str2Arr{i2}];
-                end
-            end
-        end
-    end
-    outputArr{wordIndex} = [outputArr{wordIndex}, ' '];
-end
-outputArr{wordIndex+1} = ['$',num2str(round(Data.Price))];
-outputArr(cellfun('isempty',outputArr))={' '};
-myfunc2 = @(x) strip(x,'right',' ');
-outputArr = cellfun(myfunc2,outputArr,'UniformOutput',0);
-outputArr(cellfun('isempty',outputArr))={' '};
-
-Data.CatalogArr = outputArr;
-
 end

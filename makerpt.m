@@ -4,12 +4,14 @@ rpt = Document(rptname,'pdf','LRC_Hort_Metrics.pdftx');
 open(rpt);
 while ~strcmp(rpt.CurrentHoleId,'#end#')
     switch rpt.CurrentHoleId
+        case 'MaxArr'
+            append(rpt,max(Data.outTable.maxCount));
         case 'Brand'
             append(rpt,Data.Brand);
         case 'Product'
             append(rpt,Data.Product);
-        case 'Catalog1'
-            append(rpt,Data.CatalogArr{1});
+        case 'Catalog'
+            append(rpt,regexprep(Data.Catalog,'\s+',' '));
         case 'Voltage'
             append(rpt,sprintf('%0.0f',round(Data.Volts)));
         case 'PPF'
@@ -18,22 +20,16 @@ while ~strcmp(rpt.CurrentHoleId,'#end#')
             append(rpt,sprintf('%0.2f',Data.PSS));
         case 'FixtureImg'
             img = Image(Data.Image);
-            img.Style = {Height('0.8in')};
+            img.Style = {Height('0.85in')};
             append(rpt,img);
-        case 'Catalog2'
-            append(rpt,Data.CatalogArr{2});
         case 'Power'
             append(rpt,sprintf('%d',round(Data.Wattage)));
         case 'PPFperW'
             append(rpt,sprintf('%0.1f',Data.PPFperW));
-        case 'Catalog3'
-            append(rpt,Data.CatalogArr{3});
         case 'PF'
             append(rpt,sprintf('%0.2f',Data.PF));
         case 'PPFper'
             append(rpt,sprintf('%0.1f',Data.PPFofTotal));
-        case 'Catalog4'
-            append(rpt,Data.CatalogArr{4});
         case 'THD'
             append(rpt,sprintf('%0.1f',Data.THD));
         case 'PPFRank'
@@ -45,25 +41,25 @@ while ~strcmp(rpt.CurrentHoleId,'#end#')
             img.Style = {Width('3.25in')};
             append(rpt,img);
         case 'Lamp2'
-            append(rpt,Data.Source);
+            append(rpt,sprintf('This %s',Data.Source));
         case 'MountHeight'
             append(rpt,sprintf('%d',round(Data.mount)));
         case 'ISOPPFDpic'
             img = Image(Data.ISOPlot);
-            img.Style = {Width('3.25in')};
+            img.Style = {Height('2.1in')};
             append(rpt,img);
         case 'IntenDistImg'
             img = Image(Data.IntensityDistplot);
-            img.Style = {Height('2.5in')};
+            img.Style = {Height('2in')};
             append(rpt,img);
         case 'SPDpic'
             img = Image(Data.SPDPlot);
             img.Style = {Width('3.25in')};
             append(rpt,img);
-        case 'SPDTheataPlot'
+        case 'SPDThetaPlot'
             if exist(Data.SPDthetaPlot,'file')
                 img = Image(Data.SPDthetaPlot);
-                img.Style = {Width('3.25in')};
+                img.Style = {Height('1.75in')};
                 append(rpt,img);
             else
                 append(rpt,'Not Available with the Data Provided');
@@ -71,23 +67,23 @@ while ~strcmp(rpt.CurrentHoleId,'#end#')
         case 'Costpic1'
             if exist(Data.LCCA10Plot,'file')
                 img = Image(Data.LCCA10Plot);
-                img.Style = {Height('105pt')};
+                img.Style = {Height('95pt')};
                 append(rpt,img);
             else
                 append(rpt,'Not Available with the Data Provided');
             end
         case 'Costpic2'
-            if exist(Data.LCCALgnd,'file')
+            if exist(Data.LCCA20Plot,'file')
                 img = Image(Data.LCCA20Plot);
-                img.Style = {Height('105pt')};
+                img.Style = {Height('95pt')};
                 append(rpt,img);
             else
                 append(rpt,'Not Available with the Data Provided');
             end
         case 'CostLgnd'
-            if exist(Data.LCCA20Plot,'file')
+            if exist(Data.LCCALgnd,'file')
                 img = Image(Data.LCCALgnd);
-                img.Style = {Width('1.5in')};
+                img.Style = {Height('.25in')};
                 append(rpt,img);
             else
                 append(rpt,'Not Available with the Data Provided');
@@ -128,6 +124,12 @@ while ~strcmp(rpt.CurrentHoleId,'#end#')
             append(rpt,sprintf('%d',round(Data.Eco.HPS600.Qty)));%600W HPS QTY
             moveToNextHole(rpt);
             append(rpt,sprintf('%d',round(Data.Eco.fix.Qty)));%Current Lamp QTY
+            moveToNextHole(rpt);
+            append(rpt,sprintf('$%d',round(Data.Eco.HPS1000.Cost)));%1000W HPS Cost
+            moveToNextHole(rpt);
+            append(rpt,sprintf('$%d',round(Data.Eco.HPS600.Cost)));%600W HPS Cost
+            moveToNextHole(rpt);
+            append(rpt,sprintf('$%d',round(Data.Eco.fix.Cost)));%Current Lamp Cost
             moveToNextHole(rpt);
             append(rpt,sprintf('$%s',numberFormatter(Data.Eco.HPS1000.Init,',###')));%1000W HPS Init
             moveToNextHole(rpt);
@@ -197,30 +199,30 @@ while ~strcmp(rpt.CurrentHoleId,'#end#')
             moveToNextHole(rpt);
             payYear1000Low = find(Data.Eco.HPS1000.CumCFLow(2:end,1)>0,1);
             if ~isempty(payYear1000Low)
-                append(rpt,sprintf('%s%% Payback at year %d.',numberFormatter(Data.Eco.HPS1000.RORLow(1)*100,',###.0'),payYear1000Low));%1000W HPS ROR Low
+                append(rpt,sprintf('%s%% - Payback at year %d.',numberFormatter(Data.Eco.HPS1000.RORLow(1)*100,',###.0'),payYear1000Low-1));%1000W HPS ROR Low
             else
-                append(rpt,sprintf('%s%% No Payback within 20 years.',numberFormatter(Data.Eco.HPS1000.RORLow(1)*100,',###.0')));%1000W HPS ROR Low
+                append(rpt,sprintf('%s%% - No Payback within 20 years.',numberFormatter(Data.Eco.HPS1000.RORLow(1)*100,',###.0')));%1000W HPS ROR Low
             end
             moveToNextHole(rpt);
             payYear1000High = find(Data.Eco.HPS1000.CumCFHigh(2:end,1)>0,1);
             if ~isempty(payYear1000High)
-                append(rpt,sprintf('%s%% Payback at year %d.',numberFormatter(Data.Eco.HPS1000.RORHigh(1)*100,',###.0'),payYear1000High));
+                append(rpt,sprintf('%s%% - Payback at year %d.',numberFormatter(Data.Eco.HPS1000.RORHigh(1)*100,',###.0'),payYear1000High-1));
             else
-                append(rpt,sprintf('%s%% No Payback within 20 years.',numberFormatter(Data.Eco.HPS1000.RORHigh(1)*100,',###.0')));%1000W HPS ROR High
+                append(rpt,sprintf('%s%% - No Payback within 20 years.',numberFormatter(Data.Eco.HPS1000.RORHigh(1)*100,',###.0')));%1000W HPS ROR High
             end
             moveToNextHole(rpt);
             payYear600Low = find(Data.Eco.HPS600.CumCFLow(2:end,1)>0,1);
             if ~isempty(payYear600Low)
-                append(rpt,sprintf('%s%% Payback at year %d.',numberFormatter(Data.Eco.HPS600.RORLow(1)*100,',###.0'),payYear600Low));
+                append(rpt,sprintf('%s%% - Payback at year %d.',numberFormatter(Data.Eco.HPS600.RORLow(1)*100,',###.0'),payYear600Low-1));
             else
-                append(rpt,sprintf('%s%% No Payback within 20 years.',numberFormatter(Data.Eco.HPS600.RORLow(1)*100,',###.0')));%600W HPS ROR Low
+                append(rpt,sprintf('%s%% - No Payback within 20 years.',numberFormatter(Data.Eco.HPS600.RORLow(1)*100,',###.0')));%600W HPS ROR Low
             end
             moveToNextHole(rpt);
             payYear600High = find(Data.Eco.HPS600.CumCFHigh(2:end,1)>0,1);
             if ~isempty(payYear600High)
-                append(rpt,sprintf('%s%% Payback at year %d.',numberFormatter(Data.Eco.HPS600.RORHigh(1)*100,',###.0'),payYear600High));
+                append(rpt,sprintf('%s%% - Payback at year %d.',numberFormatter(Data.Eco.HPS600.RORHigh(1)*100,',###.0'),payYear600High-1));
             else
-                append(rpt,sprintf('%s%% No Payback within 20 years.',numberFormatter(Data.Eco.HPS600.RORHigh(1)*100,',###.0')));%600W HPS ROR High
+                append(rpt,sprintf('%s%% - No Payback within 20 years.',numberFormatter(Data.Eco.HPS600.RORHigh(1)*100,',###.0')));%600W HPS ROR High
             end
             moveToNextHole(rpt);
             append(rpt,sprintf('$%s',numberFormatter(Data.Eco.HPS1000.TotPayLow(end),',###')));%1000W HPS Present Worth Low
@@ -347,6 +349,11 @@ while ~strcmp(rpt.CurrentHoleId,'#end#')
     end
     moveToNextHole(rpt);
 end
-close(rpt);
+try
+    close(rpt);
+catch
+    pause(1);
+    close(rpt);
+end
 rptview(rpt.OutputPath);
 end

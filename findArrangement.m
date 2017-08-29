@@ -1,4 +1,4 @@
-function [allCenters,orientation,isMax] = findArrangement(IESdata,fixCount,spacing,roomLength,roomWidth)
+function [allCenters,orientation,maxCount] = findArrangement(IESdata,fixCount,spacing,roomLength,roomWidth)
 fixLength = IESdata.LengthFt; %feet
 fixWidth = IESdata.WidthFt; %feet
 maxDim = max([fixLength,fixWidth]);
@@ -18,12 +18,13 @@ longMount = zeros(1,longMountCount);
 for i = 1:longMountCount
     longMount(i) = (longMountInc*i) - (longMountInc*0.5);% to center in space
 end
-isMax = false;
+
 %% Place Linear Fixtures
 if isLinear
     truss = trussLocs{end-1};
     maxPerTB = floor(longMountLength/maxDim); %how many fit on a run
     maxSet = maxPerTB*length(truss);
+    maxCount = maxSet*3;
     if fixCount>maxSet
         fixSet(1) = maxSet;
         fixNeeded = fixCount -maxSet;
@@ -40,7 +41,6 @@ if isLinear
     end
     if fixNeeded>maxSet
         fixSet(3) = maxSet;
-        isMax = true;
     else
         fixSet(3) = fixNeeded;
     end
@@ -242,11 +242,12 @@ if fixLength==fixWidth
     for j = 1:2
         maxPerTB = floor(longMountLength/maxDim); %how many fit the length of the room
         maxPerLR = floor(shortMountLength/minDim); %how many fit the width of the room
+        maxCount =(maxPerTB*maxPerLR); 
         if trueFixCount > (maxPerTB*maxPerLR)
             fixCount = maxPerTB*maxPerLR;
         end
         fixDiff = 3;
-        numLuminaire = fixCount-fixDiff+2:fixCount+fixDiff;
+        numLuminaire = fixCount-fixDiff+1:fixCount+fixDiff;
         numLuminaire(numLuminaire<=0) = [];
         numLuminaire(numLuminaire>(maxPerTB*maxPerLR)) = [];
         for k =1:length(numLuminaire)
@@ -407,11 +408,12 @@ if ((fixLength~=fixWidth)&&~isLinear)
     for j = 1:2
         maxPerTB = floor(longMountLength/maxDim); %how many fit the length of the room
         maxPerLR = floor(shortMountLength/minDim); %how many fit the width of the room
+        maxCount(j) = (maxPerTB*maxPerLR);
         if trueFixCount > (maxPerTB*maxPerLR)
             fixCount = maxPerTB*maxPerLR;
         end
         fixDiff = 3;
-        numLuminaire = fixCount-fixDiff+2:fixCount+fixDiff;
+        numLuminaire = fixCount-fixDiff+1:fixCount+fixDiff;
         numLuminaire(numLuminaire<=0) = [];
         numLuminaire(numLuminaire>(maxPerTB*maxPerLR)) = [];
         for k =1:length(numLuminaire)
@@ -558,5 +560,6 @@ if ((fixLength~=fixWidth)&&~isLinear)
     allCenters = reshape(setCenters(:),numel(setCenters),1);
     orientation= vertcat(orientation{:});
     allCenters = vertcat(allCenters{:});
+    maxCount = max(maxCount);
 end
 end

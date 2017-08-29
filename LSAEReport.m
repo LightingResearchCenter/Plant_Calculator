@@ -11,7 +11,7 @@ found = false;
 spacing = 1;
 [IrrOut,AvgOut,MaxOut, MinOut,MinToAvgOut,placement]=deal(cell(1,1));
 while found ==false
-    [newCountArr, orrientation] = findArrangement(IESdata,numLuminaire,spacing,unitsratio('ft','m')*roomLength,unitsratio('ft','m')*roomWidth);
+    [newCountArr, orrientation,maxCount] = findArrangement(IESdata,numLuminaire,spacing,unitsratio('ft','m')*roomLength,unitsratio('ft','m')*roomWidth);
     
     newOrien = cell(length(newCountArr),1);
     ind = 1;
@@ -126,5 +126,5 @@ maxToMin = Max/Min;
 count = placement(index);
 perDif = ((Avg-targetPPFD)/targetPPFD);
 CUavg = (length(count)*ppfTotal*CU)/(roomLength*roomWidth);
-outTable = table(mountHeight,numLuminaire,count,Avg,targetPPFD,CUavg,Max,Min,MinToAvg,maxToMin,targetUniform,perDif);
+outTable = table(mountHeight,numLuminaire,count,Avg,targetPPFD,CUavg,Max,Min,MinToAvg,maxToMin,targetUniform,perDif,maxCount);
 end

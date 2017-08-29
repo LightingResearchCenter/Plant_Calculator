@@ -58,7 +58,7 @@ Temporary Items
 # Simulink Code Generation
 slprj/
 
-Distrobution Files
+Distribution Files and debugging
 PlantCalculator/*
 output/*
 *.xlsx
@@ -67,3 +67,4 @@ output/*
 *test*
 *.AGI
 images/*
+*.png
