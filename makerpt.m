@@ -349,11 +349,6 @@ while ~strcmp(rpt.CurrentHoleId,'#end#')
     end
     moveToNextHole(rpt);
 end
-try
-    close(rpt);
-catch
-    pause(1);
-    close(rpt);
-end
+close(rpt);
 rptview(rpt.OutputPath);
 end

@@ -1,37 +1,38 @@
-dptemplate::before{
-  content:       "" attr(name) "";
-  font-family:   "Courier New",Courier,monospace;
-  font-weight:   bold;
-  color:         #3333ff;
+/* stylelint-disable  selector-type-no-unknown */
+dptemplate::before {
+  content: "" attr(name) "";
+  font-family: "Courier New", Courier, monospace;
+  font-weight: bold;
+  color: #3333ff;
 }
 
 dptemplate {
   margin-bottom: 4pt;
-  margin-top:    4pt;
-  border-style:  dotted;
-  border-width:  thin;
-  display:       block;
-  background:    #E6E6E6;
+  margin-top: 4pt;
+  border-style: dotted;
+  border-width: thin;
+  display: block;
+  background: #e6e6e6;
 }
 
 /* These properties are for the old markup syntax */
+
 div.TemplateBody {
-  border-style:  dotted;
-  border-width:  thin;
-  padding-left:  10px; 
+  border-style: dotted;
+  border-width: thin;
+  padding-left: 10px;
   padding-right: 10px;
 }
 
 span.TemplateName {
-  font-family:   "Courier New",Courier,monospace;
-  font-weight:   bold;
-  color:         #3333ff;
+  font-family: "Courier New", Courier, monospace;
+  font-weight: bold;
+  color: #3333ff;
 }
 
 div.TemplateName {
-  font-family:   "Courier New",Courier,monospace;
-  font-weight:   bold;
-  color:         #3333ff;
-  margin-top:    25px;
+  font-family: "Courier New", Courier, monospace;
+  font-weight: bold;
+  color: #3333ff;
+  margin-top: 25px;
 }
-

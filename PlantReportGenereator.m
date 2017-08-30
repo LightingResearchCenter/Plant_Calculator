@@ -25,9 +25,14 @@ for i = 1:height(tbl)
     plotRank(Data.PPF,PPFmax,PPFmin,'{\it\phi_{p}} Range of Tested Horticultural Luminaires (n=13)',Data.PPFRank);
     plotRank(Data.PPFperW,PPFperWmax,PPFperWmin,'{\itK_{p}} Range of Tested Horticultural Luminaires (n=13)',Data.PPFperWRank);    
     Data.PlantReportFile = fullfile(loc,'Plant Reports',[sprintf('%d',Data.LRCID),'.pdf']);
-    makerpt(Data, Data.PlantReportFile);
+    try
+        makerpt(Data, Data.PlantReportFile);
+    catch err
+        makerpt(Data, Data.PlantReportFile);
+    end
     filledTable(i) = Data;
 end
+
 %     tempTable(i) = Data;
 % end
 % tempTable = struct2table(tempTable);
@@ -54,6 +59,12 @@ end
 % end
 filledTable = struct2table(filledTable);
 save('datatable.mat','filledTable');
+outputTable = filledTable;
+outputTable(:,{'angularSPD','spectrum','wave','specFlux','IESdata','specFluxRelative'...
+    ,'IrrOut','outTable','LSAE','LCCA10Plot','LCCA20Plot','LCCALgnd','Eco','SPDPlot'...
+    ,'ISOPlot','SPDthetaPlot','IntensityDistplot','PPFRank','PPFperWRank',...
+    'PlantReportFile'}) = [];
+writetable(outputTable,'fixtureTable.xlsx');
 end
 
 function Data = calcAllMetrics(Data)
