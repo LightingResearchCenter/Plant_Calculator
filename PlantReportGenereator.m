@@ -1,7 +1,7 @@
 function filledTable =PlantReportGenereator(loc,path)
 makeDOMCompilable(); 
 tbl = readtable(fullfile(loc,path),'TreatAsEmpty','N/A');
-
+tbl = sortrows(tbl,'LRCID','ascend');
 if ~exist(fullfile(pwd,'images'),'dir')
     mkdir(fullfile(pwd,'images'));
 end
@@ -57,7 +57,7 @@ end
 %     makerpt(Data, Data.PlantReportFile);
 %     filledTable(i) = Data;
 % end
-filledTable = struct2table(filledTable);
+filledTable = struct2table(filledTable,'AsArray',true);
 save('datatable.mat','filledTable');
 outputTable = filledTable;
 outputTable(:,{'angularSPD','spectrum','wave','specFlux','IESdata','specFluxRelative'...

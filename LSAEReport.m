@@ -11,8 +11,11 @@ found = false;
 spacing = 1;
 [IrrOut,AvgOut,MaxOut, MinOut,MinToAvgOut,placement]=deal(cell(1,1));
 while found ==false
-    [newCountArr, orrientation,maxCount] = findArrangement(IESdata,numLuminaire,spacing,unitsratio('ft','m')*roomLength,unitsratio('ft','m')*roomWidth);
-    
+    if targetPPFD >=400
+        [newCountArr, orrientation,maxCount] = findArrangement(IESdata,numLuminaire,spacing,unitsratio('ft','m')*roomLength,unitsratio('ft','m')*roomWidth,true);
+    else
+        [newCountArr, orrientation,maxCount] = findArrangement(IESdata,numLuminaire,spacing,unitsratio('ft','m')*roomLength,unitsratio('ft','m')*roomWidth,false);
+    end
     newOrien = cell(length(newCountArr),1);
     ind = 1;
     for i = 1:size(newCountArr,1)
@@ -20,17 +23,17 @@ while found ==false
     end
     newCenters = cell(0,1);
     for iB = 1:numel(newOrien)
-       testLoc = newOrien{iB};
-       isnew = true;
-       for iA = 1:numel(newCenters)
-           tmp  = newCenters{iA};
-           if isequaln(tmp, testLoc)
-               isnew = false;
-           end
-       end
-       if isnew
-           newCenters{end+1,1} = newOrien{iB};
-       end
+        testLoc = newOrien{iB};
+        isnew = true;
+        for iA = 1:numel(newCenters)
+            tmp  = newCenters{iA};
+            if isequaln(tmp, testLoc)
+                isnew = false;
+            end
+        end
+        if isnew
+            newCenters{end+1,1} = newOrien{iB};
+        end
     end
     testOrien = cell(0,1);
     [Irr]=deal(cell(length(newCenters),1));
@@ -79,7 +82,7 @@ while found ==false
         MinOut = [MinOut;Min];
         MinToAvgOut = [MinToAvgOut;MinToAvg];
     end
-    if abs(spacing-1.5)>0.01
+    if abs(spacing-1.6)>0.01
         spacing = spacing + 0.1;
     end
     testUni = MinToAvgOut;
@@ -97,7 +100,10 @@ while found ==false
         else
             index= 1;
         end
-    elseif abs(spacing-1.6)<0.1
+    elseif abs(spacing-1.6)<0.01
+        if isempty(placement)
+            disp(true)
+        end
         found = true;
         placement(cellfun(@isempty,placement)) = [];
         IrrOut(cellfun(@isempty,IrrOut)) = [];
@@ -105,7 +111,10 @@ while found ==false
         MaxOut(arrayfun(@(x)x==0,MaxOut)) = [];
         MinOut(arrayfun(@(x)x==0,MinOut)) = [];
         MinToAvgOut(arrayfun(@(x)x==0,MinToAvgOut)) = [];
-        if size(placement,1)>1
+        if isempty(placement)
+            disp(true)
+        end
+        if size(placement,1)>1 && ~isempty(placement)
             testUni = MinToAvgOut;
             testUni(AvgOut-targetPPFD<0) =-1;
             [~,index] = max(testUni);

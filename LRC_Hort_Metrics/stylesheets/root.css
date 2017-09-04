@@ -141,7 +141,7 @@ div.metrics {
 
 .maxAllRed {
   padding: 4px;
-  background-color: #fb9a99;
+  background-color: #d9d9d9;
   font-weight: bold;
   text-decoration: underline;
 }
@@ -153,13 +153,13 @@ div.metrics {
 
 .maxRed {
   padding: 4px;
-  background-color: #fb9a99;
+  background-color: #d9d9d9;
   text-decoration: underline;
 }
 
 .Red {
   padding: 4px;
-  background-color: #fb9a99;
+  background-color: #d9d9d9;
 }
 
 .bodyTableTop {
@@ -209,6 +209,10 @@ div.metrics {
   font-size: 8pt;
   text-indent: 5px;
   line-height: 130%;
+}
+
+.EcoTable .Data p {
+  text-align: right;
 }
 
 td.fixture {
