@@ -6,7 +6,7 @@ ConversionFactor = PPF_Conversion_Factor_05Apr2016(wave,specFlux);
 [CU, fluxTotal]= calcCU(IESdata,mountHeight, roomLength, roomWidth);
 ppfTotal = ((fluxTotal/1000)*ConversionFactor);
 numLuminaire = ceil(((targetPPFD*roomLength*roomWidth)/(ppfTotal*CU*LLF(lampType))));
-%% Rectangularize Luminaires
+%% place and calulate Luminares
 found = false;
 spacing = 1;
 [IrrOut,AvgOut,MaxOut, MinOut,MinToAvgOut,placement]=deal(cell(1,1));
@@ -21,21 +21,11 @@ while found ==false
     for i = 1:size(newCountArr,1)
         newOrien{i,1} = [newCountArr{i,1},ones(size(newCountArr{i,1},1),1)*orrientation(i)];
     end
-    newCenters = cell(0,1);
-    for iB = 1:numel(newOrien)
-        testLoc = newOrien{iB};
-        isnew = true;
-        for iA = 1:numel(newCenters)
-            tmp  = newCenters{iA};
-            if isequaln(tmp, testLoc)
-                isnew = false;
-            end
-        end
-        if isnew
-            newCenters{end+1,1} = newOrien{iB};
-        end
-    end
+    A_cs = cellfun(@(x)(mat2str(x)),newOrien,'uniformoutput',false);
+    [~,idxOfUnique,~] = unique(A_cs);
+    newCenters = newOrien(idxOfUnique);
     testOrien = cell(0,1);
+    
     [Irr]=deal(cell(length(newCenters),1));
     [avgDiffUni,Avg,Max,Min,MinToAvg,perDif]= deal(zeros(length(newCenters),1));
     for i = 1:size(newCenters,1)
@@ -126,6 +116,7 @@ while found ==false
         end
     end
 end
+%% Save off best output
 Irr = IrrOut{index};
 Avg = AvgOut(index);
 Max = MaxOut(index);

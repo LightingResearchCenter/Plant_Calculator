@@ -42,7 +42,7 @@ if isLinear
     else
         fixSet5(3) = fixNeeded;
     end
-    LRshift = [0,(minDim),-(minDim)]*spacing;
+    LRshift = [0,(minDim),-(minDim)]*spacing; 
     index = 1;
     fixtureCenters = zeros(sum(fixSet5),2);
     for s=1:3
