@@ -30,74 +30,61 @@ classdef IESFile
         function ies= IESFile(path)
             if exist(path, 'file') && ~exist(path, 'dir')
                 fid = fopen(fullfile(path));
-                onCleanup(@() fclose(fid));
+                c = onCleanup(@() fclose(fid));
                 match = 0;
                 ies.Properties.More= [];
                 while ~match
                     tline = fgetl(fid);
                     match = contains(tline,'TILT');
-                    if contains(tline,'[TEST]')
-                        ies.Properties.Test = tline(length('[TEST]')+1:end);
-                    end
-                    if contains(tline,'[TESTLAB]')
-                        ies.Properties.TestLab = tline(length('[TESTLAB]')+1:end);
-                    end
-                    if contains(tline,'[ISSUEDATE]')
-                        ies.Properties.IssueDate = tline(length('[ISSUEDATE]')+1:end);
-                    end
-                    if contains(tline,'[TESTDATE]')
-                        ies.Properties.TestDate = tline(length('[TESTDATE]')+1:end);
-                    end
-                    if contains(tline,'[MANUFAC]')
-                        ies.Properties.Manufacture = tline(length('[MANUFAC]')+1:end);
-                    end
-                    if contains(tline,'[LAMP]')
-                        ies.Properties.Lamp = tline(length('[LAMP]')+1:end);
-                    end
-                    if contains(tline,'[NEARFIELD]')
-                        ies.Properties.NearField = tline(length('[NEARFIELD]')+1:end);
-                    end
-                    if contains(tline,'[OTHER]')
-                        ies.Properties.Other = tline(length('[OTHER]')+1:end);
-                    end
-                    if contains(tline,'[LUMCAT]')
-                        ies.Properties.LumCat = tline(length('[LUMCAT]')+1:end);
-                    end
-                    if contains(tline,'[LAMPCAT]')
-                        ies.Properties.LampCat = tline(length('[LAMPCAT]')+1:end);
-                    end
-                    if contains(tline,'[LUMINAIRE]')
-                        ies.Properties.Luminaire = tline(length('[LUMINAIRE]')+1:end);
-                    end
-                    if contains(tline,'[BALLAST]')
-                        ies.Properties.Ballast = tline(length('[BALLAST]')+1:end);
-                    end
-                    if contains(tline,'[BALLASTCAT]')
-                        ies.Properties.BallastCat = tline(length('[BALLASTCAT]')+1:end);
-                    end
-                    if contains(tline,'[MAINTCAT]')
-                        ies.Properties.MaintCat = tline(length('[MAINTCAT]')+1:end);
-                    end
-                    if contains(tline,'[DISTRIBUTION]')
-                        ies.Properties.Distrubution = tline(length('[DISTRIBUTION]')+1:end);
-                    end
-                    if contains(tline,'[FLASHAREA]')
-                        ies.Properties.FlashArea = tline(length('[FLASHAREA]')+1:end);
-                    end
-                    if contains(tline,'[COLORCONSTANT]')
-                        ies.Properties.ColorConstant = tline(length('[COLORCONSTANT]')+1:end);
-                    end
-                    if contains(tline,'[LAMPPOSITION]')
-                        ies.Properties.LampPosition = tline(length('[LAMPPOSITION]')+1:end);
-                    end
-                    if contains(tline,'[SEARCH]')
-                        ies.Properties.Search = tline(length('[SEARCH]')+1:end);
-                    end
-                    if contains(tline,'[MORE]')
-                        if isempty(ies.Properties.More)
-                            ies.Properties.More{1} = tline(length('[MORE]')+1:end);
-                        else
-                            ies.Properties.More{end} = tline(length('[MORE]')+1:end);
+                    expression = '\[(\w+).*\]';
+                    tokens = regexp(tline,expression,'tokens');
+                    if ~isempty(tokens)
+                        switch tokens{1}{1}
+                            case 'TEST'
+                                ies.Properties.Test = tline(length('[TEST]')+1:end);
+                            case 'TESTLAB'
+                                ies.Properties.TestLab = tline(length('[TESTLAB]')+1:end);
+                            case 'ISSUEDATE'
+                                ies.Properties.IssueDate = tline(length('[ISSUEDATE]')+1:end);
+                            case'TESTDATE'
+                                ies.Properties.TestDate = tline(length('[TESTDATE]')+1:end);
+                            case 'MANUFAC'
+                                ies.Properties.Manufacture = tline(length('[MANUFAC]')+1:end);
+                            case 'LAMP'
+                                ies.Properties.Lamp = tline(length('[LAMP]')+1:end);
+                            case 'NEARFIELD'
+                                ies.Properties.NearField = tline(length('[NEARFIELD]')+1:end);
+                            case 'OTHER'
+                                ies.Properties.Other = tline(length('[OTHER]')+1:end);
+                            case 'LUMCAT'
+                                ies.Properties.LumCat = tline(length('[LUMCAT]')+1:end);
+                            case 'LAMPCAT'
+                                ies.Properties.LampCat = tline(length('[LAMPCAT]')+1:end);
+                            case 'LUMINAIRE'
+                                ies.Properties.Luminaire = tline(length('[LUMINAIRE]')+1:end);
+                            case 'BALLAST'
+                                ies.Properties.Ballast = tline(length('[BALLAST]')+1:end);
+                            case 'BALLASTCAT'
+                                ies.Properties.BallastCat = tline(length('[BALLASTCAT]')+1:end);
+                            case 'MAINTCAT'
+                                ies.Properties.MaintCat = tline(length('[MAINTCAT]')+1:end);
+                            case 'DISTRIBUTION'
+                                ies.Properties.Distrubution = tline(length('[DISTRIBUTION]')+1:end);
+                            case 'FLASHAREA'
+                                ies.Properties.FlashArea = tline(length('[FLASHAREA]')+1:end);
+                            case 'COLORCONSTANT'
+                                ies.Properties.ColorConstant = tline(length('[COLORCONSTANT]')+1:end);
+                            case 'LAMPPOSITION'
+                                ies.Properties.LampPosition = tline(length('[LAMPPOSITION]')+1:end);
+                            case 'SEARCH'
+                                ies.Properties.Search = tline(length('[SEARCH]')+1:end);
+                            case 'MORE'
+                                if isempty(ies.Properties.More)
+                                    ies.Properties.More{1} = tline(length('[MORE]')+1:end);
+                                else
+                                    ies.Properties.More{end} = tline(length('[MORE]')+1:end);
+                                end
+                            otherwise
                         end
                     end
                     if contains(tline,'TILT=NONE')
@@ -142,7 +129,6 @@ classdef IESFile
                 for i = 1:ies.NoHorizAngles
                     ies.photoTable(:,i) = Candelas((i-1)*ies.NoVertAngles+1:i*ies.NoVertAngles);
                 end
-                %TODO see if this is the proper way of generating this file
                 % Add a duplicate collum so it can loop around at 360==0
                 if ies.HorizAngles(1) == 0
                     switch ies.HorizAngles(end)
@@ -166,7 +152,7 @@ classdef IESFile
                 end
                 if ies.VertAngles(1) == 0
                     switch ies.VertAngles(end)
-                        % This determins the symitry of the system.                             
+                        % This determins the symitry of the system.
                         case 90
                             skip = ies.VertAngles(end)-ies.VertAngles(end-1);
                             while ies.VertAngles(end)<180
@@ -185,11 +171,7 @@ classdef IESFile
                     error('IESFile s first Vertical Angle is not 0 or 90');
                 end
                 
-%                 if ies.HorizAngles(end) < 360
-%                     ies.photoTable = [ies.photoTable,ies.photoTable(:,1)];
-%                     ies.HorizAngles = [ies.HorizAngles;360];
-%                     ies.NoHorizAngles = ies.NoHorizAngles+1;
-%                 end
+            
             else
                 error('File does not exist');
             end %file exists & not dir
@@ -200,7 +182,16 @@ classdef IESFile
         function wid = get.WidthFt(obj)
             wid = unitsratio('ft','m') * obj.Width;
         end
-        
+        function tf = eq(obj1,obj2)
+            if strcmpi(class(obj1),class(obj2))
+                tf(1) = all(all(obj1.photoTable==obj2.photoTable));
+                tf(2) = all(obj1.VertAngles==obj2.VertAngles)&all(obj1.HorizAngles==obj2.HorizAngles);
+                tf(2) = (obj1.Length==obj2.Length)&(obj1.Width==obj2.Width);
+            else
+                tf=false;
+            end
+            tf = all(tf);
+        end
         
     end
 end

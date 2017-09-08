@@ -1,155 +1,301 @@
 @import url(hole.css);
 @import url(docpart_templates.css);
 
-*{
-  font-family:     Arial, Helvetica, sans-serif;
-}
-.leftLine{
-  width:           16.66%;
-  border-left:     1px solid #000000;
-}
-p{
-  font-size:       8px;
-  white-space:     pre-wrap;
+* {
+  font-family: Arial, Helvetica, sans-serif;
+  hyphenation: none;  /* stylelint-disable-line  property-no-unknown */
 }
 
-h1{
-  font-size:       14px;
-  text-align:      center;
-  font-weight:     bold;
-  white-space:     pre-wrap;
+p {
+  font-size: 6pt;
+  white-space: normal;
 }
 
-.header{
-  font-size:       12px;
-  text-align:      center;
-  font-weight:     bold;
-  white-space:     pre-wrap;
+h1 {
+  font-size: 11pt;
+  text-align: center;
+  font-weight: bold;
+  white-space: pre-wrap;
 }
-h2{
-  font-size:       12px;
-  text-align:      center;
-  font-weight:     bold;
-  white-space:     pre-wrap;
+
+.header {
+  font-size: 10pt;
+  text-align: center;
+  font-weight: bold;
+  white-space: pre-wrap;
+  line-height: 130%;
 }
-h3{
-  font-size:       10px;
-  font-weight:     bold;
-  text-align:      center;
-  white-space:     pre-wrap;
+
+h2 {
+  font-size: 9pt;
+  text-align: center;
+  font-weight: bold;
+  white-space: pre-wrap;
 }
-table{
+
+h3 {
+  font-size: 8pt;
+  font-weight: bold;
+  text-align: center;
+  white-space: pre-wrap;
+}
+
+table {
   border-collapse: collapse;
-  table-layout:    fixed;
-  width:           100%;
-  border:          0;
+  table-layout: fixed;
+  border: 0;
 }
-tr{
+
+tr {
   border-collapse: collapse;
-  border:          0;
+  border: 0;
 }
-td{
+
+td {
+  border-collapse: collapse;
+  padding: 0;
+}
+
+th {
   border-collapse: collapse;
 }
 
-th{
-  border-collapse: collapse;
-
+a {
+  font-style: oblique;
 }
 
-.footer{
-  width:           100%;
-}
-.footer td{
-  width:           33%;
-  height:          35pt;
-  text-align:      center;
-  white-space:     pre-wrap;
+.footer {
+  width: 100%;
 }
 
-div.metrics{
-  height:          72pt;
+.footer td {
+  width: 33%;
+  height: 35pt;
+  text-align: center;
+  white-space: pre-wrap;
 }
+
+div.metrics {
+  height: 72pt;
+}
+
 .metrics p {
-  margin-left:    5px;
-}
-.LSAETable{
-  width:           100%;
-}
-.LSAETable td{
-  border:          1 solid #000000;
-}
-.LSAETable th{
-  border:          1 solid #000000;
+  vertical-align: baseline;
 }
 
-.LSAETable p{
-  text-align:      center;
-  padding-top:     5px;
-  padding-bottom:  5px;
+.leftLine {
+  margin-left: 3px;
+  border-right: 1px solid #000000;
 }
-.bodyTableTop{
-  width:           50%;
-  height:          296pt;
+
+.leftLine p {
+  font-size: 8.5pt;
 }
-.bodyTableBot{
-  width:           50%;
-  height:          296pt;
+
+.Cata {
+  font-size: 7pt;
+  padding: 0;
+  margin: 0;
 }
-.spdTable1{
-  width:           100%;
-  height:          150pt;
+
+.LSAETable {
+  width: 100%;
 }
-.spdTable2{
-  width:           100%;
-  height:          72pt;
+
+.LSAETable td {
+  border: 1 solid #000000;
 }
-.EcoTable{
-  width:           100%;
+
+.LSAEhead {
+  border: 1 solid #000000;
+  font-weight: bold;
+  text-align: center;
+  vertical-align: middle;
 }
-.EcoTable td{
-  border:          1px solid #000000;
+
+.LSAETable th {
+  border: 1 solid #000000;
+  font-weight: bold;
+  text-align: center;
+  vertical-align: bottom;
+  font-size: 7pt;
 }
-.EcoTable th{
-  border:          1px solid #000000;
-  vertical-align:  middle;
+
+.LSAETable td p {
+  text-align: center;
+  font-size: 7pt;
 }
-.EcoTable td p{
-  text-align:      center;
-  padding-top:     2px;
-  padding-bottom:  2px;
+
+.LSAETable tr > th p {
+  text-align: center;
+  padding: 4px;
+  font-size: 7pt;
 }
-.EcoTable th p{
-  text-align:      left;
-  padding:         0;
-  
+
+.maxAll {
+  padding: 4px;
+  text-decoration: underline;
+  font-weight: bold;
+  font-size: 7.5pt;
 }
-.EcoTable .fixture{
-  width:           15%;
+
+.maxAllRed {
+  padding: 4px;
+  background-color: #d9d9d9;
+  font-weight: bold;
+  text-decoration: underline;
 }
-.page2{
-  height:          215pt;
-  width:50%;
+
+.max {
+  padding: 4px;
+  text-decoration: underline;
 }
-.ratio{
-  width:           100%
+
+.maxRed {
+  padding: 4px;
+  background-color: #d9d9d9;
+  text-decoration: underline;
 }
-.ratio p{
-  padding-top:     5px;
-  padding-bottom:  5px;
-  text-align:      center;
+
+.Red {
+  padding: 4px;
+  background-color: #d9d9d9;
 }
-.inv{
-  color:           #FFFFFF;
+
+.bodyTableTop {
+  width: 50%;
+  height: 280pt;
 }
-.ratio td{
-  border:          1px solid #000000;
+
+.bodyTableBot {
+  width: 50%;
+  height: 296pt;
 }
-.ratio th{
-  border:          1px solid #000000;
+
+.spdTable1 {
+  width: 100%;
+  height: 150pt;
 }
-.footNotes{
-  font-size:       6pt;
-  line-height:     9;
-  vertical-align:  text-bottom;
+
+.spdTable2 {
+  width: 100%;
+  height: 65pt;
+}
+
+.EcoTable {
+  width: 100%;
+}
+
+.EcoTable td {
+  border: 1px solid #000000;
+}
+
+.EcoTable p {
+  text-align: center;
+  line-height: 110%;
+  white-space: pre-wrap;
+  padding: 0;
+}
+
+.EcoTable .left p {
+  text-align: left;
+  font-size: 7pt;
+  text-indent: 5px;
+  line-height: 110%;
+}
+
+.EcoTable .left .bold {
+  text-align: left;
+  font-size: 8pt;
+  text-indent: 5px;
+  line-height: 130%;
+}
+
+.EcoTable .Data p {
+  text-align: right;
+}
+
+td.fixture {
+  width: 16%;
+}
+
+td.fixture p {
+  line-height: 130%;
+}
+
+table.EcoTable td.fixture p {
+  font-weight: bold;
+  font-size: 7pt;
+}
+
+td.units p {
+  line-height: 120%;
+  font-size: 7.5pt;
+  font-weight: bold;
+}
+
+.CostPlots {
+  width: 100%;
+}
+
+.body .notes {
+  line-height: 100%;
+}
+
+.CostPlots td.data {
+  width: 100%;
+  height: 120pt;
+}
+
+.page2 {
+  height: 160pt;
+  width: 50%;
+}
+
+.page2ratio {
+  height: 140pt;
+  width: 50%;
+}
+
+.ratio {
+  width: 100%;
+}
+
+.ratio p {
+  padding-top: 5px;
+  padding-bottom: 5px;
+  text-align: center;
+  white-space: pre-wrap;
+}
+
+.inv {
+  color: #ffffff;
+}
+
+.ratio td {
+  border: 1px solid #000000;
+}
+
+.ratio th {
+  border: 1px solid #000000;
+}
+
+.ratio th p {
+  font-weight: bold;
+}
+
+p.footNotes {
+  font-size: 7pt;
+  line-height: 110%;
+  vertical-align: baseline;
+  hyphenation: none;  /* stylelint-disable-line  property-no-unknown */
+}
+
+a.footNotes {
+  font-size: 8pt;
+  line-height: 110%;
+}
+
+.img {
+  text-align: center;
 }
