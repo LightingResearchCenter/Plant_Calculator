@@ -65,6 +65,7 @@ outputTable(:,{'angularSPD','spectrum','wave','specFlux','IESdata','specFluxRela
     ,'ISOPlot','SPDthetaPlot','IntensityDistplot','PPFRank','PPFperWRank',...
     'PlantReportFile'}) = [];
 writetable(outputTable,'fixtureTable.xlsx');
+delete('images/*.png')
 end
 
 function Data = calcAllMetrics(Data)
