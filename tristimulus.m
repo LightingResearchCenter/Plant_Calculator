@@ -12,19 +12,19 @@ function [X,Y,Z] = tristimulus(spd,varargin)
 % When used with a 2-column spd arguement, startw, endw and increment arguements ar not used, but
 % place holder values, such as zeros, must be specified. e.g., Tc = CCT_1(spd,0,0,0)
 
-if length(varargin)==0
-    [rows columns] = size(spd);
+if isempty(varargin)
+    [~, columns] = size(spd);
     if columns > 2
         error('Not column oriented data. Try transposing spd');
     end
     wavelength_spd = spd(:,1);
 	spd = spd(:,2);
 else
-    startw = varargin{1}
-    endw = varargin{2}
-    incrementw = varargin{3}
+    startw = varargin{1};
+    endw = varargin{2};
+    incrementw = varargin{3};
     wavelength_spd = (startw:incrementw:endw)';
-    [rows columns] = size(spd);
+    [~, columns] = size(spd);
     if columns > 1
         error('Detected multiple columns of data. Try transposing spd');
     end

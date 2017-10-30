@@ -11,7 +11,6 @@ if mountHeight < 5*maxDim
     numSplit = ceil(maxDim/newMax);
     if minDim > 1
         %split up in to rectangle
-        %TODO determin usplit and vsplit
         fact = arrayfun(@factor,numSplit,'UniformOutput',false);
         fullPart = [];
         for i = 1:length(fact)

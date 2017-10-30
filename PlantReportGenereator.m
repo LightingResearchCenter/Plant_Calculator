@@ -57,6 +57,7 @@ end
 %     makerpt(Data, Data.PlantReportFile);
 %     filledTable(i) = Data;
 % end
+
 filledTable = struct2table(filledTable,'AsArray',true);
 save('datatable.mat','filledTable');
 outputTable = filledTable;

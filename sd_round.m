@@ -1,91 +1,91 @@
 function [A2, A_str, real_digitsL, real_digitsR, imag_digitsL, imag_digitsR]=sd_round(A, N, flag, mult)
-% % sd_round: Rounds an array to a specified number of Significant Digits, significant figures, digits of precision
-% % 
-% % *********************************************************************
-% % 
-% % Syntax;
-% % 
-% % [A2, A_str, real_digitsL, real_digitsR, imag_digitsL,...
-% % imag_digitsR]=sd_round(A, N, flag);
-% % 
-% % *********************************************************************
-% % 
-% % Description
-% % 
-% % sd_round stands for "Significant Digits Round".
-% %
-% % This program rounds a 2-d matrix of numbers to a specified number
-% % of significant digits.  
-% % 
-% % This program support five different styles of rounding the last digit:
-% % to the nearest integer, up, down, toward zero, and away from zero.  
-% % 
-% % This program supports real and complex numbers.  
-% % 
-% % The program outputs the rounded array, a cell string of the 
-% % rounded matrix the number of digits, to the left and right of the
-% % decimal place.  
-% % 
-% % This program is useful for presenting scientific data that 
-% % requires rounding to a specifid number of significant digits 
-% % for publication.  
-% % 
-% % Significant digits are counted starting from the first non-zero 
-% % digit from the left.  
-% % 
-% %
-% % *********************************************************************
-% % 
-% % Input variables
-% %
-% % A is the input matrix of number to be rounded.  
-% %      default is empty array A=[];.
-% % 
-% % N is the number of significant digits. 
-% %      default is N=3;
-% % 
-% % flag specifiies the style of rounding.  
-% %      This program supports four different styles of rounding.
-% %      flag == 1 rounds to the nearest integer 
-% %      flag == 2 rounds up   
-% %      flag == 3 rounds down 
-% %      flag == 4 rounds toward zero
-% %      flag == 5 rounds away from zero
-% %      otherwise round to the nearest integer
-% %      default is round to the nearest integer
-% % 
-% % mult is a whole number.  The program rounds the last digit to mult.  
-% %      It is preferred that mult be between 1 and 9; however, all whole 
-% %      numberS >= 1 are valid input.  The prorgam rounds mult to the 
-% %      nearest integer and makes sure the value is at least 1.
-% %      default is mult=1;
-% % 
-% % *********************************************************************
-% %
-% % Output variables
-% % 
-% % A2 is the rounded array.
-% % 
-% % A_str           % The rounded array is converted to a cell
-% %                 % string format with the specified rounding and showing
-% %                 %  the trainling zeros.  
-% %                 % This is convenient for publishing tables in a tab 
-% %                 % delimited string format
-% % 
-% % real_digitsL    % The number of real digits to the left of the decimal 
-% %                 % point
-% % 
-% % real_digitsR    % The number of real digits to the right of the decimal
-% %                 % point
-% % 
-% % imag_digitsL    % The number of imaginary digits to the left of the 
-% %                 % decimal point
-% % 
-% % imag_digitsR 	% The number of imaginary digits to the right of the 
-% %                 % decimal point
-% %
-% % *********************************************************************
-% %
+% sd_round: Rounds an array to a specified number of Significant Digits, significant figures, digits of precision
+% 
+% *********************************************************************
+% 
+% Syntax;
+% 
+% [A2, A_str, real_digitsL, real_digitsR, imag_digitsL,...
+% imag_digitsR]=sd_round(A, N, flag);
+% 
+% *********************************************************************
+% 
+% Description
+% 
+% sd_round stands for "Significant Digits Round".
+%
+% This program rounds a 2-d matrix of numbers to a specified number
+% of significant digits.  
+% 
+% This program support five different styles of rounding the last digit:
+% to the nearest integer, up, down, toward zero, and away from zero.  
+% 
+% This program supports real and complex numbers.  
+% 
+% The program outputs the rounded array, a cell string of the 
+% rounded matrix the number of digits, to the left and right of the
+% decimal place.  
+% 
+% This program is useful for presenting scientific data that 
+% requires rounding to a specifid number of significant digits 
+% for publication.  
+% 
+% Significant digits are counted starting from the first non-zero 
+% digit from the left.  
+% 
+%
+% *********************************************************************
+% 
+% Input variables
+%
+% A is the input matrix of number to be rounded.  
+%      default is empty array A=[];.
+% 
+% N is the number of significant digits. 
+%      default is N=3;
+% 
+% flag specifiies the style of rounding.  
+%      This program supports four different styles of rounding.
+%      flag == 1 rounds to the nearest integer 
+%      flag == 2 rounds up   
+%      flag == 3 rounds down 
+%      flag == 4 rounds toward zero
+%      flag == 5 rounds away from zero
+%      otherwise round to the nearest integer
+%      default is round to the nearest integer
+% 
+% mult is a whole number.  The program rounds the last digit to mult.  
+%      It is preferred that mult be between 1 and 9; however, all whole 
+%      numberS >= 1 are valid input.  The prorgam rounds mult to the 
+%      nearest integer and makes sure the value is at least 1.
+%      default is mult=1;
+% 
+% *********************************************************************
+%
+% Output variables
+% 
+% A2 is the rounded array.
+% 
+% A_str           % The rounded array is converted to a cell
+%                 % string format with the specified rounding and showing
+%                 %  the trainling zeros.  
+%                 % This is convenient for publishing tables in a tab 
+%                 % delimited string format
+% 
+% real_digitsL    % The number of real digits to the left of the decimal 
+%                 % point
+% 
+% real_digitsR    % The number of real digits to the right of the decimal
+%                 % point
+% 
+% imag_digitsL    % The number of imaginary digits to the left of the 
+%                 % decimal point
+% 
+% imag_digitsR 	% The number of imaginary digits to the right of the 
+%                 % decimal point
+%
+% *********************************************************************
+%
 % 
 % Example1=''; 
 % D1=pi;        % Double or Complex two dimensional array of numbers
@@ -121,62 +121,62 @@ function [A2, A_str, real_digitsL, real_digitsR, imag_digitsL, imag_digitsR]=sd_
 %                               % P3_str is the cell array of strings of  
 %                               % rounded complex numbers
 %                         
-% % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% % 
-% % Program Written by Edward L. Zechmann
-% %    
-% %      date 23 November 2007
-% %  
-% %  modified 26 November 2007   updated comments
-% %  
-% %  modified 17 December 2007   added outputs
-% %                              real_digitsL
-% %                              real_digitsR
-% %                              imag_digitsL
-% %                              imag_digitsR
-% %  
-% %  modified 28 December 2007   added string output
-% %                              fixed bug in real_digitsR
-% %                              fixed bug in imag_digitsR
-% %  
-% %  modified  7 January  2008   fixed bug in real_digitsR
-% %                              fixed bug in imag_digitsR
-% %                              sped up program by only
-% %                              converting the array to strings
-% %                              if it is an output argument
-% %     
-% %  modified  1 March    2008   Added support for rounding 
-% %                              to nearest integer, up, down, 
-% %                              and toward zero
-% % 
-% %  modified  3 March    2008   updated comments
-% % 
-% %  modified 16 March    2008   Changed Program name from
-% %                              p_round to sd_round.  
-% %                              Added another rounding style 
-% %                              flag =5; (away from 0).  
-% %                              Updated comments.
-% %                                         
-% %  modified 18 August   2008   Added option to round last digit to a 
-% %                              multiple of a given number. 
-% %                              Fixed a bug in rounding powers of 10.
-% %                              Improved examples.
-% %  
-% %  modified 21 August   2008   Fixed a bug in rounding numbers less 
-% %                              than 1.  Added an example.  
-% %  
-% %  modified 25 August   2008   Modified program to recalculate the 
-% %                              number of digits after rounding,
-% %                              because rounding can change the number 
-% %                              of digits to the left and right of the 
-% %                              decimal place. Updated Comments
-% %  
-% % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% % 
-% % Please Feel Free to Modify This Program
-% %    
-% % See Also: pow10_round, round, ceil, floor, fix, fix2, round2, roundd
-% %
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% Program Written by Edward L. Zechmann
+%    
+%      date 23 November 2007
+%  
+%  modified 26 November 2007   updated comments
+%  
+%  modified 17 December 2007   added outputs
+%                              real_digitsL
+%                              real_digitsR
+%                              imag_digitsL
+%                              imag_digitsR
+%  
+%  modified 28 December 2007   added string output
+%                              fixed bug in real_digitsR
+%                              fixed bug in imag_digitsR
+%  
+%  modified  7 January  2008   fixed bug in real_digitsR
+%                              fixed bug in imag_digitsR
+%                              sped up program by only
+%                              converting the array to strings
+%                              if it is an output argument
+%     
+%  modified  1 March    2008   Added support for rounding 
+%                              to nearest integer, up, down, 
+%                              and toward zero
+% 
+%  modified  3 March    2008   updated comments
+% 
+%  modified 16 March    2008   Changed Program name from
+%                              p_round to sd_round.  
+%                              Added another rounding style 
+%                              flag =5; (away from 0).  
+%                              Updated comments.
+%                                         
+%  modified 18 August   2008   Added option to round last digit to a 
+%                              multiple of a given number. 
+%                              Fixed a bug in rounding powers of 10.
+%                              Improved examples.
+%  
+%  modified 21 August   2008   Fixed a bug in rounding numbers less 
+%                              than 1.  Added an example.  
+%  
+%  modified 25 August   2008   Modified program to recalculate the 
+%                              number of digits after rounding,
+%                              because rounding can change the number 
+%                              of digits to the left and right of the 
+%                              decimal place. Updated Comments
+%  
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% Please Feel Free to Modify This Program
+%    
+% See Also: pow10_round, round, ceil, floor, fix, fix2, round2, roundd
+%
 
 flag1=0;
 
@@ -184,14 +184,14 @@ if (nargin < 1 || isempty(A)) || ~isnumeric(A)
     flag1=1;
     A=[];
     A2=[];
-    warningdlg('Error in p_round did not Input Matrix A');
+    warndlg('Error in p_round did not Input Matrix A');
 end
 
 if isempty(A)
     flag1=1;
     A=[];
     A2=[];
-    warningdlg('Error in p_round Matrix A is Empty');
+    warndlg('Error in p_round Matrix A is Empty');
 end
 
 if (nargin < 2 || isempty(N)) || ~isnumeric(N)
@@ -444,7 +444,7 @@ if isequal(flag1, 0)
         end
 
     else
-        warningdlg('Error in p_round Input Matrix A is not numeric');
+        warndlg('Error in p_round Input Matrix A is not numeric');
         A2=A;
     end
 end
