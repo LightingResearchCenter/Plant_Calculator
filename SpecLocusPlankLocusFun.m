@@ -43,7 +43,7 @@ u(length(xbar)+1) = u(1);
 v(length(xbar)+1) = v(1);
 uprime(length(xbar)+1) = uprime(1);
 vprime(length(xbar)+1) = vprime(1);
-%{
+
 figure(1)
 plot(x,y)
 hold on
@@ -53,7 +53,7 @@ hold on
 figure(3)
 plot(uprime,vprime)
 hold on
-%}
+
 %spectrumLocus = [uprime' vprime'];
 spectrumLocus = [x' y'];
 
@@ -76,7 +76,7 @@ for i = 1:(20000-1000)/50
    vprimeb(i) = vb(i)*1.5;
 end
 PlankLocus = [xb' yb'];
-%{
+
 figure(1)
 plot(xb,yb,'k--')
 axis equal
@@ -95,7 +95,7 @@ axis equal
 title('CIE 1976 Chromaticity Diagram with Planktain Locus')
 xlabel('u`')
 ylabel('v`')
-%}
+
 %*********** Calculation of Isotemperature Lines ******************************
 
 ubar = (2/3)*xbar;
@@ -147,7 +147,7 @@ for i = 1:length(Tiso)
    end
    isoTempLines = [uLineV',vLineV'];
    
-  %{
+  
    figure(2)
    hold on
    plot(uLineV,vLineV,'r-')
@@ -164,6 +164,6 @@ for i = 1:length(Tiso)
    vPrimeLine = vLineV*1.5;
    plot(uPrimeLine, vPrimeLine,'r-')
    hold off
-	%}   
+	
 end
 

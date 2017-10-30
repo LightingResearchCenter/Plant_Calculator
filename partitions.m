@@ -13,7 +13,6 @@ function C = partitions(M,K)
 %
 %
 % Examples:
-%
 %     C = partitions(4); % Find the partitions of set {1 2 3 4}
 %     home  % Makes for nice display for small enough N.  Else use clc.
 %     partdisp(C) % File accompanying PARTITIONS

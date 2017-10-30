@@ -47,7 +47,6 @@ hold off
 legend({'\bfHorizontal Cone through max intensity','\bfVertical Plane through max intensity'},'Location','southoutside');
 legend('boxoff');
 if numel(varargin)==1
-    
     pos = get(IntenPlot,'InnerPosition');
     set(IntenPlot,'InnerPosition',[pos(1),pos(2),3.25, 4])
     set(axe,'units', 'normalized','outerPosition',[.01 .01 .99 .99],'fontsize',10)
