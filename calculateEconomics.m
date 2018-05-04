@@ -6,16 +6,25 @@ opperatingHrs =3000; %From talks with growers
 installRate = 69; %$ per fixture from:RSMeans Data 2017
 Eco.enCostLow = 0.1048;%$ per kW
 Eco.enCostHigh = 0.20; %$ per kW
-PPFD300 = Data.outTable((Data.outTable.targetPPFD == 300),:);
+tar =300;
+PPFD300 = Data.outTable((Data.outTable.targetPPFD == tar),:);
 [~,ind] = max(PPFD300.LSAE);
+if (PPFD300.targetPPFD(ind) == 75) || (PPFD300.Avg(ind) <= PPFD300.targetPPFD(ind)*0.9)
+    PPFD300 = Data.outTable((Data.outTable.targetPPFD <= tar),:);
+    [~,ind] = max(PPFD300.LSAE);
+    [~,HPS1000Table,HPS1000LSAE] = fullLSAE(HPS1000spd,HPS1000IESFile,unitsratio('m','ft')*6,PPFD300.targetPPFD(ind),.6,unitsratio('m','ft')*36,unitsratio('m','ft')*30,.25,2);
+    [~,HPS600Table,HPS600LSAE] = fullLSAE(HPS600spd,HPS600IESFile,unitsratio('m','ft')*6,PPFD300.targetPPFD(ind),.6,unitsratio('m','ft')*36,unitsratio('m','ft')*30,.25,2);
+    Eco.HPS1000Table = HPS1000Table;
+    Eco.HPS600Table = HPS600Table;
+end
 ftArea = roomLength*roomWidth;
 mArea = (roomLength*unitsratio('m','ft'))*(roomWidth*unitsratio('m','ft'));
 %% initial costs
-Eco.HPS1000.Qty = size(HPS1000Table.count{1},1); %2m @300ppfd target
-Eco.HPS600.Qty = size(HPS600Table.count{1},1); %2m @300ppfd target
+Eco.HPS1000.Qty = size(HPS1000Table.count{1},1); %traditionally 2m @300ppfd target
+Eco.HPS600.Qty = size(HPS600Table.count{1},1); %traditionally 2m @300ppfd target
 Eco.fix.Qty = size(PPFD300.count{ind},1);
 
-Eco.HPS1000.Watt = 1057.3;
+Eco.HPS1000.Watt = HPS1000IES.InputWatts;
 Eco.HPS600.Watt = HPS600IES.InputWatts;
 Eco.fix.Watt = Data.IESdata.InputWatts;
 
@@ -101,36 +110,41 @@ HPS600Reflector = 40;
 HPSfailerRate = 0.02;
 if strcmpi(Data.Source, 'LED')
     for i = 1:length(LEDfailerRate)
-        HPS1000Relampint = 1+floor(HPS1000Life/opperatingHrs):floor(HPS1000Life/opperatingHrs):21;
-        HPS600Relampint = 1+floor(HPS600Life/opperatingHrs):floor(HPS600Life/opperatingHrs):21;
-        
-        HPS1000Reflectorint = 1+floor(HPS1000ReflectorLife/opperatingHrs):floor(HPS1000ReflectorLife/opperatingHrs):21;
-        HPS600Reflectorint = 1+floor(HPS600ReflectorLife/opperatingHrs):floor(HPS600ReflectorLife/opperatingHrs):21;
-        
-        HPS1000Relampint = setdiff(HPS1000Relampint,HPS1000Reflectorint);
-        HPS600Relampint = setdiff(HPS600Relampint,HPS600Reflectorint);
-        
-        HPS1000ReLampYr = (((mainRate+HPS1000LampCost)*Eco.HPS1000.Qty*HPSfailerRate)+((cleaningRate*HPScleanTime)*Eco.HPS1000.Qty))*ones(21,1);
-        HPS1000ReLampYr(1) = Eco.HPS1000.Init;
-        if ~isempty(HPS1000Relampint)
-            HPS1000ReLampYr(HPS1000Relampint) = HPS1000ReLampYr(HPS1000Relampint)+...   % on years where a lamp life cycle ends
-                ((mainRate+HPS1000LampCost)*ceil(Eco.HPS1000.Qty*HPSfailerRate))+...% spot Relamping from the cycle
-                ((HPS1000LampCost+(cleaningRate*HPSreLampTime))*Eco.HPS1000.Qty);   % Group Relampng @ end of cycle
-        end
-        HPS1000ReLampYr(HPS1000Reflectorint) = HPS1000ReLampYr(HPS1000Reflectorint)+...   % on years where a lamp life cycle ends
-            ((mainRate+HPS600LampCost)*ceil(Eco.HPS600.Qty*HPSfailerRate))+...% spot Relamping from the cycle
-            ((HPS600LampCost+HPS1000Reflector+(cleaningRate*HPScleanTime))*Eco.HPS600.Qty);   % Group Relampng and Reflector @ end of cycle
-        
-        HPS600ReLampYr = (((mainRate+HPS600LampCost)*Eco.HPS600.Qty*HPSfailerRate)+((cleaningRate*HPScleanTime)*Eco.HPS600.Qty))*ones(21,1);
-        HPS600ReLampYr(1) = Eco.HPS600.Init;
-        if ~isempty(HPS600Relampint)
-            HPS600ReLampYr(HPS600Relampint) = HPS600ReLampYr(HPS600Relampint)+...   % on years where a lamp life cycle ends
-                ((mainRate+HPS600LampCost)*ceil(Eco.HPS600.Qty*HPSfailerRate))+...% spot Relamping from the cycle
-                ((HPS600LampCost+(cleaningRate*HPSreLampTime))*Eco.HPS600.Qty);   % Group Relampng @ end of cycle
-        end
-        HPS600ReLampYr(HPS600Reflectorint) = HPS600ReLampYr(HPS600Reflectorint)+...   % on years where a lamp life cycle ends
-            ((mainRate+HPS600LampCost)*ceil(Eco.HPS600.Qty*HPSfailerRate))+...% spot Relamping from the cycle
-            ((HPS600LampCost+HPS600Reflector+(cleaningRate*HPScleanTime))*Eco.HPS600.Qty);   % Group Relampng and Reflector @ end of cycle
+        year = 0:20;
+    opphours = opperatingHrs.*year;
+    HPS1000Relampint=[0,mod(opphours(2:end),HPS1000Life)-mod(opphours(1:end-1),HPS1000Life)<0];
+    HPS600Relampint=[0,mod(opphours(2:end),HPS600Life)-mod(opphours(1:end-1),HPS600Life)<0];
+    fixRelampint=[0,mod(opphours(2:end),Data.LampLife)-mod(opphours(1:end-1),Data.LampLife)<0];
+    
+    HPS1000Reflectorint=[0,mod(opphours(2:end),HPS1000ReflectorLife)-mod(opphours(1:end-1),HPS1000ReflectorLife)<0];
+    HPS600Reflectorint=[0,mod(opphours(2:end),HPS600ReflectorLife)-mod(opphours(1:end-1),HPS600ReflectorLife)<0];
+    fixReflectorint=[0,mod(opphours(2:end),Data.ReflectorLife)-mod(opphours(1:end-1),Data.ReflectorLife)<0];
+    
+%     HPS1000Relampint = 1+floor(HPS1000Life  /opperatingHrs):floor(HPS1000Life  /opperatingHrs):21;
+%     HPS600Relampint =  1+floor(HPS600Life   /opperatingHrs):floor(HPS600Life   /opperatingHrs):21;
+%     fixRelampint =     1+floor(Data.LampLife/opperatingHrs):floor(Data.LampLife/opperatingHrs):21;
+%     
+%     HPS1000Reflectorint = 1+floor(HPS1000ReflectorLife/opperatingHrs):floor(HPS1000ReflectorLife/opperatingHrs):21;
+%     HPS600Reflectorint =  1+floor(HPS600ReflectorLife /opperatingHrs):floor(HPS600ReflectorLife /opperatingHrs):21;
+%     fixReflectorint =     1+floor(Data.ReflectorLife  /opperatingHrs):floor(Data.ReflectorLife  /opperatingHrs):21;
+    
+    HPS1000Relampint = or(HPS1000Relampint,HPS1000Reflectorint);
+    HPS600Relampint =  or(HPS600Relampint, HPS600Reflectorint);
+    fixRelampint =     or(fixRelampint,    fixReflectorint);
+    
+    HPS1000ReLampYr = ((cleaningRate*HPScleanTime)*Eco.HPS1000.Qty)*ones(21,1);
+    HPS1000ReLampYr(1) = Eco.HPS1000.Init;
+    if ~isempty(HPS1000Relampint)
+        HPS1000ReLampYr(HPS1000Relampint) = HPS1000ReLampYr(HPS1000Relampint)+...   % on years where a lamp life cycle ends
+            ((HPS1000LampCost+HPS1000Reflector+(cleaningRate*HPSreLampTime))*ceil(Eco.HPS1000.Qty));
+    end
+    
+    HPS600ReLampYr = (((mainRate+HPS600LampCost)*Eco.HPS600.Qty*HPSfailerRate)+((cleaningRate*HPScleanTime)*Eco.HPS600.Qty))*ones(21,1);
+    HPS600ReLampYr(1) = Eco.HPS600.Init;
+    if ~isempty(HPS600Relampint)
+        HPS600ReLampYr(HPS600Relampint) = HPS600ReLampYr(HPS600Relampint)+...   % on years where a lamp life cycle ends
+            ((HPS600LampCost+HPS600Reflector+(cleaningRate*HPSreLampTime))*ceil(Eco.HPS600.Qty));
+    end
         
         fixReLampYr = cleaningRate*LEDcleantime*Eco.fix.Qty*ones(21,1);
         fixReLampYr(1) = Eco.fix.Init;
@@ -170,51 +184,50 @@ if strcmpi(Data.Source, 'LED')
     end
 else
     i = 1;
+    year = 0:20;
+    opphours = opperatingHrs.*year;
+    HPS1000Relampint=[0,mod(opphours(2:end),HPS1000Life)-mod(opphours(1:end-1),HPS1000Life)<0];
+    HPS600Relampint=[0,mod(opphours(2:end),HPS600Life)-mod(opphours(1:end-1),HPS600Life)<0];
+    fixRelampint=[0,mod(opphours(2:end),Data.LampLife)-mod(opphours(1:end-1),Data.LampLife)<0];
     
-    HPS1000Relampint = 1+floor(HPS1000Life/opperatingHrs):floor(HPS1000Life/opperatingHrs):21;
-    HPS600Relampint = 1+floor(HPS600Life/opperatingHrs):floor(HPS600Life/opperatingHrs):21;
-    fixRelampint = 1+floor(Data.LampLife/opperatingHrs):floor(Data.LampLife/opperatingHrs):21;
+    HPS1000Reflectorint=[0,mod(opphours(2:end),HPS1000ReflectorLife)-mod(opphours(1:end-1),HPS1000ReflectorLife)<0];
+    HPS600Reflectorint=[0,mod(opphours(2:end),HPS600ReflectorLife)-mod(opphours(1:end-1),HPS600ReflectorLife)<0];
+    fixReflectorint=[0,mod(opphours(2:end),Data.ReflectorLife)-mod(opphours(1:end-1),Data.ReflectorLife)<0];
     
-    HPS1000Reflectorint = 1+floor(HPS1000ReflectorLife/opperatingHrs):floor(HPS1000ReflectorLife/opperatingHrs):21;
-    HPS600Reflectorint = 1+floor(HPS600ReflectorLife/opperatingHrs):floor(HPS600ReflectorLife/opperatingHrs):21;
-    fixReflectorint = 1+floor(Data.ReflectorLife/opperatingHrs):floor(Data.ReflectorLife/opperatingHrs):21;
+%     HPS1000Relampint = 1+floor(HPS1000Life  /opperatingHrs):floor(HPS1000Life  /opperatingHrs):21;
+%     HPS600Relampint =  1+floor(HPS600Life   /opperatingHrs):floor(HPS600Life   /opperatingHrs):21;
+%     fixRelampint =     1+floor(Data.LampLife/opperatingHrs):floor(Data.LampLife/opperatingHrs):21;
+%     
+%     HPS1000Reflectorint = 1+floor(HPS1000ReflectorLife/opperatingHrs):floor(HPS1000ReflectorLife/opperatingHrs):21;
+%     HPS600Reflectorint =  1+floor(HPS600ReflectorLife /opperatingHrs):floor(HPS600ReflectorLife /opperatingHrs):21;
+%     fixReflectorint =     1+floor(Data.ReflectorLife  /opperatingHrs):floor(Data.ReflectorLife  /opperatingHrs):21;
     
-    HPS1000Relampint = setdiff(HPS1000Relampint,HPS1000Reflectorint);
-    HPS600Relampint = setdiff(HPS600Relampint,HPS600Reflectorint);
-    fixRelampint = setdiff(fixRelampint,fixReflectorint);
+    HPS1000Relampint = or(HPS1000Relampint,HPS1000Reflectorint);
+    HPS600Relampint =  or(HPS600Relampint, HPS600Reflectorint);
+    fixRelampint =     or(fixRelampint,    fixReflectorint);
     
     HPS1000ReLampYr = ((cleaningRate*HPScleanTime)*Eco.HPS1000.Qty)*ones(21,1);
     HPS1000ReLampYr(1) = Eco.HPS1000.Init;
     if ~isempty(HPS1000Relampint)
         HPS1000ReLampYr(HPS1000Relampint) = HPS1000ReLampYr(HPS1000Relampint)+...   % on years where a lamp life cycle ends
-            ((mainRate+HPS1000LampCost)*ceil(Eco.HPS1000.Qty*HPSfailerRate))+...% spot Relamping from the cycle
-            ((HPS1000LampCost+(cleaningRate*HPSreLampTime))*Eco.HPS1000.Qty);   % Group Relampng @ end of cycle
+            ((HPS1000LampCost+HPS1000Reflector+(cleaningRate*HPSreLampTime))*ceil(Eco.HPS1000.Qty));
     end
-    HPS1000ReLampYr(HPS1000Reflectorint) = HPS1000ReLampYr(HPS1000Reflectorint)+...   % on years where a lamp life cycle ends
-        ((mainRate+HPS600LampCost)*ceil(Eco.HPS600.Qty*HPSfailerRate))+...% spot Relamping from the cycle
-        ((HPS600LampCost+HPS1000Reflector+(cleaningRate*HPScleanTime))*Eco.HPS600.Qty);   % Group Relampng and Reflector @ end of cycle
     
     HPS600ReLampYr = (((mainRate+HPS600LampCost)*Eco.HPS600.Qty*HPSfailerRate)+((cleaningRate*HPScleanTime)*Eco.HPS600.Qty))*ones(21,1);
     HPS600ReLampYr(1) = Eco.HPS600.Init;
     if ~isempty(HPS600Relampint)
         HPS600ReLampYr(HPS600Relampint) = HPS600ReLampYr(HPS600Relampint)+...   % on years where a lamp life cycle ends
-            ((mainRate+HPS600LampCost)*ceil(Eco.HPS600.Qty*HPSfailerRate))+...% spot Relamping from the cycle
-            ((HPS600LampCost+(cleaningRate*HPSreLampTime))*Eco.HPS600.Qty);   % Group Relampng @ end of cycle
+            ((HPS600LampCost+HPS600Reflector+(cleaningRate*HPSreLampTime))*ceil(Eco.HPS600.Qty));
     end
-    HPS600ReLampYr(HPS600Reflectorint) = HPS600ReLampYr(HPS600Reflectorint)+...   % on years where a lamp life cycle ends
-        ((mainRate+HPS600LampCost)*ceil(Eco.HPS600.Qty*HPSfailerRate))+...% spot Relamping from the cycle
-        ((HPS600LampCost+HPS600Reflector+(cleaningRate*HPScleanTime))*Eco.HPS600.Qty);   % Group Relampng and Reflector @ end of cycle
+    
     
     fixReLampYr = (((mainRate+Data.LampCost)*Eco.fix.Qty*HPSfailerRate)+((cleaningRate*HPScleanTime)*Eco.fix.Qty))*ones(21,1);
     fixReLampYr(1) = Eco.fix.Init;
     if ~isempty(fixRelampint)
         fixReLampYr(fixRelampint) = fixReLampYr(fixRelampint)+...   % on years where a lamp life cycle ends
-            ((mainRate+Data.LampCost)*ceil(Eco.fix.Qty*HPSfailerRate))+...% spot Relamping from the cycle
-            ((Data.LampCost+(cleaningRate*HPSreLampTime))*Eco.fix.Qty);   % Group Relampng @ end of cycle
+            (Data.LampCost+Data.ReflectorCost+(cleaningRate*HPSreLampTime))*ceil(Eco.fix.Qty);% spot Relamping from the cycle
     end
-    fixReLampYr(fixReflectorint) = fixReLampYr(fixReflectorint)+...   % on years where a lamp life cycle ends
-        ((mainRate+Data.LampCost)*ceil(Eco.fix.Qty*HPSfailerRate))+...% spot Relamping from the cycle
-        ((Data.LampCost+Data.ReflectorCost+(cleaningRate*HPScleanTime))*Eco.fix.Qty);   % Group Relampng and Reflector @ end of cycle
+    
     
     HPS1000CostYrLow = HPS1000ReLampYr+(Eco.HPS1000.kWYr*Eco.enCostLow);
     HPS1000CostYrLow(1) = Eco.HPS1000.Init;

@@ -34,7 +34,11 @@ h = waitbar(itt/ittMax,sprintf('Calculating LSAE step %d out of %d', itt,ittMax)
 for i1= 1:length(mountHeight)
     for i2 = 1:length(range)
         itt = itt+1;
-        h = waitbar(itt/ittMax,h,sprintf('Calculating LSAE step %d out of %d', itt,ittMax));
+        try
+            h = waitbar(itt/ittMax,h,sprintf('Calculating LSAE step %d out of %d', itt,ittMax));
+        catch err
+            error('No waitbar available.');
+        end
         [Irr,historyTable] = LSAEReport(wave, specFlux, IESdata, lampType,range(i2), Uniformity ,mountHeight(i1),RoomLength, RoomWidth,calcSpace);
         IrrOut{i1,i2} = sort(Irr(:));
         IrrArr{i1,i2} = Irr;

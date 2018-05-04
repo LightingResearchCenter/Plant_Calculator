@@ -6,6 +6,9 @@ barh(rankAxes,numMax, 'w')
 hold on
 barh(rankAxes,num, 'k')
 hold off
+if numMin == numMax
+    numMin = 0;
+end
 set(rankAxes,'XLim',[numMin numMax])
 set(rankAxes,'YTickLabel',' ','YTick',0);
 xticks([numMin ,((numMax - numMin)*.25)+numMin,((numMax - numMin)*.5)+numMin,...

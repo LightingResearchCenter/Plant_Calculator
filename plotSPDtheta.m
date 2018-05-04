@@ -112,5 +112,5 @@ Data.bluePer = ratio(2,:)'./ratio(5,:)';
 Data.redPer = ratio(3,:)'./ratio(5,:)';
 Data.FRPer = ratio(4,:)'./ratio(5,:)';
 Data.blueRed = ratio(2,:)'./ratio(3,:)';
-Data.redFR = ratio(4,:)'./ratio(3,:)';
+Data.redFR = ratio(3,:)'./ratio(4,:)';
 end

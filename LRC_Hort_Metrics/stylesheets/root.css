@@ -299,3 +299,8 @@ a.footNotes {
 .img {
   text-align: center;
 }
+
+.LSAETable td p.smallUnit {
+  font-size: 6pt;
+  font-weight: normal;
+}

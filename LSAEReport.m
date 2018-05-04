@@ -11,11 +11,7 @@ found = false;
 spacing = 1;
 [IrrOut,AvgOut,MaxOut, MinOut,MinToAvgOut,placement]=deal(cell(1,1));
 while found ==false
-    if targetPPFD >=400
-        [newCountArr, orrientation,maxCount] = findArrangement(IESdata,numLuminaire,spacing,unitsratio('ft','m')*roomLength,unitsratio('ft','m')*roomWidth,true);
-    else
-        [newCountArr, orrientation,maxCount] = findArrangement(IESdata,numLuminaire,spacing,unitsratio('ft','m')*roomLength,unitsratio('ft','m')*roomWidth,false);
-    end
+    [newCountArr, orrientation,maxCount] = findArrangement(IESdata,numLuminaire,spacing,unitsratio('ft','m')*roomLength,unitsratio('ft','m')*roomWidth,true);
     newOrien = cell(length(newCountArr),1);
     ind = 1;
     for i = 1:size(newCountArr,1)
@@ -76,7 +72,7 @@ while found ==false
         spacing = spacing + 0.1;
     end
     testUni = MinToAvgOut;
-    testUni(AvgOut-targetPPFD<0) =-1;
+    testUni(AvgOut-(targetPPFD)<0) =-1;
     if (max(testUni)>targetUniform)
         found = true;
         placement(cellfun(@isempty,placement)) = [];
@@ -117,6 +113,12 @@ while found ==false
     end
 end
 %% Save off best output
+if AvgOut(index)<targetPPFD
+    qty = cellfun(@(x)size(x,1),placement);
+    qtyMax = max(qty);
+    AvgOut(qty~=qtyMax) = 0;
+    [~,index] = max(AvgOut);
+end
 Irr = IrrOut{index};
 Avg = AvgOut(index);
 Max = MaxOut(index);

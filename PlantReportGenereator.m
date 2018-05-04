@@ -5,7 +5,6 @@ tbl = sortrows(tbl,'LRCID','ascend');
 if ~exist(fullfile(pwd,'images'),'dir')
     mkdir(fullfile(pwd,'images'));
 end
-load('ppfdata.mat')
 
 if ~exist(fullfile(loc,'Plant Reports'),'dir')
         mkdir(fullfile(loc,'Plant Reports'));
@@ -22,41 +21,30 @@ for i = 1:height(tbl)
     Data.PPFofTotal = (sum(Data.spectrum(index,2))/sum(Data.spectrum(:,2)))*100;
     Data.PPFRank = fullfile('images',[sprintf('%d',Data.LRCID),'PPFPlotPic.png']);
     Data.PPFperWRank = fullfile('images',[sprintf('%d',Data.LRCID),'PPFperWPlotPic.png']);
-    plotRank(Data.PPF,PPFmax,PPFmin,'{\it\phi_{p}} Range of Tested Horticultural Luminaires (n=13)',Data.PPFRank);
-    plotRank(Data.PPFperW,PPFperWmax,PPFperWmin,'{\itK_{p}} Range of Tested Horticultural Luminaires (n=13)',Data.PPFperWRank);    
     Data.PlantReportFile = fullfile(loc,'Plant Reports',[sprintf('%d',Data.LRCID),'.pdf']);
-    try
-        makerpt(Data, Data.PlantReportFile);
-    catch err
-        makerpt(Data, Data.PlantReportFile);
-    end
+    Data.LogFile = fullfile(loc,'Plant Reports',[sprintf('%d',Data.LRCID),'Log.txt']);
     filledTable(i) = Data;
 end
+tempTable = struct2table(filledTable,'AsArray',true);
 
-%     tempTable(i) = Data;
-% end
-% tempTable = struct2table(tempTable);
-% 
-% % PPFmax = max(tempTable.PPF);
-% % PPFmin = min(tempTable.PPF);
-% % PPFperWmax = max(tempTable.PPFperW);
-% % PPFperWmin = min(tempTable.PPFperW);
-% 
-% 
-% for i = 1:height(tempTable)
-%     Data =table2struct(tempTable(i,:));
-%     index = (Data.spectrum(:,1)<700)&(Data.spectrum(:,1)>400);
-%     Data.PPFofTotal = (sum(Data.spectrum(index,2))/sum(Data.spectrum(:,2)))*100;
-%     Data.PPFRank = fullfile('images',[sprintf('%d',Data.LRCID),'PPFPlotPic.png']);
-%     Data.PPFperWRank = fullfile('images',[sprintf('%d',Data.LRCID),'PPFperWPlotPic.png']);
-%     plotRank(Data.PPF,PPFmax,PPFmin,'{\it\phi_{p}} Range of Tested Horticultural Luminaires',Data.PPFRank);
-%     plotRank(Data.PPFperW,PPFperWmax,PPFperWmin,'{\itK_{p}} Range of Tested Horticultural Luminaires',Data.PPFperWRank);    
-%     Data.PlantReportFile = fullfile(loc,'Plant Reports',[sprintf('%d',Data.LRCID),'.pdf']);
-%     makerpt(Data, Data.PlantReportFile);
-%     Data.PlantReportFile = fullfile(loc,'Plant Reports',[sprintf('%d',Data.LRCID),'.pdf']);
-%     makerpt(Data, Data.PlantReportFile);
-%     filledTable(i) = Data;
-% end
+PPFmax = max(tempTable.PPF);
+PPFmin = min(tempTable.PPF);
+PPFperWmax = max(tempTable.PPFperW);
+PPFperWmin = min(tempTable.PPFperW);
+ 
+for i = 1:height(tbl)
+    Data = filledTable(i);
+    plotRank(Data.PPF,PPFmax,PPFmin,'{\it\phi_{p}} Range of Tested Horticultural Luminaires (n=13)',Data.PPFRank);
+    plotRank(Data.PPFperW,PPFperWmax,PPFperWmin,'{\itK_{p}} Range of Tested Horticultural Luminaires (n=13)',Data.PPFperWRank);
+    try
+        makerpt(Data, Data.PlantReportFile,Data.LogFile);
+    catch err
+        warning('file might be open, double check');
+        keyboard
+        makerpt(Data, Data.PlantReportFile,Data.LogFile);
+    end
+    
+end
 
 filledTable = struct2table(filledTable,'AsArray',true);
 save('datatable.mat','filledTable');
@@ -66,7 +54,7 @@ outputTable(:,{'angularSPD','spectrum','wave','specFlux','IESdata','specFluxRela
     ,'ISOPlot','SPDthetaPlot','IntensityDistplot','PPFRank','PPFperWRank',...
     'PlantReportFile'}) = [];
 writetable(outputTable,'fixtureTable.xlsx');
-delete('images/*.png')
+% rmdir(fullfile(pwd,'images'))
 end
 
 function Data = calcAllMetrics(Data)
@@ -106,7 +94,8 @@ q2 = find(Data.wave<=700,1,'last');
 Data.PPF = 1e6*trapz(Data.wave(q1:q2),Data.specFlux(q1:q2).*...
     (Data.wave(q1:q2)*1e-9)/(h*c*Avo)); % micromoles/s
 Data.PPFperW = Data.PPF/Data.Wattage;
-
+Data.YPF = calcYPF(Data.spectrum); % micromoles/s
+Data.YPFperW = Data.YPF/Data.Wattage;
 q1 = find(Data.wave>=300,1,'first');
 q2 = find(Data.wave<=800,1,'last');
 sigmaRed = interp1(PSSRCRtable.lambda,PSSRCRtable.sigma_r,Data.wave,'linear',0.0);
@@ -122,10 +111,7 @@ minMount = 1*unitsratio('m','ft');
 maxMount = 8*unitsratio('m','ft');
 stepMount = 1*unitsratio('m','ft');
 targetMounts = minMount:stepMount:maxMount;
-minPPFD = 100;
-maxPPFD = 500;
-stepPPFD = 100;
-targetPPFDs = [minPPFD:stepPPFD:maxPPFD,1000];
+targetPPFDs = [75,150,225,300,500,1000];
 targetUni = .6;
 roomLength = 36;
 roomWidth = 30;
@@ -164,7 +150,7 @@ centers = [PlotWidth/2,PlotWidth/2,0];
 plotISOppfd(Data.spectrum,Data.IESdata,PlotWidth,Data.mount,centers,LLF(Data.LampType),Data.ISOPlot);
 % Color Uniformity Plot
 Data.SPDthetaPlot = fullfile('images',[sprintf('%d',Data.LRCID),'SPDTheta.png']);
-if ~isempty(Data.angularSPD)
+if ischar(Data.angularSPD)
     Data = plotSPDtheta(Data,Data.SPDthetaPlot);
 else
     Data.UVaPer = zeros(1,6);

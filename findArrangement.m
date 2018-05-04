@@ -72,9 +72,9 @@ if isLinear
                     index = index +1;
                     allCenters5{1} = fixtureCenters;
                 case 2
-                    fixtureCenters(index,:) = [truss(2)+LRshift(s),longMountLength/2];
+                    fixtureCenters(index,:) = [truss(2)+LRshift(s),longMountLength/3];
                     index = index +1;
-                    fixtureCenters(index,:) = [longMount(2),(2*longMountLength)/2];
+                    fixtureCenters(index,:) = [truss(2)+LRshift(s),(2*longMountLength)/3];
                     index = index +1;
                     allCenters5{1} = fixtureCenters;
                 case 3

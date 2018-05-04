@@ -1,7 +1,15 @@
-function rpt = makerpt(Data,rptname)
+function rpt = makerpt(Data,rptname,logFile)
 import mlreportgen.dom.*
 rpt = Document(rptname,'pdf','LRC_Hort_Metrics.pdftx');
+fid = fopen(logFile, 'w');
+if fid == -1
+  error('Cannot open log file.');
+end
+dispatcher = MessageDispatcher.getTheDispatcher;
+l = addlistener(dispatcher,'Message', ...
+      @(src, evtdata) fprintf(fid, '%s: %s\n', datestr(now, 0), evtdata.Message.formatAsText));
 open(rpt);
+dispatch(dispatcher, ProgressMessage('Starting Report',rpt));
 while ~strcmp(rpt.CurrentHoleId,'#end#')
     switch rpt.CurrentHoleId
         case 'MaxArr'
@@ -43,7 +51,9 @@ while ~strcmp(rpt.CurrentHoleId,'#end#')
         case 'Lamp2'
             append(rpt,sprintf('This %s',Data.Source));
         case 'MountHeight'
-            append(rpt,sprintf('%d',round(Data.mount)));
+            append(rpt,sprintf('%0.0f',round(Data.mount)));
+            moveToNextHole(rpt);
+            append(rpt,sprintf('%0.1f',Data.mount*unitsratio('m','ft')));
         case 'ISOPPFDpic'
             img = Image(Data.ISOPlot);
             img.Style = {Height('2.1in')};
@@ -125,144 +135,148 @@ while ~strcmp(rpt.CurrentHoleId,'#end#')
             moveToNextHole(rpt);
             append(rpt,sprintf('%d',round(Data.Eco.fix.Qty)));%Current Lamp QTY
             moveToNextHole(rpt);
-            append(rpt,sprintf('$%d',round(Data.Eco.HPS1000.Cost)));%1000W HPS Cost
+            append(rpt,sprintf('%d',round(Data.Eco.HPS1000.Cost)));%1000W HPS Cost
             moveToNextHole(rpt);
-            append(rpt,sprintf('$%d',round(Data.Eco.HPS600.Cost)));%600W HPS Cost
+            append(rpt,sprintf('%d',round(Data.Eco.HPS600.Cost)));%600W HPS Cost
             moveToNextHole(rpt);
-            append(rpt,sprintf('$%d',round(Data.Eco.fix.Cost)));%Current Lamp Cost
+            append(rpt,sprintf('%d',round(Data.Eco.fix.Cost)));%Current Lamp Cost
             moveToNextHole(rpt);
-            append(rpt,sprintf('$%s',numberFormatter(Data.Eco.HPS1000.Init,',###')));%1000W HPS Init
+            append(rpt,sprintf('%s',numberFormatter(Data.Eco.HPS1000.Init,',##0')));%1000W HPS Init
             moveToNextHole(rpt);
-            append(rpt,sprintf('$%s',numberFormatter(Data.Eco.HPS600.Init,',###')));%600W HPS Init
+            append(rpt,sprintf('%s',numberFormatter(Data.Eco.HPS600.Init,',##0')));%600W HPS Init
             moveToNextHole(rpt);
-            append(rpt,sprintf('$%s',numberFormatter(Data.Eco.fix.Init,',###')));%Current Lamp Init
+            append(rpt,sprintf('%s',numberFormatter(Data.Eco.fix.Init,',##0')));%Current Lamp Init
             moveToNextHole(rpt);
-            append(rpt,sprintf('$%s',numberFormatter(Data.Eco.HPS1000.InitFt,',###')));%1000W HPS Init Area
+            append(rpt,sprintf('%s',numberFormatter(Data.Eco.HPS1000.InitFt,',##0')));%1000W HPS Init Area
             moveToNextHole(rpt);
-            append(rpt,sprintf('($%s)',numberFormatter(Data.Eco.HPS1000.InitM,',###')));%1000W HPS Init Area
+            append(rpt,sprintf('(%s)',numberFormatter(Data.Eco.HPS1000.InitM,',##0')));%1000W HPS Init Area
             moveToNextHole(rpt);
-            append(rpt,sprintf('$%s',numberFormatter(Data.Eco.HPS600.InitFt,',###')));%600W HPS Init Area
+            append(rpt,sprintf('%s',numberFormatter(Data.Eco.HPS600.InitFt,',##0')));%600W HPS Init Area
             moveToNextHole(rpt);
-            append(rpt,sprintf('($%s)',numberFormatter(Data.Eco.HPS600.InitM,',###')));%600W HPS Init Area
+            append(rpt,sprintf('(%s)',numberFormatter(Data.Eco.HPS600.InitM,',##0')));%600W HPS Init Area
             moveToNextHole(rpt);
-            append(rpt,sprintf('$%s',numberFormatter(Data.Eco.fix.InitFt,',###')));%Current Lamp Init Area
+            append(rpt,sprintf('%s',numberFormatter(Data.Eco.fix.InitFt,',##0')));%Current Lamp Init Area
             moveToNextHole(rpt);
-            append(rpt,sprintf('($%s)',numberFormatter(Data.Eco.fix.InitM,',###')));%Current Lamp Init Area
+            append(rpt,sprintf('(%s)',numberFormatter(Data.Eco.fix.InitM,',##0')));%Current Lamp Init Area
             moveToNextHole(rpt);
-            append(rpt,sprintf('%s',numberFormatter(Data.Eco.HPS1000.WFt,',###')));%1000W HPS Power Density
+            append(rpt,sprintf('%s',numberFormatter(Data.Eco.HPS1000.WFt,',##0')));%1000W HPS Power Density
             moveToNextHole(rpt);
-            append(rpt,sprintf('(%s)',numberFormatter(Data.Eco.HPS1000.WM,',###')));%1000W HPS Power Density
+            append(rpt,sprintf('(%s)',numberFormatter(Data.Eco.HPS1000.WM,',##0')));%1000W HPS Power Density
             moveToNextHole(rpt);
-            append(rpt,sprintf('%s',numberFormatter(Data.Eco.HPS600.WFt,',###')));%600W HPS Power Density
+            append(rpt,sprintf('%s',numberFormatter(Data.Eco.HPS600.WFt,',##0')));%600W HPS Power Density
             moveToNextHole(rpt);
-            append(rpt,sprintf('(%s)',numberFormatter(Data.Eco.HPS600.WM,',###')));%600W HPS Power Density
+            append(rpt,sprintf('(%s)',numberFormatter(Data.Eco.HPS600.WM,',##0')));%600W HPS Power Density
             moveToNextHole(rpt);
-            append(rpt,sprintf('%s',numberFormatter(Data.Eco.fix.WFt,',###')));%Current Lamp Power Density
+            append(rpt,sprintf('%s',numberFormatter(Data.Eco.fix.WFt,',##0')));%Current Lamp Power Density
             moveToNextHole(rpt);
-            append(rpt,sprintf('(%s)',numberFormatter(Data.Eco.fix.WM,',###')));%Current Lamp Power Density
+            append(rpt,sprintf('(%s)',numberFormatter(Data.Eco.fix.WM,',##0')));%Current Lamp Power Density
             moveToNextHole(rpt);
-            append(rpt,sprintf('%s',numberFormatter(Data.Eco.HPS1000.kWftYr,',###')));%1000W HPS Yr Energy
+            append(rpt,sprintf('%s',numberFormatter(Data.Eco.HPS1000.kWftYr,',##0')));%1000W HPS Yr Energy
             moveToNextHole(rpt);
-            append(rpt,sprintf('(%s)',numberFormatter(Data.Eco.HPS1000.kWmYr,',###')));%1000W HPS Yr Energy
+            append(rpt,sprintf('(%s)',numberFormatter(Data.Eco.HPS1000.kWmYr,',##0')));%1000W HPS Yr Energy
             moveToNextHole(rpt);
-            append(rpt,sprintf('%s',numberFormatter(Data.Eco.HPS600.kWftYr,',###')));%600W HPS Yr Energy
+            append(rpt,sprintf('%s',numberFormatter(Data.Eco.HPS600.kWftYr,',##0')));%600W HPS Yr Energy
             moveToNextHole(rpt);
-            append(rpt,sprintf('(%s)',numberFormatter(Data.Eco.HPS600.kWmYr,',###')));%600W HPS Yr Energy
+            append(rpt,sprintf('(%s)',numberFormatter(Data.Eco.HPS600.kWmYr,',##0')));%600W HPS Yr Energy
             moveToNextHole(rpt);
-            append(rpt,sprintf('%s',numberFormatter(Data.Eco.fix.kWftYr,',###')));%Current Lamp Yr Energy
+            append(rpt,sprintf('%s',numberFormatter(Data.Eco.fix.kWftYr,',##0')));%Current Lamp Yr Energy
             moveToNextHole(rpt);
-            append(rpt,sprintf('(%s)',numberFormatter(Data.Eco.fix.kWmYr,',###')));%Current Lamp Yr Energy
+            append(rpt,sprintf('(%s)',numberFormatter(Data.Eco.fix.kWmYr,',##0')));%Current Lamp Yr Energy
             moveToNextHole(rpt);
-            append(rpt,sprintf('$%s',numberFormatter(Data.Eco.HPS1000.CostFtLow,',###.00')));%1000W HPS Energy Cost Low per ft
+            append(rpt,sprintf('%s',numberFormatter(Data.Eco.HPS1000.CostFtLow,',##0.00')));%1000W HPS Energy Cost Low per ft
             moveToNextHole(rpt);
-            append(rpt,sprintf('($%s)',numberFormatter(Data.Eco.HPS1000.CostmLow,',###.00')));%1000W HPS Energy Cost Low per m
+            append(rpt,sprintf('(%s)',numberFormatter(Data.Eco.HPS1000.CostmLow,',##0.00')));%1000W HPS Energy Cost Low per m
             moveToNextHole(rpt);
-            append(rpt,sprintf('$%s',numberFormatter(Data.Eco.HPS600.CostFtLow,',###.00')));%600W HPS Energy Cost Low per ft
+            append(rpt,sprintf('%s',numberFormatter(Data.Eco.HPS600.CostFtLow,',##0.00')));%600W HPS Energy Cost Low per ft
             moveToNextHole(rpt);
-            append(rpt,sprintf('($%s)',numberFormatter(Data.Eco.HPS600.CostmLow,',###.00')));%600W HPS Energy Cost Low per m 
+            append(rpt,sprintf('(%s)',numberFormatter(Data.Eco.HPS600.CostmLow,',##0.00')));%600W HPS Energy Cost Low per m 
             moveToNextHole(rpt);
-            append(rpt,sprintf('$%s',numberFormatter(Data.Eco.fix.CostFtLow,',###.00')));%Current Lamp Energy Cost Low per ft
+            append(rpt,sprintf('%s',numberFormatter(Data.Eco.fix.CostFtLow,',##0.00')));%Current Lamp Energy Cost Low per ft
             moveToNextHole(rpt);
-            append(rpt,sprintf('($%s)',numberFormatter(Data.Eco.fix.CostmLow,',###.00')));%Current Lamp Energy Cost Low per m
+            append(rpt,sprintf('(%s)',numberFormatter(Data.Eco.fix.CostmLow,',##0.00')));%Current Lamp Energy Cost Low per m
             moveToNextHole(rpt);
-            append(rpt,sprintf('$%s',numberFormatter(Data.Eco.HPS1000.CostFtHigh,',###.00')));%1000W HPS Energy Cost High per ft
+            append(rpt,sprintf('%s',numberFormatter(Data.Eco.HPS1000.CostFtHigh,',##0.00')));%1000W HPS Energy Cost High per ft
             moveToNextHole(rpt);
-            append(rpt,sprintf('($%s)',numberFormatter(Data.Eco.HPS1000.CostmHigh,',###.00')));%1000W HPS Energy Cost High per m
+            append(rpt,sprintf('(%s)',numberFormatter(Data.Eco.HPS1000.CostmHigh,',##0.00')));%1000W HPS Energy Cost High per m
             moveToNextHole(rpt);
-            append(rpt,sprintf('$%s',numberFormatter(Data.Eco.HPS600.CostFtLow,',###.00')));%600W HPS Energy Cost High per ft
+            append(rpt,sprintf('%s',numberFormatter(Data.Eco.HPS600.CostFtLow,',##0.00')));%600W HPS Energy Cost High per ft
             moveToNextHole(rpt);
-            append(rpt,sprintf('($%s)',numberFormatter(Data.Eco.HPS600.CostmLow,',###.00')));%600W HPS Energy Cost High per m
+            append(rpt,sprintf('(%s)',numberFormatter(Data.Eco.HPS600.CostmLow,',##0.00')));%600W HPS Energy Cost High per m
             moveToNextHole(rpt);
-            append(rpt,sprintf('$%s',numberFormatter(Data.Eco.fix.CostFtHigh,',###.00')));%Current Lamp Energy Cost High per ft
+            append(rpt,sprintf('%s',numberFormatter(Data.Eco.fix.CostFtHigh,',##0.00')));%Current Lamp Energy Cost High per ft
             moveToNextHole(rpt);
-            append(rpt,sprintf('($%s)',numberFormatter(Data.Eco.fix.CostmHigh,',###.00')));%Current Lamp Energy Cost High per m
+            append(rpt,sprintf('(%s)',numberFormatter(Data.Eco.fix.CostmHigh,',##0.00')));%Current Lamp Energy Cost High per m
             moveToNextHole(rpt);
-            payYear1000Low = find(Data.Eco.HPS1000.CumCFLow(2:end,1)>0,1);
-            if ~isempty(payYear1000Low)
-                append(rpt,sprintf('%s%% - Payback at year %d.',numberFormatter(Data.Eco.HPS1000.RORLow(1)*100,',###.0'),payYear1000Low-1));%1000W HPS ROR Low
+            diff = Data.Eco.HPS1000.TotPayLow(2:end,1)-Data.Eco.fix.TotPayLow(2:end,1);
+            payYear1000Low = find(diff>0,1);
+            if ~isempty(payYear1000Low)&&(diff(end)>0)
+                append(rpt,sprintf('%s%% - Payback at year %d.',numberFormatter(Data.Eco.HPS1000.RORLow(1)*100,',##0.0'),payYear1000Low));%1000W HPS ROR Low
             else
                 if Data.Eco.HPS1000.RORLow(1)<=0
-                    append(rpt,sprintf('%s%% - No Payback within 20 years.',numberFormatter(0,',###.0')));
+                    append(rpt,sprintf('<%s%% - No Payback within 20 years.',numberFormatter(0,',##0.0')));
                 else
-                    append(rpt,sprintf('%s%% - No Payback within 20 years.',numberFormatter(Data.Eco.HPS1000.RORLow(1)*100,',###.0')));%1000W HPS ROR Low
+                    append(rpt,sprintf('%s%% - No Payback within 20 years.',numberFormatter(Data.Eco.HPS1000.RORLow(1)*100,',##0.0')));%1000W HPS ROR Low
                 end
             end
             moveToNextHole(rpt);
-            payYear1000High = find(Data.Eco.HPS1000.CumCFHigh(2:end,1)>0,1);
-            if ~isempty(payYear1000High)
-                append(rpt,sprintf('%s%% - Payback at year %d.',numberFormatter(Data.Eco.HPS1000.RORHigh(1)*100,',###.0'),payYear1000High-1));
+            diff = Data.Eco.HPS1000.TotPayHigh(2:end,1)-Data.Eco.fix.TotPayHigh(2:end,1);
+            payYear1000High = find(diff>0,1);
+            if ~isempty(payYear1000High)&&(diff(end)>0)
+                append(rpt,sprintf('%s%% - Payback at year %d.',numberFormatter(Data.Eco.HPS1000.RORHigh(1)*100,',##0.0'),payYear1000High));
             else
                 if Data.Eco.HPS1000.RORHigh(1)<=0
-                    append(rpt,sprintf('%s%% - No Payback within 20 years.',numberFormatter(0,',###.0')));
+                    append(rpt,sprintf('<%s%% - No Payback within 20 years.',numberFormatter(0,',##0.0')));
                 else
-                    append(rpt,sprintf('%s%% - No Payback within 20 years.',numberFormatter(Data.Eco.HPS1000.RORHigh(1)*100,',###.0')));%1000W HPS ROR High
+                    append(rpt,sprintf('%s%% - No Payback within 20 years.',numberFormatter(Data.Eco.HPS1000.RORHigh(1)*100,',##0.0')));%1000W HPS ROR High
                 end
             end
             moveToNextHole(rpt);
-            payYear600Low = find(Data.Eco.HPS600.CumCFLow(2:end,1)>0,1);
-            if ~isempty(payYear600Low)
-                append(rpt,sprintf('%s%% - Payback at year %d.',numberFormatter(Data.Eco.HPS600.RORLow(1)*100,',###.0'),payYear600Low-1));
+            diff = Data.Eco.HPS600.TotPayLow(2:end,1)-Data.Eco.fix.TotPayLow(2:end,1);
+            payYear600Low = find(diff>0,1);
+            if ~isempty(payYear600Low)&&(diff(end)>0)
+                append(rpt,sprintf('%s%% - Payback at year %d.',numberFormatter(Data.Eco.HPS600.RORLow(1)*100,',##0.0'),payYear600Low));
             else
                 if Data.Eco.HPS600.RORLow(1)<=0
-                    append(rpt,sprintf('%s%% - No Payback within 20 years.',numberFormatter(0,',###.0')));
+                    append(rpt,sprintf('<%s%% - No Payback within 20 years.',numberFormatter(0,',##0.0')));
                 else
-                    append(rpt,sprintf('%s%% - No Payback within 20 years.',numberFormatter(Data.Eco.HPS600.RORLow(1)*100,',###.0')));%600W HPS ROR Low
+                    append(rpt,sprintf('%s%% - No Payback within 20 years.',numberFormatter(Data.Eco.HPS600.RORLow(1)*100,',##0.0')));%600W HPS ROR Low
                 end
             end
             moveToNextHole(rpt);
-            payYear600High = find(Data.Eco.HPS600.CumCFHigh(2:end,1)>0,1);
-            if ~isempty(payYear600High)
-                append(rpt,sprintf('%s%% - Payback at year %d.',numberFormatter(Data.Eco.HPS600.RORHigh(1)*100,',###.0'),payYear600High-1));
+            diff = Data.Eco.HPS600.TotPayHigh(2:end,1)-Data.Eco.fix.TotPayHigh(2:end,1);
+            payYear600High = find(diff>0,1);
+            if ~isempty(payYear600High)&&(diff(end)>0)
+                append(rpt,sprintf('%s%% - Payback at year %d.',numberFormatter(Data.Eco.HPS600.RORHigh(1)*100,',##0.0'),payYear600High));
             else
                 if Data.Eco.HPS600.RORHigh(1)<=0
-                    append(rpt,sprintf('%s%% - No Payback within 20 years.',numberFormatter(0,',###.0')));
+                    append(rpt,sprintf('<%s%% - No Payback within 20 years.',numberFormatter(0,',##0.0')));
                 else
-                    append(rpt,sprintf('%s%% - No Payback within 20 years.',numberFormatter(Data.Eco.HPS600.RORHigh(1)*100,',###.0')));%600W HPS ROR High
+                    append(rpt,sprintf('%s%% - No Payback within 20 years.',numberFormatter(Data.Eco.HPS600.RORHigh(1)*100,',##0.0')));%600W HPS ROR High
                 end
             end
             moveToNextHole(rpt);
-            append(rpt,sprintf('$%s',numberFormatter(Data.Eco.HPS1000.TotPayLow(end),',###')));%1000W HPS Present Worth Low
+            append(rpt,sprintf('%s',numberFormatter(Data.Eco.HPS1000.TotPayLow(end,1),',##0')));%1000W HPS Present Worth Low
             moveToNextHole(rpt);
-            append(rpt,sprintf('$%s',numberFormatter(Data.Eco.HPS600.TotPayLow(end),',###')));%600W HPS Present Worth Low
+            append(rpt,sprintf('%s',numberFormatter(Data.Eco.HPS600.TotPayLow(end,1),',##0')));%600W HPS Present Worth Low
             moveToNextHole(rpt);
-            append(rpt,sprintf('$%s',numberFormatter(Data.Eco.fix.TotPayLow(end),',###')));%Current Lamp Present Worth Low
+            append(rpt,sprintf('%s',numberFormatter(Data.Eco.fix.TotPayLow(end,1),',##0')));%Current Lamp Present Worth Low
             moveToNextHole(rpt);
-            append(rpt,sprintf('$%s',numberFormatter(Data.Eco.HPS1000.TotPayHigh(end),',###')));%1000W HPS Present Worth High
+            append(rpt,sprintf('%s',numberFormatter(Data.Eco.HPS1000.TotPayHigh(end,1),',##0')));%1000W HPS Present Worth High
             moveToNextHole(rpt);
-            append(rpt,sprintf('$%s',numberFormatter(Data.Eco.HPS600.TotPayHigh(end),',###')));%600W HPS Present Worth High
+            append(rpt,sprintf('%s',numberFormatter(Data.Eco.HPS600.TotPayHigh(end,1),',##0')));%600W HPS Present Worth High
             moveToNextHole(rpt);
-            append(rpt,sprintf('$%s',numberFormatter(Data.Eco.fix.TotPayHigh(end),',###')));%Current Lamp Present Worth High
+            append(rpt,sprintf('%s',numberFormatter(Data.Eco.fix.TotPayHigh(end,1),',##0')));%Current Lamp Present Worth High
         case 'LSAE101'
-            
+            clear('LSAEmax');
             printstr = @(x,y) sprintf('%0.2f%s',x,y);
             lsaeIndex = 1;
             maxVal = max(Data.outTable.LSAE);
-            LSAEmax(1) = max(Data.outTable.LSAE(Data.outTable.targetPPFD(:)==100));
-            LSAEmax(2) = max(Data.outTable.LSAE(Data.outTable.targetPPFD(:)==200));
-            LSAEmax(3) = max(Data.outTable.LSAE(Data.outTable.targetPPFD(:)==300));
-            LSAEmax(4) = max(Data.outTable.LSAE(Data.outTable.targetPPFD(:)==400));
-            LSAEmax(5) = max(Data.outTable.LSAE(Data.outTable.targetPPFD(:)==500));
-            LSAEmax(6) = max(Data.outTable.LSAE(Data.outTable.targetPPFD(:)==1000));
+            LSAEmax(1) = max(Data.outTable.LSAE(Data.outTable.targetPPFD==75));
+            LSAEmax(2) = max(Data.outTable.LSAE(Data.outTable.targetPPFD==150));
+            LSAEmax(3) = max(Data.outTable.LSAE(Data.outTable.targetPPFD==225));
+            LSAEmax(4) = max(Data.outTable.LSAE(Data.outTable.targetPPFD==300));
+            LSAEmax(5) = max(Data.outTable.LSAE(Data.outTable.targetPPFD==500));
+            LSAEmax(6) = max(Data.outTable.LSAE(Data.outTable.targetPPFD==1000));
             if any(LSAEmax == 0)
                 LSAEmax(LSAEmax == 0)=[];
             end
@@ -303,7 +317,7 @@ while ~strcmp(rpt.CurrentHoleId,'#end#')
                 moveToNextHole(rpt);
                 if Data.outTable.LSAE(lsaeIndex) == maxVal
                     if Data.outTable.MinToAvg(lsaeIndex) <= Data.outTable.targetUniform(lsaeIndex)
-                        outstr = [outstr,'*'];
+                        outstr = [outstr,'* '];
                     end
                     if Data.outTable.Avg(lsaeIndex) <= Data.outTable.targetPPFD(lsaeIndex)*0.9
                         append(rpt,printstr(Data.outTable.LSAE(lsaeIndex),outstr),'maxAllRed');
@@ -334,15 +348,26 @@ while ~strcmp(rpt.CurrentHoleId,'#end#')
                 append(rpt,sprintf('%d',round(size(Data.outTable.count{lsaeIndex},1))));
                 lsaeIndex =lsaeIndex +1; 
             end
+        case 'TargetPPFD'
+            clear('LSAEmax');
+            PPFD300 = Data.outTable((Data.outTable.targetPPFD == 300),:);
+            [~,ind] = max(PPFD300.LSAE);
+            if PPFD300.Avg(ind) <= PPFD300.targetPPFD(ind)*0.9
+                PPFD300 = Data.outTable((Data.outTable.targetPPFD <= 300),:);
+                [~,ind] = max(PPFD300.LSAE);
+            else
+                ind = 3;
+            end
+            append(rpt,sprintf('%d',PPFD300.targetPPFD(ind)));
         case 'ratio11'
             ratioIndex = 1;
-            append(rpt,sprintf('%0.2f',Data.UVaPer(ratioIndex)));
+            append(rpt,sprintf('%0.2f%%',Data.UVaPer(ratioIndex)*100));
             moveToNextHole(rpt);
-            append(rpt,sprintf('%0.2f',Data.bluePer(ratioIndex)));
+            append(rpt,sprintf('%0.2f%%',Data.bluePer(ratioIndex)*100));
             moveToNextHole(rpt);
-            append(rpt,sprintf('%0.2f',Data.redPer(ratioIndex)));
+            append(rpt,sprintf('%0.2f%%',Data.redPer(ratioIndex)*100));
             moveToNextHole(rpt);
-            append(rpt,sprintf('%0.2f',Data.FRPer(ratioIndex)));
+            append(rpt,sprintf('%0.2f%%',Data.FRPer(ratioIndex)*100));
             moveToNextHole(rpt);
             append(rpt,sprintf('%0.2f',Data.blueRed(ratioIndex)));
             moveToNextHole(rpt);
@@ -350,13 +375,13 @@ while ~strcmp(rpt.CurrentHoleId,'#end#')
             ratioIndex =ratioIndex +1;
             while ratioIndex<=6
                 moveToNextHole(rpt);
-                append(rpt,sprintf('%0.2f',Data.UVaPer(ratioIndex)));
+                append(rpt,sprintf('%0.2f%%',Data.UVaPer(ratioIndex)*100));
                 moveToNextHole(rpt);
-                append(rpt,sprintf('%0.2f',Data.bluePer(ratioIndex)));
+                append(rpt,sprintf('%0.2f%%',Data.bluePer(ratioIndex)*100));
                 moveToNextHole(rpt);
-                append(rpt,sprintf('%0.2f',Data.redPer(ratioIndex)));
+                append(rpt,sprintf('%0.2f%%',Data.redPer(ratioIndex)*100));
                 moveToNextHole(rpt);
-                append(rpt,sprintf('%0.2f',Data.FRPer(ratioIndex)));
+                append(rpt,sprintf('%0.2f%%',Data.FRPer(ratioIndex)*100));
                 moveToNextHole(rpt);
                 append(rpt,sprintf('%0.2f',Data.blueRed(ratioIndex)));
                 moveToNextHole(rpt);
@@ -370,4 +395,6 @@ while ~strcmp(rpt.CurrentHoleId,'#end#')
 end
 close(rpt);
 rptview(rpt.OutputPath);
+delete (l);
+fclose(fid);
 end
