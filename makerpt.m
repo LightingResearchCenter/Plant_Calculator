@@ -394,7 +394,7 @@ while ~strcmp(rpt.CurrentHoleId,'#end#')
     moveToNextHole(rpt);
 end
 close(rpt);
-rptview(rpt.OutputPath);
+% rptview(rpt.OutputPath);
 delete (l);
 fclose(fid);
 end

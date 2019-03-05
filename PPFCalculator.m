@@ -23,10 +23,8 @@ addParameter(p,'Width', defaultWidth,@isnumeric)
 addParameter(p,'MountHeight',defaultMountHeight,@isnumeric);
 addParameter(p,'fixtureOrientation',defaultOrientation, @isnumeric);
 addParameter(p,'Color', defaultColor,@isnumeric)
-
 parse(p,IESdata, varargin{:});
 
-% Check that files are valid
 %% generate Calculation objects
 rowStart = (p.Results.Width-(p.Results.calcSpacing*floor(p.Results.Width/p.Results.calcSpacing)))/2;
 colStart = (p.Results.Length-(p.Results.calcSpacing*floor(p.Results.Length/p.Results.calcSpacing)))/2;
@@ -38,7 +36,7 @@ yFixtureLocations = p.Results.Centers(:,2);
 
 xFixtureLocations = reshape(xFixtureLocations',1,numel(xFixtureLocations));
 yFixtureLocations = reshape(yFixtureLocations',1,numel(yFixtureLocations));
-if p.Results.Color == 0 
+if p.Results.Color == 0
     [newXFixtureLocations,newYFixtureLocations,newIES] = descritizeFixture(xFixtureLocations,yFixtureLocations,p.Results.IESdata,p.Results.MountHeight);
 else
     newXFixtureLocations = xFixtureLocations;
@@ -55,12 +53,12 @@ nMetersColumns  = numel(columns);
 nFixtures = numel(newXFixtureLocations);
 
 A = ones(nMetersRows, nMetersColumns, nFixtures);
-rows3   = bsxfun(@times, A, rows);
-cols3   = bsxfun(@times, A, columns');
+rows3   = gpuArray(bsxfun(@times, A, rows));
+cols3   = gpuArray(bsxfun(@times, A, columns'));
 
-xFix3   = bsxfun(@times, A, permute(newXFixtureLocations, [3 1 2]));
-yFix3   = bsxfun(@times, A, permute(newYFixtureLocations, [3 1 2]));
-orient3 = bsxfun(@times, A, permute(orientation, [3 1 2]));
+xFix3   = gpuArray(bsxfun(@times, A, permute(newXFixtureLocations, [3 1 2])));
+yFix3   = gpuArray(bsxfun(@times, A, permute(newYFixtureLocations, [3 1 2])));
+orient3 = gpuArray(bsxfun(@times, A, permute(orientation, [3 1 2])));
 
 x = rows3 - xFix3;
 y = cols3 - yFix3;
@@ -68,15 +66,15 @@ y = cols3 - yFix3;
 r = sqrt(x.^2 + y.^2);
 
 phiPt = atan2(y, x);
-phiPtall = (mod(phiPt + pi + orient3, 2*pi))*unitsratio('deg','rad');
+phiPtall = (mod(phiPt + pi + orient3, 2*pi))*(180/pi);
 dsqall = r.^2 + (p.Results.MountHeight)^2;
 thetaPtall = atand(r/p.Results.MountHeight);
-        
+
 Ipt = interp2(newIES.HorizAngles, newIES.VertAngles,newIES.photoTable,  ...
-            phiPtall, thetaPtall,'linear');
+    phiPtall, thetaPtall,'linear');
 Irr = ((Ipt.*p.Results.LLF.*(p.Results.Multiplier./1000)).*cosd(thetaPtall)./dsqall);
-Irr = sum(Irr,3)';
-Avg = mean2(Irr);
+Irr = gather(sum(Irr,3)');
+Avg = gather(mean2(Irr));
 Max = max(max(Irr));
 Min = min(min(Irr));
 end

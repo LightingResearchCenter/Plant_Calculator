@@ -11,7 +11,11 @@ if mountHeight < 5*maxDim
     numSplit = ceil(maxDim/newMax);
     if minDim > 1
         %split up in to rectangle
-        fact = arrayfun(@factor,numSplit,'UniformOutput',false);
+        fact = {};
+        for i = 1:numel(numSplit)
+            fact{i} = factor(numSplit(i));
+        end
+%         fact = arrayfun(@factor,numSplit,'UniformOutput',false);
         fullPart = [];
         for i = 1:length(fact)
             fullPart = [partitions([fact{i},1],2);fullPart];

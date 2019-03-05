@@ -16,7 +16,6 @@ for i = 1:height(tbl)
     Data.specFlux = Data.spectrum(:,2);
     Data.IESdata = IESFile(Data.IES);
     Data = calcAllMetrics(Data);
-
     index = (Data.spectrum(:,1)<700)&(Data.spectrum(:,1)>400);
     Data.PPFofTotal = (sum(Data.spectrum(index,2))/sum(Data.spectrum(:,2)))*100;
     Data.PPFRank = fullfile('images',[sprintf('%d',Data.LRCID),'PPFPlotPic.png']);
@@ -54,7 +53,7 @@ outputTable(:,{'angularSPD','spectrum','wave','specFlux','IESdata','specFluxRela
     ,'ISOPlot','SPDthetaPlot','IntensityDistplot','PPFRank','PPFperWRank',...
     'PlantReportFile'}) = [];
 writetable(outputTable,'fixtureTable.xlsx');
-% rmdir(fullfile(pwd,'images'))
+rmdir(fullfile(pwd,'images'),'s')
 end
 
 function Data = calcAllMetrics(Data)
@@ -150,7 +149,7 @@ centers = [PlotWidth/2,PlotWidth/2,0];
 plotISOppfd(Data.spectrum,Data.IESdata,PlotWidth,Data.mount,centers,LLF(Data.LampType),Data.ISOPlot);
 % Color Uniformity Plot
 Data.SPDthetaPlot = fullfile('images',[sprintf('%d',Data.LRCID),'SPDTheta.png']);
-if ischar(Data.angularSPD)
+if ischar(Data.angularSPD) && ~isempty(Data.angularSPD)
     Data = plotSPDtheta(Data,Data.SPDthetaPlot);
 else
     Data.UVaPer = zeros(1,6);

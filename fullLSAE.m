@@ -1,4 +1,5 @@
 function [IrrOut,outTable,LSAE,IrrArr] = fullLSAE(SPD,IES,mountHeight,range, Uniformity,RoomLength, RoomWidth,calcSpace,lampType)
+
 %%  Test Files Exist
 file=java.io.File(SPD);
 assert(file.exists(),'SPD File does not exist');

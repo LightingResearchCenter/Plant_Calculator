@@ -183,6 +183,7 @@ classdef IESFile
             wid = unitsratio('ft','m') * obj.Width;
         end
         function tf = eq(obj1,obj2)
+            tf=logical(1,2);
             if strcmpi(class(obj1),class(obj2))
                 tf(1) = all(all(obj1.photoTable==obj2.photoTable));
                 tf(2) = all(obj1.VertAngles==obj2.VertAngles)&all(obj1.HorizAngles==obj2.HorizAngles);
