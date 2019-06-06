@@ -35,7 +35,10 @@ classdef IESFile
                 ies.Properties.More= [];
                 while ~match
                     tline = fgetl(fid);
-                    match = contains(tline,'TILT');
+                    if tline == -1
+                        error('Improper IES File')
+                    end
+                    match = contains(tline,'TILT=NONE');
                     expression = '\[(\w+).*\]';
                     tokens = regexp(tline,expression,'tokens');
                     if ~isempty(tokens)
@@ -91,6 +94,9 @@ classdef IESFile
                         A = [];
                         while length(A)< 13
                             tline = fgetl(fid);
+                            if tline == -1
+                                error('Improper IES File')
+                            end
                             B = sscanf(tline,'%f');
                             A = [A;B];
                         end
@@ -115,6 +121,9 @@ classdef IESFile
                         
                         while (length(A)<(13+ies.NoVertAngles+ies.NoHorizAngles+ies.NoVertAngles*ies.NoHorizAngles))
                             tline = fgetl(fid);
+                            if tline == -1
+                                error('Improper IES File')
+                            end
                             B = sscanf(tline,'%f');
                             A = [A;B];
                         end
@@ -138,9 +147,22 @@ classdef IESFile
                             ies.HorizAngles(end+1) = 360;
                             ies.NoHorizAngles = length(ies.HorizAngles);
                         case 90
-                            
+                            %Quad Symetric
+                            photoTable = ies.photoTable;
+                            photoTable = [photoTable,fliplr(photoTable(:,1:end-1))];
+                            ies.photoTable = [photoTable,fliplr(photoTable(:,1:end-1))];
+                            %disp(size(ies.photoTable));
+                            ies.HorizAngles = 0:ies.HorizAngles(2):360;
+                            %disp(length(ies.HorizAngles));
+                            ies.NoHorizAngles = length(ies.HorizAngles);
                         case 180
-                            
+                            %Semi Symectric
+                            photoTable = ies.photoTable;
+                            ies.photoTable = [photoTable,fliplr(photoTable(:,1:end-1))];
+                            %disp(size(ies.photoTable));
+                            ies.HorizAngles = 0:ies.HorizAngles(2):360;
+                            %disp(length(ies.HorizAngles));
+                            ies.NoHorizAngles = length(ies.HorizAngles);
                         case 360
                             %this is what we want
                         otherwise
@@ -164,14 +186,14 @@ classdef IESFile
                             %this is what we want
                         otherwise
                             error('IESFile s Last Vertical Angle is not 90 or 180');
-                            
                     end
                 elseif ies.VertAngles(1) == 90
+                    
                 else
                     error('IESFile s first Vertical Angle is not 0 or 90');
                 end
                 
-            
+                
             else
                 error('File does not exist');
             end %file exists & not dir

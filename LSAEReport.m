@@ -1,11 +1,11 @@
-function [Irr,outTable] = LSAEReport(wave, specFlux, IESdata,lampType,targetPPFD, targetUniform,mountHeight, roomLength,roomWidth,calcSpace)
+function [Irr,outTable] = LSAEReport(wave, specFlux, IESdata,LLF,targetPPFD, targetUniform,mountHeight, roomLength,roomWidth,calcSpace)
 % LSAEREPORT generates a LSAE output table for given IES and Spectrum Files
 %% Lumen Method to get close
-LLF= [1,0.9,0.7,0.9];%N/a, HPS, LED, MH
+% LLF= [1,0.9,0.7,0.9];%N/a, HPS, LED, MH
 ConversionFactor = PPF_Conversion_Factor_05Apr2016(wave,specFlux);
 [CU, fluxTotal]= calcCU(IESdata,mountHeight, roomLength, roomWidth);
 ppfTotal = ((fluxTotal/1000)*ConversionFactor);
-numLuminaire = ceil(((targetPPFD*roomLength*roomWidth)/(ppfTotal*CU*LLF(lampType))));
+numLuminaire = ceil(((targetPPFD*roomLength*roomWidth)/(ppfTotal*CU*LLF)));
 %% place and calulate Luminares
 found = false;
 spacing = 1;
@@ -43,7 +43,7 @@ while found ==false
                 'Length',roomLength,...
                 'Width',roomWidth,...
                 'Multiplier',round(ConversionFactor,1),...
-                'LLF',LLF(lampType),...
+                'LLF',LLF,...
                 'fixtureOrientation',newCenters{i}(1,3),...
                 'calcSpacing',calcSpace);
             testOrien{ind,1} = newCenters{i};
@@ -72,15 +72,19 @@ while found ==false
         spacing = spacing + 0.1;
     end
     testUni = MinToAvgOut;
-    testUni(AvgOut-(targetPPFD)<0) =-1;
+    try
+        testUni(AvgOut-(targetPPFD)<0) =-1;
+    catch
+        disp(testUni)
+    end
     if (max(testUni)>targetUniform)
         found = true;
         placement(cellfun(@isempty,placement)) = [];
         IrrOut(cellfun(@isempty,IrrOut)) = [];
-        AvgOut(cellfun(@isempty,AvgOut)) = [];
-        MaxOut(cellfun(@isempty,MaxOut)) = [];
-        MinOut(cellfun(@isempty,MinOut)) = [];
-        MinToAvgOut(cellfun(@isempty,MinToAvgOut)) = [];
+        AvgOut(arrayfun(@(x)x==0,AvgOut)) = [];
+        MaxOut(arrayfun(@(x)x==0,MaxOut)) = [];
+        MinOut(arrayfun(@(x)x==0,MinOut)) = [];
+        MinToAvgOut(arrayfun(@(x)x==0,MinToAvgOut)) = [];
         if size(placement,1)>1
             [~,index] = max(testUni);
         else

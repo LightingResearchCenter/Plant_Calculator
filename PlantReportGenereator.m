@@ -150,7 +150,7 @@ centers = [PlotWidth/2,PlotWidth/2,0];
 plotISOppfd(Data.spectrum,Data.IESdata,PlotWidth,Data.mount,centers,LLF(Data.LampType),Data.ISOPlot);
 % Color Uniformity Plot
 Data.SPDthetaPlot = fullfile('images',[sprintf('%d',Data.LRCID),'SPDTheta.png']);
-if ischar(Data.angularSPD)
+if ischar(Data.angularSPD) && ~isempty(Data.angularSPD)
     Data = plotSPDtheta(Data,Data.SPDthetaPlot);
 else
     Data.UVaPer = zeros(1,6);

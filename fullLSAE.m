@@ -1,7 +1,7 @@
-function [IrrOut,outTable,LSAE,IrrArr] = fullLSAE(SPD,IES,mountHeight,range, Uniformity,RoomLength, RoomWidth,calcSpace,lampType)
+function [IrrOut,outTable,LSAE,IrrArr] = fullLSAE(SPD,IES,mountHeight,range, Uniformity,RoomLength, RoomWidth,calcSpace,LLF)
 %%  Test Files Exist
-file=java.io.File(SPD);
-assert(file.exists(),'SPD File does not exist');
+% file=java.io.File(SPD);
+% assert(file.exists(),'SPD File does not exist');
 hei = size(IES,1);
 switch hei
     case 1
@@ -14,9 +14,9 @@ switch hei
         error('Wrong number of IES files');
 end
 %% Load files
-SPDdata = load(SPD);
-wave = SPDdata(:,1);
-specFlux = SPDdata(:,2);
+% SPDdata = load(SPD);
+wave = SPD(:,1);
+specFlux = SPD(:,2);
 switch hei
     case 1
         IESdata = IESFile(IES(1,:));
@@ -30,16 +30,18 @@ outTable = [];
 itt = 0;
 ittMax = length(mountHeight)*length(range);
 LSAE = zeros(length(mountHeight),length(range));
-h = waitbar(itt/ittMax,sprintf('Calculating LSAE step %d out of %d', itt,ittMax));
+% h = waitbar(itt/ittMax,sprintf('Calculating LSAE step %d out of %d', itt,ittMax));
 for i1= 1:length(mountHeight)
     for i2 = 1:length(range)
         itt = itt+1;
-        try
-            h = waitbar(itt/ittMax,h,sprintf('Calculating LSAE step %d out of %d', itt,ittMax));
-        catch err
-            error('No waitbar available.');
-        end
-        [Irr,historyTable] = LSAEReport(wave, specFlux, IESdata, lampType,range(i2), Uniformity ,mountHeight(i1),RoomLength, RoomWidth,calcSpace);
+%         try
+%             if ishandle(h)
+%                 h = waitbar(itt/ittMax,h,sprintf('Calculating LSAE step %d out of %d', itt,ittMax));
+%             end
+%         catch err
+%             error('No waitbar available.');
+%         end
+        [Irr,historyTable] = LSAEReport(wave, specFlux, IESdata, LLF,range(i2), Uniformity ,mountHeight(i1),RoomLength, RoomWidth,calcSpace);
         IrrOut{i1,i2} = sort(Irr(:));
         IrrArr{i1,i2} = Irr;
         targetMin = range(i2)*Uniformity;
@@ -53,6 +55,7 @@ for i1= 1:length(mountHeight)
         
     end
 end
-delete(h);
-
+% if ishandle(h)
+%     delete(h);
+% end
 end

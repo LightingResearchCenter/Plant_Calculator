@@ -64,7 +64,7 @@ output/*
 *.xlsx
 *.pdf
 *.tif
-*test*
 *.AGI
 images/*
 *.png
+plant_calculator/*
