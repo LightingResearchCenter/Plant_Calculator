@@ -22,7 +22,10 @@ RCRfactor = [       1.000,...
                     0.265,...
                     0.231,...
                     0.202];
-RCR = (5*distdim(mountHeight,'m','ft')*(distdim(roomLength,'m','ft')+distdim(roomWidth,'m','ft')))/(distdim(roomLength,'m','ft')*distdim(roomWidth,'m','ft'));
+% RCRold = (5*distdim(mountHeight,'m','ft')*(distdim(roomLength,'m','ft')+distdim(roomWidth,'m','ft')))/(distdim(roomLength,'m','ft')*distdim(roomWidth,'m','ft'));
+
+RCR = (5*(mountHeight*unitsratio('ft','m'))*((roomLength*unitsratio('ft','m'))+(roomWidth*unitsratio('ft','m'))))/((roomLength*unitsratio('ft','m'))*(roomWidth*unitsratio('ft','m')));
+
 Fcc2fc = interp1(0:10,RCRfactor,RCR);
 %% Run Calculation
 zone = zeros(18,3);

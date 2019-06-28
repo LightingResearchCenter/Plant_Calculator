@@ -1,5 +1,5 @@
 <deployment-project plugin="plugin.ezdeploy" plugin-version="1.0">
-  <configuration build-checksum="1579421864" file="C:\Users\plummt\Documents\MATLAB\Plant_Calculator - Copy\testLSAE.prj" location="C:\Users\plummt\Documents\MATLAB\Plant_Calculator - Copy" name="testLSAE" preferred-package-location="C:\Users\plummt\Documents\MATLAB\Plant_Calculator - Copy\testLSAE\for_redistribution" preferred-package-type="package.type.exe" target="target.ezdeploy.library" target-name="Library Compiler">
+  <configuration build-checksum="1956402182" file="C:\Users\plummt\Documents\MATLAB\Plant_Calculator - Copy\testLSAE.prj" location="C:\Users\plummt\Documents\MATLAB\Plant_Calculator - Copy" name="testLSAE" preferred-package-location="C:\Users\plummt\Documents\MATLAB\Plant_Calculator - Copy\testLSAE\for_redistribution" preferred-package-type="package.type.exe" target="target.ezdeploy.library" target-name="Library Compiler">
     <param.appname>testLSAE</param.appname>
     <param.icon />
     <param.icons />
@@ -15,11 +15,13 @@
     <param.installpath.combo>option.installpath.programfiles</param.installpath.combo>
     <param.logo />
     <param.install.notes />
-    <param.target.install.notes>You must have Python 2.7, 3.5, and/or 3.6 on your machine to install this package. Go to the directory to which setup.py and your package have been written. Then execute:
+    <param.target.install.notes>You must have Python 2.7, 3.5, 3.6, and/or 3.7 on your machine to install this package. Go to the directory containing your package and the file setup.py and execute:
 
         python setup.py install [options]
 
-For details, see the readme.txt distributed with this package.</param.target.install.notes>
+For details, see GettingStarted.html, distributed with this package, or the official Python documentation at:
+
+        https://docs.python.org/2/install/index.html</param.target.install.notes>
     <param.intermediate>${PROJECT_ROOT}\testLSAE\for_testing</param.intermediate>
     <param.files.only>${PROJECT_ROOT}\testLSAE\for_redistribution_files_only</param.files.only>
     <param.output>${PROJECT_ROOT}\testLSAE\for_redistribution</param.output>
@@ -100,11 +102,13 @@ For details, see the readme.txt distributed with this package.</param.target.ins
       <param.cpp.api />
     </unset>
     <fileset.exports>
+      <file>${PROJECT_ROOT}\compLSAE.m</file>
       <file>${PROJECT_ROOT}\testLSAE.m</file>
     </fileset.exports>
     <fileset.classes>
       <entity.package name="">
         <entity.class name="Class1">
+          <file>${PROJECT_ROOT}\compLSAE.m</file>
           <file>${PROJECT_ROOT}\testLSAE.m</file>
         </entity.class>
       </entity.package>
@@ -135,18 +139,14 @@ For details, see the readme.txt distributed with this package.</param.target.ins
     <build-deliverables>
       <file location="${PROJECT_ROOT}\testLSAE\for_testing" name="setup.py" optional="false">C:\Users\plummt\Documents\MATLAB\Plant_Calculator - Copy\testLSAE\for_testing\setup.py</file>
       <file location="${PROJECT_ROOT}\testLSAE\for_testing" name="testLSAE" optional="false">C:\Users\plummt\Documents\MATLAB\Plant_Calculator - Copy\testLSAE\for_testing\testLSAE</file>
-      <file location="${PROJECT_ROOT}\testLSAE\for_testing" name="readme.txt" optional="true">C:\Users\plummt\Documents\MATLAB\Plant_Calculator - Copy\testLSAE\for_testing\readme.txt</file>
     </build-deliverables>
     <workflow />
     <matlab>
-      <root>C:\Program Files\MATLAB\R2018b</root>
+      <root>C:\Program Files\MATLAB\R2019a</root>
       <toolboxes>
         <toolbox name="matlabcoder" />
         <toolbox name="embeddedcoder" />
         <toolbox name="gpucoder" />
-        <toolbox name="fixedpoint" />
-        <toolbox name="matlabhdlcoder" />
-        <toolbox name="polyspacebugfinder" />
         <toolbox name="neuralnetwork" />
       </toolboxes>
       <toolbox>
@@ -163,21 +163,6 @@ For details, see the readme.txt distributed with this package.</param.target.ins
         <gpucoder>
           <enabled>true</enabled>
         </gpucoder>
-      </toolbox>
-      <toolbox>
-        <fixedpoint>
-          <enabled>true</enabled>
-        </fixedpoint>
-      </toolbox>
-      <toolbox>
-        <matlabhdlcoder>
-          <enabled>true</enabled>
-        </matlabhdlcoder>
-      </toolbox>
-      <toolbox>
-        <polyspacebugfinder>
-          <enabled>true</enabled>
-        </polyspacebugfinder>
       </toolbox>
       <toolbox>
         <neuralnetwork>

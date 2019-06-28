@@ -33,11 +33,11 @@ Eco.fix.kWftYr = (Eco.fix.kWYr)/ftArea;
 
 Eco.fix.kWmYr = (Eco.fix.kWYr)/mArea;
 
-Eco.fix.Cost = (Eco.fix.kWYr*Eco.enCost);
+Eco.fix.CostYr = (Eco.fix.kWYr*Eco.enCost);
 
-Eco.fix.CostFt = Eco.fix.Cost/ftArea;
+Eco.fix.CostFtYr = Eco.fix.CostYr/ftArea;
 
-Eco.fix.Costm = Eco.fix.Cost/mArea;
+Eco.fix.CostmYr = Eco.fix.CostYr/mArea;
 
 %% 20Yr Cost Calculation
 LEDfailerRate = [0.01, 0.25];
@@ -73,9 +73,10 @@ else
     i = 1;
     year = 0:Data.Years;
     opphours = opperatingHrs.*year;
-    fixReLampYr = (((mainRate+Data.LampCost)*Eco.fix.Qty*HPSfailerRate)+((cleaningRate*HPScleanTime)*Eco.fix.Qty))*zeros(Data.Years+1,1);
+%     fixReLampYr = (((mainRate+Data.LampCost)*Eco.fix.Qty*HPSfailerRate)+((cleaningRate*HPScleanTime)*Eco.fix.Qty))*zeros(Data.Years+1,1);
+    fixReLampYr = zeros(Data.Years+1,1);
     fixReLampYr(1) = Eco.fix.Init;
-    if Data.LampLife>0
+    if Data.LampLife>0 && Data.LampLife<opphours(end)
         lampChangeYr = zeros(floor(opphours(end)/Data.LampLife),1);
         for i= 1:length(lampChangeYr)
             lampChangeYr(i) = ceil(i*Data.LampLife/Data.oppHrs)+1;
@@ -83,7 +84,7 @@ else
                 (Data.LampCost+Data.LampLabor)*ceil(Eco.fix.Qty);% spot Relamping from the cycle
         end
     end
-    if Data.ReflectorLife>0
+    if Data.ReflectorLife>0 && Data.ReflectorLife<opphours(end)
         ReflectorChangeYr = zeros(floor(opphours(end)/Data.ReflectorLife),1);
         for i= 1:length(ReflectorChangeYr)
             ReflectorChangeYr(i) = ceil(i*Data.ReflectorLife/Data.oppHrs)+1;
@@ -92,7 +93,7 @@ else
         end
     end
     
-    if Data.BallastLife>0
+    if Data.BallastLife>0 && Data.BallastLife<opphours(end)
         BallastChangeYr = zeros(floor(opphours(end)/Data.BallastLife),1);
         for i= 1:length(BallastChangeYr)
             BallastChangeYr(i) = ceil(i*Data.BallastLife/Data.oppHrs)+1;
@@ -145,5 +146,6 @@ if numel(varargin)==1
     close(hLow);
 else
     title(aLow,sprintf('LCCA  with $%.4f/kWh Energy Rate \n(Present Worth Comparisons)',Eco.enCost))
+    close(hLow);
 end
 end

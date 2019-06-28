@@ -68,3 +68,5 @@ output/*
 images/*
 *.png
 plant_calculator/*
+testLSAE/*
+
